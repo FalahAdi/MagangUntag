@@ -34,6 +34,7 @@ Route::group(['middleware' => ['auth']], function () {
     //home
     Route::get('Beli', 'App\Http\Controllers\HomeController@Beli');
     Route::get('Utility', 'App\Http\Controllers\HomeController@Utility');
+
     //master
     Route::resource('Supplier', App\Http\Controllers\Beli\Master\SupplierController::class);
     Route::post('/Supplier/{id}', 'App\Http\Controllers\Beli\Master\SupplierController@destroy')->name('supplier.destroy');
@@ -67,11 +68,18 @@ Route::group(['middleware' => ['auth']], function () {
 
     #Region Utility
 
+
     //elektrik
     Route::resource('InputGangguanElektrik', App\Http\Controllers\Utility\Elektrik\InputGangguanElektrikController::class);
+    Route::resource('InputGangguanBulanan', App\Http\Controllers\Utility\Elektrik\InputGangguanElektrikBulananController::class);
     Route::resource('TambahGambarElektrik', App\Http\Controllers\Utility\Elektrik\TambahGambarElektrikController::class);
     Route::resource('PrintElektrik', App\Http\Controllers\Utility\Elektrik\PrintElektrikController::class);
 
+
+    //project
+    Route::resource('InputProject', App\Http\Controllers\Utility\Project\InputProjectController::class);
+    Route::resource('TambahGambarProject', App\Http\Controllers\Utility\Project\TambahGambarProjectController::class);
+    Route::resource('PrintProject', App\Http\Controllers\Utility\Project\PrintProjectController::class);
 
 });
 

@@ -56,10 +56,7 @@
                                         <input type="checkbox" name="agree" id="agree">
                                         <label for="agree">Lanjut</label>
 
-                                        <div class="nama_pelapor">Ket. Gambar 1</div>
-                                        <input type="text" name="nama_pelapor" id="nama_pelapor" class="mb-2">
-                                        <div class="nama_pelapor">Ket. Gambar 2</div>
-                                        <input type="text" name="nama_pelapor" id="nama_pelapor">
+
 
                                     </div>
                                     <div class="row-2">
@@ -74,6 +71,8 @@
                                         <label for="fileInput1" class="btn btn-link ">Pilih Gambar 1</label>
                                         <input type="file" id="fileInput1" name="fileInput" style="display: none;"
                                             accept="image/*">
+                                        <div class="nama_pelapor">Ket. Gambar 1</div>
+                                        <input type="text" name="nama_pelapor" id="nama_pelapor" class="mb-2">
                                     </form>
 
                                     <div id="imagePreviewContainer1">
@@ -86,6 +85,8 @@
                                         <label for="fileInput2" class="btn btn-link">Pilih Gambar 2</label>
                                         <input type="file" id="fileInput2" name="fileInput" style="display: none;"
                                             accept="image/*">
+                                        <div class="nama_pelapor">Ket. Gambar 2</div>
+                                        <input type="text" name="nama_pelapor" id="nama_pelapor">
                                     </form>
 
                                     <div id="imagePreviewContainer2">
@@ -141,7 +142,6 @@
 
                                     <button type="button" class="btn btn-primary w-100 mt-5">Proses</button>
                                     <button type="button" class="btn btn-primary w-100 mt-2">Batal</button>
-                                    <button type="button" class="btn btn-primary w-100 mt-2">Keluar</button>
 
                                 </div>
                             </div>

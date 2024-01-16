@@ -4,7 +4,7 @@
         <div class="row justify-content-center">
             <div class="col-md-10 RDZMobilePaddingLR0">
                 <div class="card">
-                    <div class="card-header">Print Elektrik</div>
+                    <div class="card-header">Print Project</div>
                     <div class="card-body RDZOverflow RDZMobilePaddingLR0">
 
                         <label class="">Filter</label>
@@ -24,16 +24,13 @@
                             <table class="table">
                                 <thead class="thead-dark">
                                     <tr>
-                                        <th scope="col">Penerima Laporan</th>
-                                        <th scope="col">Jam Lapor </th>
-                                        <th scope="col">Jam Perbaikan</th>
-                                        <th scope="col">Jam Selesai</th>
-                                        <th scope="col">Jam Lapor</th>
-                                        <th scope="col">Type Gangguan</th>
-                                        <th scope="col">Penyebab</th>
-                                        <th scope="col">Penyelesaian</th>
+                                        <th scope="col">Nama Project</th>
+                                        <th scope="col">Nama Mesin </th>
+                                        <th scope="col">Tanggal Mulai</th>
+                                        <th scope="col"> Tanggal Selesai</th>
+                                        <th scope="col">Keterangan Kerja </th>
                                         <th scope="col">Keterangan</th>
-                                        <th scope="col">Teknisi</th>
+                                        <th scope="col">User</th>
 
                                     </tr>
                                 </thead>
