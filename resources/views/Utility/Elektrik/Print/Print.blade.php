@@ -10,14 +10,20 @@
                         <label class="">Filter</label>
                         <div class="row-24 d-flex mt-4">
 
-                            <label for="">Bulan</label>
+                            <label for="">Tanggal</label>
                             <input type="date" name="tanggal_dibutuhkan" id="tanggal_dibutuhkan" class="input mb-3 ml-1">
                             <label for=""class="ml-3">S/D</label>
                             <input type="date" name="tanggal_dibutuhkan" id="tanggal_dibutuhkan"
                                 class="input mb-3 ml-1 ">
                             <label for="" class="ml-3">Divisi Pelapor</label>
                             <select name="divisi_pelapor" id="divisi_pelapor" class="form-control mb-2 ml-1"
-                                style="width: 120px;"></select>
+                                style="width: 250px;">
+                                @foreach ($divisi as $divisi_pelapor)
+                                    <option value="{{ $divisi_pelapor->Id_divisi }}">
+                                        {{ $divisi_pelapor->Nama_divisi }}
+                                    </option>
+                                @endforeach
+                            </select>
                             <button type="button" style="height: 30px" class="btn btn-primary ml-3">Refresh</button>
                         </div>
                         <div id="div_tablePO" class="acs-form3">
@@ -48,4 +54,5 @@
         </div>
     </div>
     </div>
+    <script src="public/js/Utility/Elektrik/Print.js"></script>
 @endsection

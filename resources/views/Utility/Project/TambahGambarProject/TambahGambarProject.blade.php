@@ -17,7 +17,13 @@
                                 class="input mb-3 ml-1 ">
                             <label for="" class="ml-3">Divisi Pelapor</label>
                             <select name="divisi_pelapor" id="divisi_pelapor" class="form-control mb-2 ml-1"
-                                style="width: 120px;"></select>
+                                style="width: 270px;">
+                                @foreach ($divisi as $divisi_pelapor)
+                                    <option value="{{ $divisi_pelapor->Id_divisi }}">
+                                        {{ $divisi_pelapor->Nama_divisi }}
+                                    </option>
+                                @endforeach
+                            </select>
                             <button type="button" style="height: 30px" class="btn btn-primary ml-3">Refresh</button>
                         </div>
                         <div id="div_tablePO" class="acs-form3">
@@ -46,7 +52,7 @@
                             <div class="form">
                                 <div class="row-24 d-flex">
                                     <!-- Bagian formulir dan pratinjau gambar -->
-                                    <div class="col-4">
+                                    <div class="col-5">
                                         @for ($i = 1; $i <= 4; $i++)
                                             <form id="uploadForm{{ $i }}" action="/upload" method="post"
                                                 enctype="multipart/form-data" class="mb-1">
@@ -91,7 +97,7 @@
                                         @endfor
                                     </div>
 
-                                    <div class="col-4">
+                                    <div class="col-5">
                                         @for ($i = 5; $i <= 8; $i++)
                                             <form id="uploadForm{{ $i }}" action="/upload" method="post"
                                                 enctype="multipart/form-data" class="mb-1">
@@ -135,7 +141,7 @@
                                             </script>
                                         @endfor
                                     </div>
-                                    <div class="col-4">
+                                    <div class="col-2">
                                         <button type="button" class="btn btn-primary w-100 mt-3">Input</button>
                                         <button type="button" class="btn btn-primary w-100 mt-2">Koreksi</button>
                                         <button type="button" class="btn btn-primary w-100 mt-2">Hapus</button>

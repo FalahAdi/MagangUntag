@@ -5,16 +5,17 @@ namespace App\Http\Controllers\Utility\Elektrik;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\HakAksesController;
-
+use DB;
 
 class PrintElektrikController extends Controller
 {
     // Display a listing of the resource.
     public function index()
     {
+        $divisi = DB::connection('ConnUtility')->select('exec SP_LIST_DIVISI_PELAPOR');
         $access = (new HakAksesController)->HakAksesFiturMaster('Utility');
 
-        return view('Utility.Elektrik.Print.Print', compact('access'));
+        return view('Utility.Elektrik.Print.Print', compact('divisi','access'));
     }
 
     //Show the form for creating a new resource.

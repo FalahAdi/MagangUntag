@@ -10,14 +10,22 @@
                         <label class="">Filter</label>
                         <div class="row-24 d-flex mt-4">
 
-                            <label for="">Bulan</label>
+                            <label for="">Tanggal</label>
                             <input type="date" name="tanggal_dibutuhkan" id="tanggal_dibutuhkan" class="input mb-3 ml-1">
                             <label for=""class="ml-3">S/D</label>
                             <input type="date" name="tanggal_dibutuhkan" id="tanggal_dibutuhkan"
                                 class="input mb-3 ml-1 ">
                             <label for="" class="ml-3">Divisi Pelapor</label>
                             <select name="divisi_pelapor" id="divisi_pelapor" class="form-control mb-2 ml-1"
-                                style="width: 120px;"></select>
+                                style="width: 270px;">
+                                <option value="">
+                                    @foreach ($divisi as $divisi_pelapor)
+                                <option value="{{ $divisi_pelapor->Id_divisi }}">
+                                    {{ $divisi_pelapor->Nama_divisi }}</option>
+                                @endforeach
+                                </option>
+
+                            </select>
                             <button type="button" style="height: 30px" class="btn btn-primary ml-3">Refresh</button>
                         </div>
                         <div id="div_tablePO" class="acs-form3">
@@ -58,14 +66,14 @@
                                                     name="fileInput{{ $i }}" style="display: none;"
                                                     accept="image/*">
                                             </form>
-                                            <div class="nama_pelapor">Ket. Gambar {{ $i }}</div>
-                                            <input type="text" name="nama_pelapor{{ $i }}"
-                                                id="nama_pelapor{{ $i }}" class="mb-1">
                                             <div id="imagePreviewContainer{{ $i }}">
                                                 <img id="imagePreview{{ $i }}" src=""
                                                     alt="Preview {{ $i }}"
                                                     style="display: none; max-width: 100%; height: auto;">
                                             </div>
+                                            <div class="nama_pelapor">Ket. Gambar {{ $i }}</div>
+                                            <input type="text" name="nama_pelapor{{ $i }}"
+                                                id="nama_pelapor{{ $i }}" class="mb-1">
                                             <script>
                                                 // Event listener untuk Gambar {{ $i }}
                                                 (function(i) {
@@ -111,31 +119,9 @@
                                                     alt="Preview {{ $i }}"
                                                     style="display: none; max-width: 100%; height: auto;">
                                             </div>
-                                            <script>
-                                                // Event listener untuk Gambar {{ $i }}
-                                                (function(i) {
-                                                    document.getElementById('fileInput{{ $i }}').addEventListener('change', function() {
-                                                        var fileInput = this;
-                                                        var fileName = fileInput.value.split('\\').pop();
-
-                                                        // Menampilkan nama file yang dipilih di label
-                                                        document.querySelector('.btn-link').textContent = fileName;
-
-                                                        // Membaca file gambar yang dipilih
-                                                        var reader = new FileReader();
-                                                        reader.onload = function(e) {
-                                                            var imagePreview = document.getElementById('imagePreview{{ $i }}');
-                                                            // Menetapkan sumber gambar saat file berhasil dibaca
-                                                            imagePreview.src = e.target.result;
-                                                            imagePreview.style.display = 'block'; // Menampilkan elemen gambar
-                                                        };
-                                                        reader.readAsDataURL(fileInput.files[0]); // Membaca file sebagai URL data
-                                                    });
-                                                })({{ $i }});
-                                            </script>
                                         @endfor
                                     </div>
-                                    <div class="col-4">
+                                    <div class="col-2">
                                         <button type="button" class="btn btn-primary w-100 mt-3">Input</button>
                                         <button type="button" class="btn btn-primary w-100 mt-2">Koreksi</button>
                                         <button type="button" class="btn btn-primary w-100 mt-2">Hapus</button>
@@ -156,4 +142,5 @@
         </div>
     </div>
     </div>
+    <script src="{{ asset('js/Utility/Elektrik/TambahGambar.js') }}"></script>
 @endsection

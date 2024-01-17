@@ -1,20 +1,21 @@
 <?php
 
-namespace App\Http\Controllers\Utility\Elektrik;
+namespace App\Http\Controllers\Utility\Project;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\HakAksesController;
+use DB;
 
-
-class InputGangguanElektrikController extends Controller
+class PrintProjectController extends Controller
 {
     // Display a listing of the resource.
     public function index()
     {
+        $divisi = DB::connection('ConnUtility')->select('exec SP_LIST_DIVISI_PELAPOR');
         $access = (new HakAksesController)->HakAksesFiturMaster('Utility');
 
-        return view('Utility.Elektrik.InputGangguan.InputGangguan', compact('access'));
+        return view('Utility.Project.PrintProject.PrintProject', compact('divisi','access'));
     }
 
     //Show the form for creating a new resource.

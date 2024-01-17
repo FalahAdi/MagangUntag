@@ -8,7 +8,7 @@
                     <div class="card-body RDZOverflow RDZMobilePaddingLR0">
                         <div class="form">
                             <div class="row-24 d-flex">
-                                <div class="col-4">
+                                <div class="col-5">
                                     <div class="col-8">
                                         <div class="nama_pelapor">Nama Project</div>
                                         <input type="text" name="nama_pelapor" id="nama_pelapor"
@@ -133,8 +133,8 @@
                                 </div>
 
 
-                                <div class="col-4 d-grid gap-2 d-md-block d-flex">
-                                    <button type="button" class="btn btn-primary w-50 mb-1">Input</button>
+                                <div class="col-3 d-grid gap-2 d-md-block d-flex mt-5">
+                                    <button type="button" class="btn btn-primary w-50 mb-1 mt-5">Input</button>
                                     <button type="button" class="btn btn-primary w-50 mb-1">Koreksi</button>
                                     <button type="button" class="btn btn-primary w-50 mb-4">Hapus</button>
 
@@ -145,15 +145,15 @@
 
 
                         </div>
-                        <label class="">Filter</label>
-                        <div class="row-24 d-flex mt-4">
+                        <label class="mt-3">Filter</label>
+                        <div class="row-24 d-flex mt-1">
 
                             <label for="">Bulan</label>
-                            <input type="month" name="tanggal_dibutuhkan" id="tanggal_dibutuhkan"
-                                class="input mb-3 ml-1">
+                            <input type="text" name="tanggal_dibutuhkan" pattern="[0-9]" id="tanggal_dibutuhkan"
+                                placeholder="contoh: 1,2,3" class="input mb-3 ml-1">
                             <label for=""class="ml-3">Tahun</label>
-                            <input type="date" name="tanggal_dibutuhkan" id="tanggal_dibutuhkan"
-                                class="input mb-3 ml-1 ">
+                            <input type="text" pattern="[0-9]" name="tanggal_dibutuhkan" id="tanggal_dibutuhkan"
+                                class="input mb-3 ml-1 "placeholder="contoh: 2023">
 
                             <button type="button" style="height: 30px" class="btn btn-primary ml-3">Refresh</button>
                         </div>
