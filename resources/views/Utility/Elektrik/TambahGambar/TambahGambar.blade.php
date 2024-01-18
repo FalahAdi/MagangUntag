@@ -55,7 +55,7 @@
                                 <div class="row-24 d-flex">
                                     <!-- Bagian formulir dan pratinjau gambar -->
                                     <div class="col-4">
-                                        @for ($i = 1; $i <= 4; $i++)
+                                        @for ($i = 3; $i <= 6; $i++)
                                             <form id="uploadForm{{ $i }}" action="/upload" method="post"
                                                 enctype="multipart/form-data" class="mb-1">
                                                 @csrf
@@ -100,7 +100,7 @@
                                     </div>
 
                                     <div class="col-4">
-                                        @for ($i = 5; $i <= 8; $i++)
+                                        @for ($i = 7; $i <= 10; $i++)
                                             <form id="uploadForm{{ $i }}" action="/upload" method="post"
                                                 enctype="multipart/form-data" class="mb-1">
                                                 @csrf

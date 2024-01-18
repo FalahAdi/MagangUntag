@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Utility\Elektrik;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\HakAksesController;
 use DB;
+use PhpParser\Node\Stmt\TryCatch;
 
 class InputGangguanElektrikController extends Controller
 {
@@ -19,6 +21,56 @@ class InputGangguanElektrikController extends Controller
         return view('Utility.Elektrik.InputGangguan.InputGangguan', compact('teknisi','divisi','access'));
     }
 
+    public function postData(Request $request)
+    {
+        //
+        try {
+            $tanggal = $request->input('tanggal') ;
+            $l_div_pelapor = $request->input ('divisi_pelapor1');
+            $nama_pelapor = $request->input('nama_pelapor'); ;
+            $penerima_laporan = $request->input ('penerima_laporan');
+            $jamlapor = $request->input ('jam_lapor') ;
+            $jampelaksanaan =$request->input ('jam_perbaikan') ;
+            $jamselesai = $request->input ('jam_selesai') ;
+            $Type_gangguan = $request->input ('tipe_gangguan') ;
+            $penyebab = $request->input ('penyebab') ;
+            $penyelesaian = $request->input ('penyelesaian') ;
+            $keterangan =$request->input ('keterangan') ;
+            $teknisi =$request->input ('teknisi') ;
+            $lanjut  = $request->input ('agree') ;
+            $user_input = Auth::user()->NomorUser ;
+
+
+            $data = DB::connection('ConnUtility')->statement('exec SP_INSERT_GANGGUAN_ELEKTRIK ?,?,?,?,?,?,?,?,?,?,?,?,?,?',[
+                $tanggal,$l_div_pelapor,$nama_pelapor,$penerima_laporan,$jamlapor,$jampelaksanaan,$jamselesai,$Type_gangguan,$penyebab,$penyelesaian,$keterangan,
+                $teknisi,$lanjut,$user_input]);
+
+            if ($data) {
+                return response()->json(['success' => true]);
+            } else {
+                return response()->json(['error' => 'Gagal menyimpan data.'], 500);
+            }
+                    } catch (\Throwable $th) {
+                        return response()->json(['error' => 'Terjadi kesalahan internal.'], 500);}
+    }
+
+    public function getData(Request $request)
+    {
+        try {
+
+            $tanggal = $request->input('tanggal') ;
+            $l_div_pelapor = $request->input ('divisi');
+
+            // Execute the stored procedure and fetch data
+            $data = DB::connection('ConnUtility')->select('exec SP_1273_UTY_LIST_GANGGUAN_ELEKTRIK @Tanggal = ?, @Divisi = ? , @Kode=1', [$tanggal,$l_div_pelapor]);
+
+            // Return data as a JSON response
+            return response()->json($data);
+        } catch (\Throwable $th) {
+            // Handle exceptions by returning an error response
+            return response()->json(['error' => 'Terjadi kesalahan internal.'], 500);
+        }
+    }
     //Show the form for creating a new resource.
     public function create()
     {

@@ -1,15 +1,16 @@
 @extends('layouts.appUtility')
 @section('content')
     <div class="container-fluid">
+        <meta name="csrf-token" content="{{ csrf_token() }}">
         <div class="row justify-content-center">
             <div class="col-md-20 RDZMobilePaddingLR0">
                 <div class="card">
                     <div class="card-header">Gangguan Elektrik</div>
                     <div class="card-body RDZOverflow RDZMobilePaddingLR0">
                         <div class="form">
-                            <div class="row-24 d-flex">
+                            <div class="row-24 d-flex flex-wrap">
                                 <div class="col-5">
-                                    <div class="col-8">
+                                    <div class="col-md-8">
                                         <label class="tanggal">Tanggal</label>
                                         <input type="date" name="tanggal_dibutuhkan" id="tanggal" class="input mb-3">
                                         <div class="divisi_pelapor">Divisi Pelapor</div>
@@ -38,7 +39,7 @@
 
                                     </div>
                                 </div>
-                                <div class="col-3">
+                                <div class="col-md-3">
                                     <div class="row-4">
 
                                         <div class="nama_pelapor">Type Gangguan</div>
@@ -53,7 +54,7 @@
                                         <select name="divisi_pelapor" id="teknisi"
                                             class="form-control form-control-sm mb-2" style="width: 140px;">
                                             @foreach ($teknisi as $nama_teknisi)
-                                                <option value="{{ $nama_teknisi->Id_teknisi }}">{{ $nama_teknisi->Nama }}
+                                                <option value="{{ $nama_teknisi->Nama }}">{{ $nama_teknisi->Nama }}
                                                 </option>
                                             @endforeach
 
@@ -71,7 +72,7 @@
                                 <div class="col-2">
                                     <form id="uploadForm1" action="/upload" method="post" enctype="multipart/form-data"
                                         class="">
-                                        <label for="fileInput1" class="btn btn-link ">Pilih Gambar 1</label>
+                                        <label for="gambar1" class="btn btn-link">Pilih Gambar 1</label>
                                         <input type="file" id="gambar1" name="fileInput" style="display: none;"
                                             accept="image/*">
                                         <div class="nama_pelapor">Ket. Gambar 1</div>
@@ -85,10 +86,10 @@
 
                                     <form id="uploadForm2" action="/upload" method="post" enctype="multipart/form-data"
                                         class="mt-3">
-                                        <label for="fileInput2" class="btn btn-link">Pilih Gambar 2</label>
+                                        <label for="gambar2" class="btn btn-link">Pilih Gambar 2</label>
                                         <input type="file" id="gambar2" name="fileInput" style="display: none;"
                                             accept="image/*">
-                                        <div class="nama_pelapor ">Ket. Gambar 2</div>
+                                        <div class="nama_pelapor">Ket. Gambar 2</div>
                                         <input type="text" name="nama_pelapor" id="ket_gambar2" class="mb-1">
                                     </form>
 
@@ -96,8 +97,6 @@
                                         <img id="hasil_gambar2" src="" alt="Preview 2"
                                             style="display: none; max-width: 100%; height: auto;">
                                     </div>
-
-
                                 </div>
 
                                 <div class="col-1 d-grid gap-4 d-md-block">
@@ -138,7 +137,7 @@
                             <button type="button" style="height: 30px" class="btn btn-primary ml-3"
                                 id="refreshButton">Refresh</button>
                         </div>
-                        <div id="div_tablePO" class="acs-form3">
+                        <div id="tabel_input_gangguan" class="acs-form3">
                             <table class="table">
                                 <thead class="thead-dark">
                                     <tr>
