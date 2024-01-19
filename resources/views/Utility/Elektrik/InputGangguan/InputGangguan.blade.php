@@ -15,10 +15,10 @@
                                         <input type="date" name="tanggal_dibutuhkan" id="tanggal" class="input mb-3">
                                         <div class="divisi_pelapor">Divisi Pelapor</div>
                                         <select name="divisi_pelapor" id="divisi_pelapor1" class="form-control mb-2">
-                                            <option selected>Pilih Divisi </option>
-                                            @foreach ($divisi as $divisi_pelapor)
-                                                <option value="{{ $divisi_pelapor->Id_divisi }}">
-                                                    {{ $divisi_pelapor->Nama_divisi }}</option>
+                                            <option value="pilih divisi">
+                                                @foreach ($divisi as $divisi_pelapor)
+                                            <option value="{{ $divisi_pelapor->Id_divisi }}">
+                                                {{ $divisi_pelapor->Nama_divisi }}</option>
                                             @endforeach
                                         </select>
                                         <div class="nama_pelapor">Nama Pelapor</div>
@@ -127,7 +127,8 @@
                             <label for="" class="ml-3">Divisi Pelapor</label>
                             <select name="divisi_pelapor" id="divisi_pelapor2" class="form-control mb-2 ml-1"
                                 style="width: 270px;">
-                                <option value="">
+
+                                <option value="pilih divisi">
                                     @foreach ($divisi as $divisi_pelapor)
                                 <option value="{{ $divisi_pelapor->Id_divisi }}">
                                     {{ $divisi_pelapor->Nama_divisi }}</option>
@@ -137,10 +138,11 @@
                             <button type="button" style="height: 30px" class="btn btn-primary ml-3"
                                 id="refreshButton">Refresh</button>
                         </div>
-                        <div id="tabel_input_gangguan" class="acs-form3">
-                            <table class="table">
+                        <div>
+                            <table class="table" id="tabel_input_gangguan">
                                 <thead class="thead-dark">
                                     <tr>
+                                        <th scope="col" type="checkbox"></th>
                                         <th scope="col">Tanggal</th>
                                         <th scope="col">Div. Pelapor </th>
                                         <th scope="col">Pelapor</th>

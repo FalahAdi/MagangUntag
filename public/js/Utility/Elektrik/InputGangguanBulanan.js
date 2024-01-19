@@ -1,3 +1,18 @@
+let tanggal = document.getElementById("tanggal")
+
+
+if (tanggal) {
+    var tanggal_akhirOutput = new Date().toISOString().split("T")[0];
+    tanggal.value = tanggal_akhirOutput;
+
+    var currentDateTime = new Date();
+    var hours = currentDateTime.getHours().toString().padStart(2, '0');
+    var minutes = currentDateTime.getMinutes().toString().padStart(2, '0');
+    var timeString = hours + ':' + minutes;
+
+}
+
+
 // Event listener untuk Gambar 1
 document.getElementById('fileInput1').addEventListener('change', function() {
     var fileInput = this;
@@ -35,3 +50,9 @@ document.getElementById('fileInput2').addEventListener('change', function() {
     };
     reader.readAsDataURL(fileInput.files[0]); // Membaca file sebagai URL data
 });
+
+
+
+
+
+

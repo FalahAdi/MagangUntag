@@ -4,6 +4,8 @@
     let hapusinputButton = document.getElementById("hapusButton")
     let prosesButton = document.getElementById("prosesButton")
     let batalButton = document.getElementById("batalButton")
+    let refreshButton = document.getElementById("refreshButton")
+
 
     //form
     let tanggal = document.getElementById("tanggal")
@@ -27,10 +29,11 @@
     let bulan = document.getElementById("bulan")
     let sampaiDengan = document.getElementById("sampaiDengan")
     let divisi_pelapor2 = document.getElementById("divisi_pelapor2")
-    let refreshButton = document.getElementById("refreshButton")
     let imagePreviewContainer1 = document.getElementById("imagePreviewContainer1")
     let imagePreviewContainer2 = document.getElementById("imagePreviewContainer2")
     let agree = document.getElementById("agree")
+
+
 
 
     var bulanInput = document.getElementById("bulan");
@@ -56,29 +59,32 @@
 
 
     // Initially disable all form elements
-    enableFormElements(false);
 
     // Event listener for Input Button
     inputButton.addEventListener('click', function() {
         // Enable all input fields and buttons
-        enableFormElements(true);
+        // enableFormElements(t);
+        koreksiButton.disabled = true;
+        hapusinputButton.disabled = true;
     });
 
     batalButton.addEventListener('click', function() {
         // Disable all input fields and buttons
-        enableFormElements(false);
+        koreksiButton.disabled = false;
+        hapusinputButton.disabled = false;
+
     });
 
     // Function to enable/disable form elements
-    function enableFormElements(enable) {
-        var inputElements = document.querySelectorAll('input, select, button');
-        inputElements.forEach(function(element) {
-            if (element !== inputButton&& element !== bulan && element !== sampaiDengan && element !== divisi_pelapor2 && element !== refreshButton) {
-                element.disabled = !enable;
-            }
-        }
-    );
-    }
+    // function enableFormElements(enable) {
+    //     var inputElements = document.querySelectorAll('input, select, button');
+    //     inputElements.forEach(function(element) {
+    //         if (element !== inputButton&& element !== bulan && element !== sampaiDengan && element !== divisi_pelapor2 && element !== refreshButton) {
+    //             element.disabled = !enable;
+    //         }
+    //     }
+    // );
+    // }
 
 
     // Event listener untuk Gambar 1
@@ -111,7 +117,7 @@
         // Membaca file gambar yang dipilih
         var reader = new FileReader();
         reader.onload = function(e) {
-            var imagePreview = document.getElementById('hasil_gambar1');
+            var imagePreview = document.getElementById('hasil_gambar2');
             // Menetapkan sumber gambar saat file berhasil dibaca
             imagePreview.src = e.target.result;
             imagePreview.style.display = 'block'; // Menampilkan elemen gambar
@@ -166,82 +172,97 @@
 
 
         });
-        // Define the getData function outside the click event handler
-        $("#refreshButton").click(function (e) {
-            e.preventDefault();
 
-            // Call the getData function when the button is clicked
-            getData();
+        var timeRenderer = function (data, type, full, meta) {
+            var date = new Date(data);
+            var hours = date.getHours().toString().padStart(2, "0");
+            var minutes = date.getMinutes().toString().padStart(2, "0");
+            return hours + ":" + minutes;
+        };
+
+        var dataTable = $("#tabel_input_gangguan").DataTable({
+            processing: true,
+            serverSide: true,
+            responsive: true,
+            ajax: {
+                url: "/getData",
+                type: "GET",
+                data: function (d) {
+                    d.tanggal1 = $("#bulan").val();
+                    d.tanggal2 = $("#sampaiDengan").val();
+                    d.divisi = $("#divisi_pelapor2").val();
+
+                },
+            },
+
+            columns: [
+
+
+                {
+                    data: null,
+                    render: function (data, type, full, meta) {
+                        return '<input type="checkbox" class="checkbox" value="' + full.id + '">';
+                    }
+                },
+                {
+                    data: "tanggal",
+                    render: function (data, type, full, meta) {
+                        var date = new Date(data);
+                        var day = date.getDate();
+                        var month = date.getMonth() + 1;
+                        var year = date.getFullYear();
+
+                        day = day < 10 ? "0" + day : day;
+                        month = month < 10 ? "0" + month : month;
+                        return day + "-" + month + "-" + year;
+                    },
+                },
+
+
+                { data: "L_div_pelapor" },
+                { data: "Nama_pelapor" },
+                { data: "Penerima_laporan" },
+                { data: "Jam_lapor", render: timeRenderer },
+                { data: "jam_pelaksanan", render: timeRenderer },
+                { data: "Jam_selesai", render: timeRenderer },
+                { data: "Type_gangguan" },
+                { data: "Penyebab" },
+                { data: "Penyelesaian" },
+                { data: "Keterangan" },
+                { data: "Teknisi" },
+            ],
         });
 
-        function getData() {
-            var Tanggal = $("#bulan").val();
-            var Divisi = $("#divisi_pelapor2").val();
-
-            var requestData = {
-                tanggal: Tanggal,
-                divisi: Divisi,
-            };
-
-            $.ajax({
-                url: '/getData',
-                data: requestData,
-                dataType: "json",
-                method: 'GET',
-                success: function (data) {
-                    // Clear the table body before adding new data
-                    $("#tabel_input_gangguan tbody").empty();
-                    console.log('sukses',data);
-
-                    $.each(data, function (index, row) {
-                        console.log('Row:', row);
-                        var formattedDate = new Date(row.tanggal);
-                        var day = formattedDate.getDate();
-                        var month = formattedDate.getMonth() + 1;
-                        var year = formattedDate.getFullYear();
-
-                        var formattedDateString =
-                            (day < 10 ? "0" : "") +
-                            day +
-                            "-" +
-                            (month < 10 ? "0" : "") +
-                            month +
-                            "-" +
-                            year;
-
-                        $("table tbody").append(
-                            "<tr>" +
-                            "<td>" + formattedDateString + "</td>" +
-                            "<td>" + row.L_div_pelapor + "</td>" +
-                            "<td>" + row.Nama_pelapor + "</td>" +
-                            "<td>" + row.Penerima_laporan + "</td>" +
-                            "<td>" + row.Jam_lapor + "</td>" +
-                            "<td>" + row.jam_pelaksanan + "</td>" +
-                            "<td>" + row.Jam_selesai + "</td>" +
-                            "<td>" + row.Type_gangguan + "</td>" +
-                            "<td>" + row.Penyebab + "</td>" +
-                            "<td>" + row.Penyelesaian + "</td>" +
-                            "<td>" + row.Keterangan + "</td>" +
-                            "<td>" + row.Teknisi + "</td>" +
-                            "</tr>"
-                        );
-                    });
-                },
-                error: function (xhr, status, error) {
-                    console.error('Error fetching data:', error);
-                },
-            });
-        }
+        $("#refreshButton").click(function () {
+            dataTable.ajax.reload();
+            console.log(dataTable);
+        });
 
 
-        // Attach the click event handler to #refreshButton
-        // $("#refreshButton").click(function (e) {
-        //     e.preventDefault();
-        //     // Call the getData function when the button is clicked
-        //     getData();
-        // });
+    });
 
-        // Initial fetch of data when the page loads
+    $("#hapusButton").click(function () {
+        var selectedRows = dataTable.rows('.selected').data();
 
+    if (selectedRows.length > 0) {
+        var idsToDelete = selectedRows.map(row => row.id);
+
+        // Send an AJAX request to delete data
+        $.ajax({
+            url: '/deleteData',
+            method: 'POST',
+            data: { ids: idsToDelete },
+            success: function (response) {
+                console.log(response);
+                // Handle success, update UI or reload DataTable if needed
+                dataTable.ajax.reload();
+            },
+            error: function (error) {
+                console.error(error);
+            }
+        });
+    } else {
+        alert("No rows selected for deletion.");
+    }
     });
 

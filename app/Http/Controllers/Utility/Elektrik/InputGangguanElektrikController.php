@@ -56,21 +56,39 @@ class InputGangguanElektrikController extends Controller
 
     public function getData(Request $request)
     {
-        try {
 
-            $tanggal = $request->input('tanggal') ;
+
+            $tanggal1 = $request->input('tanggal1') ;
+            $tanggal2 = $request->input('tanggal2') ;
             $l_div_pelapor = $request->input ('divisi');
 
             // Execute the stored procedure and fetch data
-            $data = DB::connection('ConnUtility')->select('exec SP_1273_UTY_LIST_GANGGUAN_ELEKTRIK @Tanggal = ?, @Divisi = ? , @Kode=1', [$tanggal,$l_div_pelapor]);
-
+            $data = DB::connection('ConnUtility')->select('exec SP_DT_LIST_GANGGUAN_ELEKTRIK_BLN_THN2 @date1 = ?, @date2 = ?,  @divisi = ?', [$tanggal1, $tanggal2, $l_div_pelapor]);
             // Return data as a JSON response
-            return response()->json($data);
-        } catch (\Throwable $th) {
-            // Handle exceptions by returning an error response
-            return response()->json(['error' => 'Terjadi kesalahan internal.'], 500);
+            return datatables($data)->make(true);
+
+    }
+    public function deleteData(Request $request)
+    {
+
+
+        $l_div_pelapor = $request->input('divisi');
+
+        try {
+            // Your deletion logic here
+            // Example: Delete records from the database based on IDs
+            DB::connection('ConnUtility')->table('exec SP_DT_LIST_GANGGUAN_ELEKTRIK_BLN_THN2')->whereIn('id', $l_div_pelapor)->delete();
+
+            // Return a success response
+            return response()->json(['success' => true, 'message' => 'Data deleted successfully']);
+        } catch (\Exception $e) {
+            // Return an error response
+            return response()->json(['success' => false, 'message' => 'Error deleting data: ' . $e->getMessage()]);
         }
     }
+
+
+
     //Show the form for creating a new resource.
     public function create()
     {

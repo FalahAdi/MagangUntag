@@ -26,10 +26,10 @@
                                         <input type="text" name="nama_pelapor" id="nama_pelapor"
                                             class="form-control mb-2" placeholder="">
                                         <div class="jam_lapor">Tanggal Mulai</div>
-                                        <input type="date" name="tanggal_dibutuhkan" id="tanggal_dibutuhkan"
+                                        <input type="date" name="tanggal_dibutuhkan" id="tanggal_mulai"
                                             class="input mb-3">
                                         <div class="jam_lapor">Tanggal Selasai</div>
-                                        <input type="date" name="tanggal_dibutuhkan" id="tanggal_dibutuhkan"
+                                        <input type="date" name="tanggal_dibutuhkan" id="tanggal_selesai"
                                             class="input mb-3">
                                         <div class="nama_pelapor">Keterangan Kerusakan</div>
                                         <input type="text" name="nama_pelapor" id="nama_pelapor"
@@ -52,11 +52,11 @@
                                         </div>
                                         <label>
                                             <input type="radio" name="gender" value="Selesai">
-                                            Selesai
+                                            Progress
                                         </label>
                                         <label>
                                             <input type="radio" name="gender" value="Belum Selesai">
-                                            Belum Selesai
+                                            Selesai
                                         </label>
 
                                         <form id="uploadForm1" action="/upload" method="post" enctype="multipart/form-data"
@@ -134,12 +134,17 @@
 
 
                                 <div class="col-3 d-grid gap-2 d-md-block d-flex mt-5">
-                                    <button type="button" class="btn btn-primary w-50 mb-1 mt-5">Input</button>
-                                    <button type="button" class="btn btn-primary w-50 mb-1">Koreksi</button>
-                                    <button type="button" class="btn btn-primary w-50 mb-4">Hapus</button>
+                                    <button type="button" class="btn btn-primary w-50 mt-3"
+                                        id="inputButton">Input</button>
+                                    <button type="button"
+                                        class="btn btn-primary w-50 mt-2"id="koreksiButton">Koreksi</button>
+                                    <button type="button"
+                                        class="btn btn-primary w-50 mt-2"id="hapusButton">Hapus</button>
 
-                                    <button type="button" class="btn btn-primary w-50 mb-1">Proses</button>
-                                    <button type="button" class="btn btn-primary w-50 mb-1">Batal</button>
+                                    <button type="button"
+                                        class="btn btn-primary w-50 mt-5"id="prosesButton">Proses</button>
+                                    <button type="button"
+                                        class="btn btn-primary w-50 mt-2"id="batalButton">Batal</button>
                                 </div>
                             </div>
 
@@ -149,10 +154,10 @@
                         <div class="row-24 d-flex mt-1">
 
                             <label for="">Bulan</label>
-                            <input type="text" name="tanggal_dibutuhkan" pattern="[0-9]" id="tanggal_dibutuhkan"
+                            <input type="number" name="tanggal_dibutuhkan" pattern="[0-9]" id="tanggal_dibutuhkan"
                                 placeholder="contoh: 1,2,3" class="input mb-3 ml-1">
                             <label for=""class="ml-3">Tahun</label>
-                            <input type="text" pattern="[0-9]" name="tanggal_dibutuhkan" id="tanggal_dibutuhkan"
+                            <input type="number" pattern="[0-9]" name="tanggal_dibutuhkan" id="tanggal_dibutuhkan"
                                 class="input mb-3 ml-1 "placeholder="contoh: 2023">
 
                             <button type="button" style="height: 30px" class="btn btn-primary ml-3">Refresh</button>
@@ -182,4 +187,5 @@
         </div>
     </div>
     </div>
+    <script src="{{ asset('js/Utility/Project/InputProject.js') }}"></script>
 @endsection

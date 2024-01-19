@@ -2,7 +2,7 @@
 @section('content')
     <div class="container-fluid">
         <div class="row justify-content-center">
-            <div class="col-md-10 RDZMobilePaddingLR0">
+            <div class="col-md-20 RDZMobilePaddingLR0">
                 <div class="card">
                     <div class="card-header">Print Elektrik</div>
                     <div class="card-body RDZOverflow RDZMobilePaddingLR0">
@@ -11,30 +11,34 @@
                         <div class="row-24 d-flex mt-4">
 
                             <label for="">Tanggal</label>
-                            <input type="date" name="tanggal_dibutuhkan" id="tanggal_dibutuhkan" class="input mb-3 ml-1">
+                            <input type="date" name="tanggal_dibutuhkan" id="tanggal" class="input mb-3 ml-1">
                             <label for=""class="ml-3">S/D</label>
-                            <input type="date" name="tanggal_dibutuhkan" id="tanggal_dibutuhkan"
-                                class="input mb-3 ml-1 ">
+                            <input type="date" name="tanggal_dibutuhkan" id="sampaiDengan" class="input mb-3 ml-1 ">
                             <label for="" class="ml-3">Divisi Pelapor</label>
                             <select name="divisi_pelapor" id="divisi_pelapor" class="form-control mb-2 ml-1"
                                 style="width: 250px;">
-                                @foreach ($divisi as $divisi_pelapor)
-                                    <option value="{{ $divisi_pelapor->Id_divisi }}">
-                                        {{ $divisi_pelapor->Nama_divisi }}
-                                    </option>
+                                <option value="pilih divisi">
+                                    @foreach ($divisi as $divisi_pelapor)
+                                <option value="{{ $divisi_pelapor->Id_divisi }}">
+                                    {{ $divisi_pelapor->Nama_divisi }}</option>
                                 @endforeach
+                                </option>
                             </select>
-                            <button type="button" style="height: 30px" class="btn btn-primary ml-3">Refresh</button>
+                            <button type="button" style="height: 30px" class="btn btn-primary ml-3"
+                                id="refreshButton">Refresh</button>
                         </div>
                         <div id="div_tablePO" class="acs-form3">
-                            <table class="table">
+                            <table class="table" id="tabel_print">
                                 <thead class="thead-dark">
                                     <tr>
+                                        <th scope="col" type="checkbox"></th>
+                                        <th scope="col">Tanggal</th>
+                                        <th scope="col">Div. Pelapor </th>
+                                        <th scope="col">Pelapor</th>
                                         <th scope="col">Penerima Laporan</th>
-                                        <th scope="col">Jam Lapor </th>
+                                        <th scope="col">Jam Lapor</th>
                                         <th scope="col">Jam Perbaikan</th>
                                         <th scope="col">Jam Selesai</th>
-                                        <th scope="col">Jam Lapor</th>
                                         <th scope="col">Type Gangguan</th>
                                         <th scope="col">Penyebab</th>
                                         <th scope="col">Penyelesaian</th>
@@ -54,5 +58,5 @@
         </div>
     </div>
     </div>
-    <script src="public/js/Utility/Elektrik/Print.js"></script>
+    <script src="{{ asset('js/Utility/Elektrik/Print.js') }}"></script>
 @endsection

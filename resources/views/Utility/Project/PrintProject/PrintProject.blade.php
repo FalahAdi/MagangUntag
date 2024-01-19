@@ -11,10 +11,9 @@
                         <div class="row-24 d-flex mt-4">
 
                             <label for="">Bulan</label>
-                            <input type="date" name="tanggal_dibutuhkan" id="tanggal_dibutuhkan" class="input mb-3 ml-1">
+                            <input type="date" name="tanggal_dibutuhkan" id="bulan" class="input mb-3 ml-1">
                             <label for=""class="ml-3">S/D</label>
-                            <input type="date" name="tanggal_dibutuhkan" id="tanggal_dibutuhkan"
-                                class="input mb-3 ml-1 ">
+                            <input type="date" name="tanggal_dibutuhkan" id="sampaiDengan" class="input mb-3 ml-1 ">
                             <label for="" class="ml-3">Divisi Pelapor</label>
                             <select name="divisi_pelapor" id="divisi_pelapor" class="form-control mb-2 ml-1"
                                 style="width: 270px;">
@@ -51,4 +50,5 @@
         </div>
     </div>
     </div>
+    <script src="{{ asset('js/Utility/Project/PrintProject.js') }}"></script>
 @endsection

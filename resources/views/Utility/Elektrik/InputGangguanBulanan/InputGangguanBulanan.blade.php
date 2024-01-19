@@ -11,8 +11,7 @@
                                 <div class="col-3">
                                     <div class="col-8">
                                         <label class="tanggal">Tanggal</label>
-                                        <input type="date" name="tanggal_dibutuhkan" id="tanggal_dibutuhkan"
-                                            class="input mb-3">
+                                        <input type="date" name="tanggal_dibutuhkan" id="tanggal" class="input mb-3">
                                         <div class="nama_pelapor">Nama Pengecek</div>
                                         <input type="text" name="nama_pelapor" id="nama_pelapor"
                                             class="form-control mb-2" placeholder="">
@@ -102,5 +101,5 @@
     </div>
     </div>
     </div>
-    <script src="public/js/Utility/Elektrik/InputGangguanBulanan.js"></script>
+    <script src="{{ asset('js/Utility/Elektrik/InputGangguanBulanan.js') }}"></script>
 @endsection

@@ -18,6 +18,22 @@ class PrintElektrikController extends Controller
         return view('Utility.Elektrik.Print.Print', compact('divisi','access'));
     }
 
+    public function getData(Request $request)
+    {
+
+
+            $tanggal1 = $request->input('tanggal1') ;
+            $tanggal2 = $request->input('tanggal2') ;
+            $l_div_pelapor = $request->input ('divisi');
+
+            // Execute the stored procedure and fetch data
+            $data = DB::connection('ConnUtility')->select('exec SP_DT_LIST_GANGGUAN_ELEKTRIK_BLN_THN2 @date1 = ?, @date2 = ?,  @divisi = ?', [$tanggal1, $tanggal2, $l_div_pelapor]);
+            // Return data as a JSON response
+            return datatables($data)->make(true);
+
+    }
+
+
     //Show the form for creating a new resource.
     public function create()
     {
