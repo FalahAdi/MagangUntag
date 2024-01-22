@@ -1,6 +1,6 @@
-let tanggal = document.getElementById("tanggal")
-let sampaiDengan = document.getElementById("sampaiDengan")
-let refreshButton = document.getElementById("refreshButton")
+let tanggal = document.getElementById("tanggal");
+let sampaiDengan = document.getElementById("sampaiDengan");
+let refreshButton = document.getElementById("refreshButton");
 
 if (tanggal && sampaiDengan) {
     var tanggal_akhirOutput = new Date().toISOString().split("T")[0];
@@ -8,15 +8,12 @@ if (tanggal && sampaiDengan) {
     sampaiDengan.value = tanggal_akhirOutput;
 
     var currentDateTime = new Date();
-    var hours = currentDateTime.getHours().toString().padStart(2, '0');
-    var minutes = currentDateTime.getMinutes().toString().padStart(2, '0');
-    var timeString = hours + ':' + minutes;
-
+    var hours = currentDateTime.getHours().toString().padStart(2, "0");
+    var minutes = currentDateTime.getMinutes().toString().padStart(2, "0");
+    var timeString = hours + ":" + minutes;
 }
 
 $(document).ready(function () {
-
-
     var timeRenderer = function (data, type, full, meta) {
         var date = new Date(data);
         var hours = date.getHours().toString().padStart(2, "0");
@@ -35,17 +32,19 @@ $(document).ready(function () {
                 d.tanggal1 = $("#tanggal").val();
                 d.tanggal2 = $("#sampaiDengan").val();
                 d.divisi = $("#divisi_pelapor").val();
-
             },
         },
 
         columns: [
-
             {
                 data: null,
                 render: function (data, type, full, meta) {
-                    return '<input type="checkbox" class="checkbox" value="' + full.id + '">';
-                }
+                    return (
+                        '<input type="checkbox" class="checkbox" value="' +
+                        full.id +
+                        '">'
+                    );
+                },
             },
 
             {
@@ -62,7 +61,6 @@ $(document).ready(function () {
                 },
             },
 
-
             { data: "L_div_pelapor" },
             { data: "Nama_pelapor" },
             { data: "Penerima_laporan" },
@@ -75,13 +73,11 @@ $(document).ready(function () {
             { data: "Keterangan" },
             { data: "Teknisi" },
         ],
+        order: [[1, "asc"]],
     });
 
     $("#refreshButton").click(function () {
         dataTable.ajax.reload();
         console.log(dataTable);
     });
-
-
 });
-

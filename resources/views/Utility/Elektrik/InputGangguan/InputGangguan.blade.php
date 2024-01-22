@@ -11,6 +11,7 @@
                             <div class="row-24 d-flex flex-wrap">
                                 <div class="col-5">
                                     <div class="col-md-8">
+                                        <input type="hidden" id="id_laporan">
                                         <label class="tanggal">Tanggal</label>
                                         <input type="date" name="tanggal_dibutuhkan" id="tanggal" class="input mb-3">
                                         <div class="divisi_pelapor">Divisi Pelapor</div>
