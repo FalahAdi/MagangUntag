@@ -78,125 +78,75 @@ batalButton.addEventListener("click", function () {
     ket_gambar2.disabled = true;
 });
 
-// $(document).ready(function () {
-//     $("#prosesButton").click(function (e) {
-
-//         // var Token = $('meta[name="csrf-Token"]').attr("content");
-//         // var requestData = {
-//         //     tanggal : tanggal.value,
-//         //     divisi_pelapor1 : divisi_pelapor1.value,
-//         //     nama_pelapor : nama_pelapor.value,
-//         //     penerima_laporan : penerima_laporan.value,
-//         //     jam_lapor : jam_lapor.value,
-//         //     jam_perbaikan : jam_perbaikan.value,
-//         //     jam_selesai : jam_selesai.value,
-//         //     tipe_gangguan : tipe_gangguan.value,
-//         //     penyebab : penyebab.value,
-//         //     penyelesaian : penyelesaian.value,
-//         //     keterangan : keterangan.value,
-//         //     teknisi : teknisi.value,
-//         //     agree : true,
-//         //     IdLaporan : idLaporan.value,
-//         //     gambar1 : gambar1.value,
-//         //     ket_gambar1 : ket_gambar1.value,
-//         //     gambar2 : gambar2.value,
-//         //     ket_gambar2 : ket_gambar2.value,
-//         // };
-
-//         // console.log(requestData);
-//         // $.ajax({
-//         //     url: "/postData",
-//         //     method: "POST",
-//         //     data: requestData,
-//         //     headers:{
-//         //         "X-CSRF-TOKEN":$('meta[name="csrf-token"]').attr('content'),
-//         //     },
-//         //     // dataType: "json",
-//         //     success: function (response) {
-//         //         console.log(response);
-
-//         //         Swal.fire({
-//         //             icon: 'success',
-//         //             title: 'Data berhasil disimpan',
-//         //             showConfirmButton: false,
-//         //             timer: 1500
-//         //         });
-//         //     }
-//         // });
-//         // $.ajax({
-//         //     url: "/postDataGambar",
-//         //     method: "POST",
-//         //     data: requestData,
-//         //     headers:{
-//         //         "X-CSRF-TOKEN":$('meta[name="csrf-token"]').attr('content'),
-//         //     },
-//         //     // dataType: "json",
-//         //     success: function (response) {
-//         //         console.log(response);
-
-//         //         Swal.fire({
-//         //             icon: 'success',
-//         //             title: 'Data berhasil disimpan',
-//         //             showConfirmButton: false,
-//         //             timer: 1500
-//         //         });
-//         //     }
-//         // });
-
-//     });
-
-//     var dataTable = $("#tabel_input_project").DataTable({
-//         processing: true,
-//         serverSide: true,
-//         responsive: true,
-//         ajax: {
-//             url: "/getData",
-//             type: "GET",
-//             data: function (d) {
-//                 d.tanggal1 = $("#bulan").val();
-//                 d.tanggal2 = $("#tahun").val();
-
-//             },
-//         },
-
-//         columns: [
-
-//             // {
-//             //     data: null,
-//             //     render: function (data, type, full, meta) {
-//             //         return '<input type="checkbox" class="checkbox" value="' + full.id + '">';
-//             //     }
-//             // },
-
-//             { data: "NamaProject" },
-
-//             // {
-//             //     data: "tanggal",
-//             //     render: function (data, type, full, meta) {
-//             //         var date = new Date(data);
-//             //         var day = date.getDate();
-//             //         var month = date.getMonth() + 1;
-//             //         var year = date.getFullYear();
-
-//             //         day = day < 10 ? "0" + day : day;
-//             //         month = month < 10 ? "0" + month : month;
-//             //         return day + "-" + month + "-" + year;
-//             //     },
-//             // },
-
-//             { data: "NamaMesin" },
-//             { data: "TglMulai" },
-//             { data: "TglSelesai" },
-//             { data: "Keterangan" },
-//             { data: "KeteranganKerja" },
-//             { data: "Penyelesaian" },
-
-//         ],
-//     });
-
-//     $("#refreshButton").click(function () {
-//         dataTable.ajax.reload();
-//         console.log(dataTable);
-//     });
-
-// });
+$(document).ready(function () {
+    $("#prosesButton").click(function (e) {
+        var Token = $('meta[name="csrf-Token"]').attr("content");
+        var requestData = {
+            tanggal: tanggal.value,
+            divisi_pelapor1: divisi_pelapor1.value,
+            nama_pelapor: nama_pelapor.value,
+            penerima_laporan: penerima_laporan.value,
+            jam_lapor: jam_lapor.value,
+            jam_perbaikan: jam_perbaikan.value,
+            jam_selesai: jam_selesai.value,
+            tipe_gangguan: tipe_gangguan.value,
+            penyebab: penyebab.value,
+            penyelesaian: penyelesaian.value,
+            keterangan: keterangan.value,
+            teknisi: teknisi.value,
+            agree: true,
+        };
+        console.log(requestData);
+        $.ajax({
+            url: "/postData",
+            method: "POST",
+            data: requestData,
+            headers: {
+                "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
+            },
+            // dataType: "json",
+            success: function (response) {
+                console.log(response);
+                Swal.fire({
+                    icon: "success",
+                    title: "Data berhasil disimpan",
+                    showConfirmButton: false,
+                    timer: 1500,
+                });
+            },
+        });
+    });
+    var timeRenderer = function (data, type, full, meta) {
+        var date = new Date(data);
+        var hours = date.getHours().toString().padStart(2, "0");
+        var minutes = date.getMinutes().toString().padStart(2, "0");
+        return hours + ":" + minutes;
+    };
+    var dataTable = $("#tabel_input_project").DataTable({
+        //var Token = $('meta[name="csrf-Token"]').attr("content"),
+        processing: true,
+        serverSide: true,
+        responsive: true,
+        ajax: {
+            url: "/getDataProject",
+            type: "GET",
+            data: function (d) {
+                d.kode = $("#bulan").val();
+                d.bulan = $("#bulan").val();
+                d.tahun = $("#tahun").val();
+            },
+        },
+        columns: [
+            { data: "NamaProject" },
+            { data: "NamaMesin" },
+            { data: "TglMulai" },
+            { data: "TglSelesai" },
+            { data: "Keterangan" },
+            { data: "KeteranganKerja" },
+        ],
+    });
+    $("#refreshButton").click(function () {
+        dataTable.ajax.reload();
+        console.log(dataTable);
+    });
+});

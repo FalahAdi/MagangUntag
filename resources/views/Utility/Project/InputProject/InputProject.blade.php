@@ -172,7 +172,7 @@
                                         <th scope="col">Tanggal Selesai</th>
                                         <th scope="col">Keterangan Kerusakan</th>
                                         <th scope="col">Keterangan</th>
-                                        <th scope="col">User</th>
+                                        {{-- <th scope="col">User</th> --}}
 
                                     </tr>
                                 </thead>

@@ -17,7 +17,6 @@ class InputGangguanElektrikController extends Controller
         $divisi = DB::connection('ConnUtility')->select('exec SP_LIST_DIVISI_PELAPOR');
         $teknisi = DB::connection('ConnUtility')->select('exec SP_LIST_TEKNISI_ELEKTRIK');
         $access = (new HakAksesController)->HakAksesFiturMaster('Utility');
-
         return view('Utility.Elektrik.InputGangguan.InputGangguan', compact('teknisi','divisi','access'));
     }
 
@@ -55,24 +54,43 @@ class InputGangguanElektrikController extends Controller
     }
     // public function postDataGambar(Request $request)
     // {
-    //     //
     //     try {
-    //         $IdLaporan = $request->input ('IdLaporan') ;
-    //         $Gambar1 = $request->input ('gambar1') ;
-    //         $KetGambar1 = $request->input ('ket_gambar1');
-    //         $Gambar2  = $request->input ('gambar2') ;
-    //         $KetGambar2  = $request->input ('ket_gambar2') ;
-    //         $user_input = Auth::user()->NomorUser ;
-    //         $data = DB::connection('ConnUtility')->statement('exec SP_1273_UTY_INSERT_GAMBAR_GANGGUAN_ELEKTRIK ?,?,?,?,?,?',[
-    //             $IdLaporan,$Gambar1,$KetGambar1,$Gambar2,$KetGambar2,$user_input]);
+    //         $IdLaporan = $request->input('IdLaporan');
+    //         $KetGambar1 = $request->input('ket_gambar1');
+    //         $KetGambar2 = $request->input('ket_gambar2');
+    //         $user_input = Auth::user()->NomorUser;
+
+    //         // Process and store Gambar1
+    //         if ($request->hasFile('gambar1')) {
+    //             $Gambar1 = $request->file('gambar1');
+    //             $gambar1Path = $Gambar1->storeAs('gambar_folder', 'gambar1_' . $IdLaporan . '.' . $Gambar1->getClientOriginalExtension(), 'public');
+    //         } else {
+    //             $Gambar1 = null;
+    //             $gambar1Path = null;
+    //         }
+
+    //         // Process and store Gambar2
+    //         if ($request->hasFile('gambar2')) {
+    //             $Gambar2 = $request->file('gambar2');
+    //             $gambar2Path = $Gambar2->storeAs('gambar_folder', 'gambar2_' . $IdLaporan . '.' . $Gambar2->getClientOriginalExtension(), 'public');
+    //         } else {
+    //             $Gambar2 = null;
+    //             $gambar2Path = null;
+    //         }
+
+    //         // Insert data into the database
+    //         $data = DB::connection('ConnUtility')->statement('exec SP_1273_UTY_INSERT_GAMBAR_GANGGUAN_ELEKTRIK ?,?,?,?,?,?,?', [
+    //             $IdLaporan, $Gambar1, $KetGambar1, $gambar1Path, $Gambar2, $KetGambar2, $gambar2Path, $user_input
+    //         ]);
 
     //         if ($data) {
     //             return response()->json(['success' => true]);
     //         } else {
     //             return response()->json(['error' => 'Gagal menyimpan data.'], 500);
     //         }
-    //                 } catch (\Throwable $th) {
-    //                     return response()->json(['error' => 'Terjadi kesalahan internal.'], 500);}
+    //     } catch (\Throwable $th) {
+    //         return response()->json(['error' => 'Terjadi kesalahan internal.'], 500);
+    //     }
     // }
 
 
@@ -119,6 +137,41 @@ class InputGangguanElektrikController extends Controller
         } catch (\Exception $e) {
             // Return an error response
             return response()->json(['success' => false, 'message' => 'Error deleting data: ' . $e->getMessage()]);
+        }
+    }
+
+
+    public function updateData(Request $request, $id)
+    {
+        try {
+            // Ambil data yang diperlukan dari request
+            $tanggal = $request->input('tanggal');
+            $l_div_pelapor = $request->input('divisi_pelapor1');
+            $nama_pelapor = $request->input('nama_pelapor');
+            $penerima_laporan = $request->input('penerima_laporan');
+            $jamlapor = $request->input('jam_lapor');
+            $jampelaksanaan = $request->input('jam_perbaikan');
+            $jamselesai = $request->input('jam_selesai');
+            $type_gangguan = $request->input('tipe_gangguan');
+            $penyebab = $request->input('penyebab');
+            $penyelesaian = $request->input('penyelesaian');
+            $keterangan = $request->input('keterangan');
+            $teknisi = $request->input('teknisi');
+            $lanjut = $request->input('agree');
+            $user_input = Auth::user()->NomorUser;
+
+            // Update data in the database
+            $data = DB::connection('ConnUtility')->statement('exec SP_UPDATE_GANGGUAN_ELEKTRIK ?,?,?,?,?,?,?,?,?,?,?,?,?,?,?', [
+                $id, $tanggal, $l_div_pelapor, $nama_pelapor, $penerima_laporan, $jamlapor, $jampelaksanaan, $jamselesai, $type_gangguan, $penyebab, $penyelesaian, $keterangan, $teknisi, $lanjut, $user_input
+            ]);
+
+            if ($data) {
+                return response()->json(['success' => true]);
+            } else {
+                return response()->json(['error' => 'Gagal menyimpan data.'], 500);
+            }
+        } catch (\Throwable $th) {
+            return response()->json(['error' => 'Terjadi kesalahan internal.'], 500);
         }
     }
 

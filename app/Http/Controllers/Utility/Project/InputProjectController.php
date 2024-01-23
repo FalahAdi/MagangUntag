@@ -52,16 +52,19 @@ class InputProjectController extends Controller
     // }
 
 
-        public function getData(Request $request)
+        public function getDataProject(Request $request)
         {
 
-                // $Kode = $request->input('kode') ;
+                $Kode = $request->input('kode') ;
                 // $Id = $request->input('Id') ;
+                $bulan = $request->input('bulan') ;
+                $tahun = $request->input('tahun') ;
 
-                // // Execute the stored procedure and fetch data
-                // $data = DB::connection('ConnUtility')->select('exec SP_1273_UTY_LIST_PROJECT  @kode = ?, @Id = ?', [$Kode, $Id]);
-                // // Return data as a JSON response
-                // return datatables($data)->make(true);
+                // Execute the stored procedure and fetch data
+                $data = DB::connection('ConnUtility')->select('exec SP_1273_UTY_LIST_PROJECT  @bulan = ?, @tahun = ?, @Kode = ?', [ $bulan,
+                $tahun,$Kode]);
+                // Return data as a JSON response
+                return datatables($data)->make(true);
 
         }
     //Show the form for creating a new resource.

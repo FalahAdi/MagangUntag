@@ -73,8 +73,10 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('InputGangguanElektrik', App\Http\Controllers\Utility\Elektrik\InputGangguanElektrikController::class);
     Route::post('/postData', 'App\Http\Controllers\Utility\Elektrik\InputGangguanElektrikController@postData');
     Route::post('/postDataGambar', 'App\Http\Controllers\Utility\Elektrik\InputGangguanElektrikController@postDataGambar');
+    Route::post('/updateData', 'Utility\Elektrik\InputGangguanElektrikController@updateData');
     Route::get('/getData', 'App\Http\Controllers\Utility\Elektrik\InputGangguanElektrikController@getData');
     Route::delete('/deleteData', 'App\Http\Controllers\Utility\Elektrik\InputGangguanElektrikController@deleteData');
+    Route::post('/updateData/{id}', 'App\Http\Controllers\Utility\Elektrik\InputGangguanElektrikController@updateData');
 
     Route::resource('InputGangguanBulanan', App\Http\Controllers\Utility\Elektrik\InputGangguanElektrikBulananController::class);
     Route::resource('TambahGambarElektrik', App\Http\Controllers\Utility\Elektrik\TambahGambarElektrikController::class);
@@ -84,7 +86,7 @@ Route::group(['middleware' => ['auth']], function () {
     //project
     Route::resource('InputProject', App\Http\Controllers\Utility\Project\InputProjectController::class);
     //Route::post('/postData', 'App\Http\Controllers\Utility\Project\InputProjectController@postData');
-    Route::get('/getDataProject', 'App\Http\Controllers\Utility\Project\InputProjectController@getData');
+    Route::get('/getDataProject', 'App\Http\Controllers\Utility\Project\InputProjectController@getDataProject');
     Route::resource('TambahGambarProject', App\Http\Controllers\Utility\Project\TambahGambarProjectController::class);
     Route::resource('PrintProject', App\Http\Controllers\Utility\Project\PrintProjectController::class);
 
