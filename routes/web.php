@@ -73,10 +73,11 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('InputGangguanElektrik', App\Http\Controllers\Utility\Elektrik\InputGangguanElektrikController::class);
     Route::post('/postData', 'App\Http\Controllers\Utility\Elektrik\InputGangguanElektrikController@postData');
     Route::post('/postDataGambar', 'App\Http\Controllers\Utility\Elektrik\InputGangguanElektrikController@postDataGambar');
-    Route::post('/updateData', 'Utility\Elektrik\InputGangguanElektrikController@updateData');
+    Route::put('/updateData/{id}', 'Utility\Elektrik\InputGangguanElektrikController@updateData');
     Route::get('/getData', 'App\Http\Controllers\Utility\Elektrik\InputGangguanElektrikController@getData');
     Route::delete('/deleteData', 'App\Http\Controllers\Utility\Elektrik\InputGangguanElektrikController@deleteData');
     Route::post('/updateData/{id}', 'App\Http\Controllers\Utility\Elektrik\InputGangguanElektrikController@updateData');
+    //Route::post('/uploadAndReadFile', 'App\Http\Controllers\Utility\Elektrik\InputGangguanElektrikController@uploadAndReadFile');
 
     Route::resource('InputGangguanBulanan', App\Http\Controllers\Utility\Elektrik\InputGangguanElektrikBulananController::class);
     Route::resource('TambahGambarElektrik', App\Http\Controllers\Utility\Elektrik\TambahGambarElektrikController::class);

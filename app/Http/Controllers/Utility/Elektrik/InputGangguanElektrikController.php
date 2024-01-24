@@ -5,9 +5,12 @@ namespace App\Http\Controllers\Utility\Elektrik;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\HakAksesController;
 use PhpParser\Node\Stmt\TryCatch;
+$fileContent = Storage::get('webdictionary.txt');
+echo $fileContent;
 
 class InputGangguanElektrikController extends Controller
 {
@@ -50,7 +53,8 @@ class InputGangguanElektrikController extends Controller
                 return response()->json(['error' => 'Gagal menyimpan data.'], 500);
             }
                     } catch (\Throwable $th) {
-                        return response()->json(['error' => 'Terjadi kesalahan internal.'], 500);}
+                        return response()->json(['error' => 'Terjadi kesalahan internal.'], 500);
+                    }
     }
     // public function postDataGambar(Request $request)
     // {
@@ -141,15 +145,11 @@ class InputGangguanElektrikController extends Controller
     }
 
 
-    public function updateData(Request $request, $id)
+    public function updateData(Request $request)
     {
         try {
             // Ambil data yang diperlukan dari request
-            $tanggal = $request->input('tanggal');
-            $l_div_pelapor = $request->input('divisi_pelapor1');
-            $nama_pelapor = $request->input('nama_pelapor');
-            $penerima_laporan = $request->input('penerima_laporan');
-            $jamlapor = $request->input('jam_lapor');
+            $id_laporan = $request->input('IdLaporan');
             $jampelaksanaan = $request->input('jam_perbaikan');
             $jamselesai = $request->input('jam_selesai');
             $type_gangguan = $request->input('tipe_gangguan');
@@ -157,12 +157,12 @@ class InputGangguanElektrikController extends Controller
             $penyelesaian = $request->input('penyelesaian');
             $keterangan = $request->input('keterangan');
             $teknisi = $request->input('teknisi');
-            $lanjut = $request->input('agree');
+            $lanjut  = $request->input('agree');
             $user_input = Auth::user()->NomorUser;
 
             // Update data in the database
-            $data = DB::connection('ConnUtility')->statement('exec SP_UPDATE_GANGGUAN_ELEKTRIK ?,?,?,?,?,?,?,?,?,?,?,?,?,?,?', [
-                $id, $tanggal, $l_div_pelapor, $nama_pelapor, $penerima_laporan, $jamlapor, $jampelaksanaan, $jamselesai, $type_gangguan, $penyebab, $penyelesaian, $keterangan, $teknisi, $lanjut, $user_input
+            $data = DB::connection('ConnUtility')->statement('exec SP_KOREKSI_GANGGUAN_ELEKTRIK ?,?,?,?,?,?,?,?,?,?', [
+                $jampelaksanaan, $jamselesai, $type_gangguan, $penyebab, $penyelesaian, $keterangan, $teknisi, $user_input,$id_laporan,$lanjut
             ]);
 
             if ($data) {
@@ -174,6 +174,8 @@ class InputGangguanElektrikController extends Controller
             return response()->json(['error' => 'Terjadi kesalahan internal.'], 500);
         }
     }
+
+
 
 
 

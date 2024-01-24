@@ -79,49 +79,50 @@ batalButton.addEventListener("click", function () {
 });
 
 $(document).ready(function () {
-    $("#prosesButton").click(function (e) {
-        var Token = $('meta[name="csrf-Token"]').attr("content");
-        var requestData = {
-            tanggal: tanggal.value,
-            divisi_pelapor1: divisi_pelapor1.value,
-            nama_pelapor: nama_pelapor.value,
-            penerima_laporan: penerima_laporan.value,
-            jam_lapor: jam_lapor.value,
-            jam_perbaikan: jam_perbaikan.value,
-            jam_selesai: jam_selesai.value,
-            tipe_gangguan: tipe_gangguan.value,
-            penyebab: penyebab.value,
-            penyelesaian: penyelesaian.value,
-            keterangan: keterangan.value,
-            teknisi: teknisi.value,
-            agree: true,
-        };
-        console.log(requestData);
-        $.ajax({
-            url: "/postData",
-            method: "POST",
-            data: requestData,
-            headers: {
-                "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
-            },
-            // dataType: "json",
-            success: function (response) {
-                console.log(response);
-                Swal.fire({
-                    icon: "success",
-                    title: "Data berhasil disimpan",
-                    showConfirmButton: false,
-                    timer: 1500,
-                });
-            },
-        });
-    });
+    // $("#prosesButton").click(function (e) {
+    //     var Token = $('meta[name="csrf-Token"]').attr("content");
+    //     var requestData = {
+    //         tanggal: tanggal.value,
+    //         divisi_pelapor1: divisi_pelapor1.value,
+    //         nama_pelapor: nama_pelapor.value,
+    //         penerima_laporan: penerima_laporan.value,
+    //         jam_lapor: jam_lapor.value,
+    //         jam_perbaikan: jam_perbaikan.value,
+    //         jam_selesai: jam_selesai.value,
+    //         tipe_gangguan: tipe_gangguan.value,
+    //         penyebab: penyebab.value,
+    //         penyelesaian: penyelesaian.value,
+    //         keterangan: keterangan.value,
+    //         teknisi: teknisi.value,
+    //         agree: true,
+    //     };
+    //     console.log(requestData);
+    //     // $.ajax({
+    //     //     url: "/postData",
+    //     //     method: "POST",
+    //     //     data: requestData,
+    //     //     headers: {
+    //     //         "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
+    //     //     },
+    //     //     // dataType: "json",
+    //     //     success: function (response) {
+    //     //         console.log(response);
+    //     //         Swal.fire({
+    //     //             icon: "success",
+    //     //             title: "Data berhasil disimpan",
+    //     //             showConfirmButton: false,
+    //     //             timer: 1500,
+    //     //         });
+    //     //     },
+    //     // });
+    // });
     var timeRenderer = function (data, type, full, meta) {
         var date = new Date(data);
         var hours = date.getHours().toString().padStart(2, "0");
         var minutes = date.getMinutes().toString().padStart(2, "0");
         return hours + ":" + minutes;
     };
+
     var dataTable = $("#tabel_input_project").DataTable({
         //var Token = $('meta[name="csrf-Token"]').attr("content"),
         processing: true,
@@ -131,17 +132,28 @@ $(document).ready(function () {
             url: "/getDataProject",
             type: "GET",
             data: function (d) {
-                d.kode = $("#bulan").val();
-                d.bulan = $("#bulan").val();
-                d.tahun = $("#tahun").val();
+                // d.kode = ;
+                // d.bulan = $("#bulan").val();
+                // d.tahun = $("#tahun").val();
             },
         },
         columns: [
+            {
+                data: "Id",
+                render: function (data, type, full, meta) {
+                    return (
+                        '<input type="checkbox" class="checkbox_elektrik" value="' +
+                        data +
+                        '">'
+                    );
+                },
+            },
             { data: "NamaProject" },
             { data: "NamaMesin" },
             { data: "TglMulai" },
             { data: "TglSelesai" },
             { data: "Keterangan" },
+            { data: "KeteranganKerja" },
             { data: "KeteranganKerja" },
         ],
     });

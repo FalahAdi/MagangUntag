@@ -55,16 +55,22 @@ class InputProjectController extends Controller
         public function getDataProject(Request $request)
         {
 
-                $Kode = $request->input('kode') ;
-                // $Id = $request->input('Id') ;
-                $bulan = $request->input('bulan') ;
-                $tahun = $request->input('tahun') ;
+            try {
+                $Kode =  "4";
+                $bulan = "7";
+                $tahun = "2022";
 
                 // Execute the stored procedure and fetch data
-                $data = DB::connection('ConnUtility')->select('exec SP_1273_UTY_LIST_PROJECT  @bulan = ?, @tahun = ?, @Kode = ?', [ $bulan,
-                $tahun,$Kode]);
-                // Return data as a JSON response
-                return datatables($data)->make(true);
+                $data = DB::connection('ConnUtility')->select('exec SP_1273_UTY_LIST_PROJECT ?, ?, ?', [ $Kode, $bulan, $tahun]);
+
+                // Jika data ditemukan, kembalikan dalam format yang sesuai
+
+                    return datatables($data)->make(true);
+
+            } catch (\Exception $e) {
+                // Tangani kesalahan jika terjadi
+                return response()->json(['error' => 'Internal Server Error.'], 500);
+            }
 
         }
     //Show the form for creating a new resource.

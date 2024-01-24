@@ -143,7 +143,9 @@
                             <table class="table" id="tabel_input_gangguan">
                                 <thead class="thead-dark">
                                     <tr>
-                                        <th scope="col" type="checkbox" id="checkbox_tabel"></th>
+                                        <th scope="col" type="checkbox" id="">
+                                            <input type="checkbox" name="agree" id="checkbox_tabel">
+                                        </th>
                                         <th scope="col">Tanggal</th>
                                         <th scope="col">Div. Pelapor </th>
                                         <th scope="col">Pelapor</th>

@@ -32,6 +32,7 @@ let imagePreviewContainer1 = document.getElementById("imagePreviewContainer1");
 let imagePreviewContainer2 = document.getElementById("imagePreviewContainer2");
 let checkbox_tabel = document.getElementById("checkbox_tabel");
 let tabel_input_gangguan = document.getElementById("tabel_input_gangguan");
+let id_laporan = document.getElementById("id_laporan");
 let agree = document.getElementById("agree");
 
 var bulanInput = document.getElementById("bulan");
@@ -39,11 +40,12 @@ var sampaiDenganInput = document.getElementById("sampaiDengan");
 var tanggalInput = document.getElementById("tanggal");
 var JamLapor = document.getElementById("jam_lapor");
 
-if (bulanInput && tanggalInput && JamLapor && sampaiDenganInput) {
+if (tanggal && bulanInput && tanggalInput && JamLapor && sampaiDenganInput) {
     var tanggal_akhirOutput = new Date().toISOString().split("T")[0];
     bulanInput.value = tanggal_akhirOutput;
     tanggalInput.value = tanggal_akhirOutput;
     sampaiDengan.value = tanggal_akhirOutput;
+    tanggal.value = tanggal_akhirOutput;
 
     var currentDateTime = new Date();
     var hours = currentDateTime.getHours().toString().padStart(2, "0");
@@ -79,6 +81,7 @@ agree.disabled = true;
 inputButton.addEventListener("click", function () {
     // Enable all input fields and buttons
     // enableFormElements(t);
+    id_laporan.value = "";
     koreksiButton.disabled = true;
     hapusinputButton.disabled = true;
     tanggal.disabled = false;
@@ -102,6 +105,20 @@ inputButton.addEventListener("click", function () {
     checkbox_tabel.disabled = true;
     tabel_input_gangguan.disabled = true;
     agree.disabled = false;
+    // $("#tanggal").val("");
+    $("#divisi_pelapor1").val("");
+    $("#nama_pelapor").val("");
+    $("#penerima_laporan").val("");
+    $("#jam_lapor").val("");
+    $("#jam_perbaikan").val("");
+    $("#jam_selesai").val("");
+    $("#tipe_gangguan").val("");
+    $("#penyebab").val("");
+    $("#penyelesaian").val("");
+    $("#keterangan").val("");
+    $("#teknisi").val("");
+    $("#hasil_gambar2").attr("src", "");
+    $("#hasil_gambar1").attr("src", "");
 });
 
 batalButton.addEventListener("click", function () {
@@ -124,14 +141,13 @@ batalButton.addEventListener("click", function () {
     teknisi.disabled = true;
     gambar1.disabled = true;
     ket_gambar1.disabled = true;
-    hasil_gambar1.disabled = true;
     gambar2.disabled = true;
     ket_gambar2.disabled = true;
-    hasil_gambar2.disabled = true;
     agree.checked = false;
+    checkbox_tabel.checked = false;
     agree.disabled = true;
 
-    $("#id_laporan").val("");
+    // $("#id_laporan").val("");
     $("#tanggal").val("");
     $("#divisi_pelapor1").val("");
     $("#nama_pelapor").val("");
@@ -144,32 +160,13 @@ batalButton.addEventListener("click", function () {
     $("#penyelesaian").val("");
     $("#keterangan").val("");
     $("#teknisi").val("");
+    $("#hasil_gambar2").attr("src", "");
+    $("#hasil_gambar1").attr("src", "");
 });
 
-agree.addEventListener("click", function () {
-    prosesButton.disabled = !agree.checked;
-});
+// Function to check if all fields are filled
 
 // Event listener untuk Gambar 1
-document.getElementById("gambar1").addEventListener("change", function () {
-    var fileInput = this;
-    var fileName = fileInput.value.split("\\").pop();
-
-    // Menampilkan nama file yang dipilih di label
-    document.querySelector(".btn-link").textContent = fileName;
-
-    // Membaca file gambar yang dipilih
-    var reader = new FileReader();
-    reader.onload = function (e) {
-        var imagePreview = document.getElementById("hasil_gambar1");
-        // Menetapkan sumber gambar saat file berhasil dibaca
-        imagePreview.src = e.target.result;
-        imagePreview.style.display = "block"; // Menampilkan elemen gambar
-    };
-    reader.readAsDataURL(fileInput.files[0]); // Membaca file sebagai URL data
-});
-
-// Event listener untuk Gambar 2
 document.getElementById("gambar2").addEventListener("change", function () {
     var fileInput = this;
     var fileName = fileInput.value.split("\\").pop();
@@ -188,48 +185,116 @@ document.getElementById("gambar2").addEventListener("change", function () {
     reader.readAsDataURL(fileInput.files[0]); // Membaca file sebagai URL data
 });
 
+// Event listener untuk Gambar 2
+document.getElementById("gambar1").addEventListener("change", function () {
+    var fileInput = this;
+    var fileName = fileInput.value.split("\\").pop();
+
+    // Menampilkan nama file yang dipilih di label
+    document.querySelector(".btn-link").textContent = fileName;
+
+    // Membaca file gambar yang dipilih
+    var reader = new FileReader();
+    reader.onload = function (e) {
+        var imagePreview = document.getElementById("hasil_gambar1");
+        // Menetapkan sumber gambar saat file berhasil dibaca
+        imagePreview.src = e.target.result;
+        imagePreview.style.display = "block"; // Menampilkan elemen gambar
+    };
+    reader.readAsDataURL(fileInput.files[0]); // Membaca file sebagai URL data
+});
+
+function checkAllFieldsFilled() {
+    return (
+        tanggal.value.trim() !== "" &&
+        divisi_pelapor1.value.trim() !== "" &&
+        nama_pelapor.value.trim() !== "" &&
+        penerima_laporan.value.trim() !== "" &&
+        jam_lapor.value.trim() !== "" &&
+        jam_perbaikan.value.trim() !== "" &&
+        jam_selesai.value.trim() !== "" &&
+        tipe_gangguan.value.trim() !== "" &&
+        penyebab.value.trim() !== "" &&
+        penyelesaian.value.trim() !== "" &&
+        keterangan.value.trim() !== "" &&
+        teknisi.value.trim() !== ""
+    );
+}
+
+// Add event listeners to enable/disable saveButton based on input field values
+[
+    tanggal,
+    divisi_pelapor1,
+    nama_pelapor,
+    penerima_laporan,
+    jam_lapor,
+    jam_perbaikan,
+    jam_selesai,
+    tipe_gangguan,
+    penyebab,
+    penyelesaian,
+    keterangan,
+    teknisi,
+].forEach(function (inputField) {
+    inputField.addEventListener("input", function () {
+        prosesButton.disabled = !checkAllFieldsFilled();
+    });
+});
+
 $(document).ready(function () {
+    console.log("id L", id_laporan.value);
     $("#prosesButton").click(function (e) {
         e.preventDefault();
-
-        var Token = $('meta[name="csrf-Token"]').attr("content");
+        var tanggalValue = tanggal.value;
+        var divisi_pelapor1Value = divisi_pelapor1.value;
+        var nama_pelaporValue = nama_pelapor.value;
+        var penerima_laporanValue = penerima_laporan.value;
+        var jam_laporValue = jam_lapor.value;
+        var jam_perbaikanValue = jam_perbaikan.value;
+        var jam_selesaiValue = jam_selesai.value;
+        var tipe_gangguanValue = tipe_gangguan.value;
+        var penyebabValue = penyebab.value;
+        var penyelesaianValue = penyelesaian.value;
+        var keteranganValue = keterangan.value;
+        var teknisiValue = teknisi.value;
+        var agreeValue = agree.value;
+        var id_laporanValue = $("#id_laporan").val();
 
         // Create FormData object to handle both regular form data and file uploads
-        var formData = new FormData();
-        formData.append("tanggal", tanggal.value);
-        formData.append("divisi_pelapor1", divisi_pelapor1.value);
-        formData.append("nama_pelapor", nama_pelapor.value);
-        formData.append("penerima_laporan", penerima_laporan.value);
-        formData.append("jam_lapor", jam_lapor.value);
-        formData.append("jam_perbaikan", jam_perbaikan.value);
-        formData.append("jam_selesai", jam_selesai.value);
-        formData.append("tipe_gangguan", tipe_gangguan.value);
-        formData.append("penyebab", penyebab.value);
-        formData.append("penyelesaian", penyelesaian.value);
-        formData.append("keterangan", keterangan.value);
-        formData.append("teknisi", teknisi.value);
-        formData.append("agree", true);
-
-        // Append file inputs to FormData if files are selected
-        if (gambar1.files.length > 0) {
-            formData.append("gambar1", gambar1.files[0]);
-        }
-
-        if (gambar2.files.length > 0) {
-            formData.append("gambar2", gambar2.files[0]);
+        var requestData = {
+            tanggal: tanggalValue,
+            divisi_pelapor1: divisi_pelapor1Value,
+            nama_pelapor: nama_pelaporValue,
+            penerima_laporan: penerima_laporanValue,
+            jam_lapor: jam_laporValue,
+            jam_perbaikan: jam_perbaikanValue,
+            jam_selesai: jam_selesaiValue,
+            tipe_gangguan: tipe_gangguanValue,
+            penyebab: penyebabValue,
+            penyelesaian: penyelesaianValue,
+            keterangan: keteranganValue,
+            teknisi: teknisiValue,
+            agree: agreeValue,
+        };
+        if (id_laporanValue !== undefined) {
+            requestData.IdLaporan = id_laporanValue;
         }
 
         $.ajax({
-            url: "/postData",
-            method: "POST",
-            data: formData,
+            url: id_laporanValue ? "/updateData" : "/postData",
+            method: id_laporanValue ? "PUT" : "POST",
+            data: requestData,
             headers: {
                 "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
             },
-            contentType: false, // Important to set to false for FormData
-            processData: false, // Important to set to false for FormData
+            // contentType: false, // Important to set to false for FormData
+            // processData: false, // Important to set to false for FormData
             success: function (response) {
+                console.log(requestData);
                 console.log(response);
+
+                // var dataTable = $("#tabel_input_gangguan").DataTable();
+                //dataTable.row.add({}).draw();
 
                 Swal.fire({
                     icon: "success",
@@ -239,9 +304,51 @@ $(document).ready(function () {
                 });
             },
             error: function (error) {
+                console.log(requestData);
+
                 console.error(error);
             },
         });
+
+        // var formUpdateData = new FormData();
+        // formUpdateData.append("id_laporan", $("#id_laporan").val());
+        // formUpdateData.append("tanggal", tanggal.value);
+        // formUpdateData.append("divisi_pelapor1", divisi_pelapor1.value);
+        // formUpdateData.append("nama_pelapor", nama_pelapor.value);
+        // formUpdateData.append("penerima_laporan", penerima_laporan.value);
+        // formUpdateData.append("jam_lapor", jam_lapor.value);
+        // formUpdateData.append("jam_perbaikan", jam_perbaikan.value);
+        // formUpdateData.append("jam_selesai", jam_selesai.value);
+        // formUpdateData.append("tipe_gangguan", tipe_gangguan.value);
+        // formUpdateData.append("penyebab", penyebab.value);
+        // formUpdateData.append("penyelesaian", penyelesaian.value);
+        // formUpdateData.append("keterangan", keterangan.value);
+        // formUpdateData.append("teknisi", teknisi.value);
+        // formUpdateData.append("agree", true);
+
+        // $.ajax({
+        //     url: "/updateData", // Ganti dengan URL yang sesuai untuk endpoint update data
+        //     method: "PUT", // Ganti dengan metode HTTP yang sesuai
+        //     data: formUpdateData,
+        //     headers: {
+        //         "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
+        //     },
+        //     contentType: false, // Important to set to false for FormData
+        //     processData: false, // Important to set to false for FormData
+        //     success: function (response) {
+        //         console.log(response);
+
+        //         Swal.fire({
+        //             icon: "success",
+        //             title: "Data berhasil diupdate",
+        //             showConfirmButton: false,
+        //             timer: 1500,
+        //         });
+        //     },
+        //     error: function (error) {
+        //         console.error(error);
+        //     },
+        // });
     });
 
     var timeRenderer = function (data, type, full, meta) {
@@ -283,14 +390,8 @@ $(document).ready(function () {
             {
                 data: "tanggal",
                 render: function (data, type, full, meta) {
-                    var date = new Date(data);
-                    var day = date.getDate();
-                    var month = date.getMonth() + 1;
-                    var year = date.getFullYear();
-
-                    day = day < 10 ? "0" + day : day;
-                    month = month < 10 ? "0" + month : month;
-                    return day + "-" + month + "-" + year;
+                    var date = new Date(data).toISOString().split("T")[0];
+                    return date;
                 },
             },
             { data: "L_div_pelapor" },
@@ -483,6 +584,7 @@ $(document).ready(function () {
         gambar2.disabled = false;
         ket_gambar2.disabled = false;
         hasil_gambar2.disabled = false;
+        agree.disabled = false;
 
         var checkedCheckboxes = $(".checkbox_elektrik:checked");
 

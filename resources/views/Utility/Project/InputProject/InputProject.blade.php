@@ -154,10 +154,10 @@
                         <div class="row-24 d-flex mt-1">
 
                             <label for="">Bulan</label>
-                            <input type="number" name="tanggal_dibutuhkan" pattern="[0-9]" id="bulan"
+                            <input type="date" name="tanggal_dibutuhkan" pattern="[0-9]" id="bulan"
                                 placeholder="contoh: 1,2,3" class="input mb-3 ml-1">
                             <label for=""class="ml-3">Tahun</label>
-                            <input type="number" pattern="[0-9]" name="tanggal_dibutuhkan" id="tahun"
+                            <input type="date" pattern="[0-9]" name="tanggal_dibutuhkan" id="tahun"
                                 class="input mb-3 ml-1 "placeholder="contoh: 2023">
 
                             <button type="button" style="height: 30px" class="btn btn-primary ml-3">Refresh</button>
@@ -166,13 +166,14 @@
                             <table class="table" id="tabel_input_project">
                                 <thead class="thead-dark">
                                     <tr>
+                                        <th scope="col" type="checkbox" id="checkbox_tabel"></th>
                                         <th scope="col">Nama Project</th>
                                         <th scope="col">Nama Mesin </th>
                                         <th scope="col">Tanggal Mulai</th>
                                         <th scope="col">Tanggal Selesai</th>
                                         <th scope="col">Keterangan Kerusakan</th>
                                         <th scope="col">Keterangan</th>
-                                        {{-- <th scope="col">User</th> --}}
+                                        <th scope="col">User</th>
 
                                     </tr>
                                 </thead>
