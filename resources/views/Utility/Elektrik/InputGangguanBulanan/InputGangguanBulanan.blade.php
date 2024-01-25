@@ -11,15 +11,15 @@
                                 <div class="col-3">
                                     <div class="col-8">
                                         <label class="tanggal">Tanggal</label>
-                                        <input type="date" name="tanggal_dibutuhkan" id="tanggal" class="input mb-3">
+                                        <input type="number " name="tanggal_dibutuhkan" id="tanggal" class="input mb-3">
                                         <div class="nama_pelapor">Nama Pengecek</div>
                                         <input type="text" name="nama_pelapor" id="nama_pelapor"
                                             class="form-control mb-2" placeholder="">
                                         <div class="divisi_pelapor">Pabrik Pengecek</div>
                                         <select name="divisi_pelapor" id="divisi_pelapor" class="form-control mb-2">
-                                            <option value="divisi1">Divisi 1</option>
-                                            <option value="divisi2">Divisi 2</option>
-                                            <option value="divisi3">Divisi 3</option>
+                                            <option value="divisi1">Mojosari </option>
+                                            <option value="divisi2">Tropodo </option>
+                                            <option value="divisi3">Mlora </option>
                                         </select>
                                         <div class="nama_pelapor">Jenis Masalah</div>
                                         <input type="text" name="nama_pelapor" id="nama_pelapor"

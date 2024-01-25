@@ -109,7 +109,7 @@ inputButton.addEventListener("click", function () {
     $("#divisi_pelapor1").val("");
     $("#nama_pelapor").val("");
     $("#penerima_laporan").val("");
-    $("#jam_lapor").val("");
+    //$("#jam_lapor").val("");
     $("#jam_perbaikan").val("");
     $("#jam_selesai").val("");
     $("#tipe_gangguan").val("");
@@ -148,11 +148,11 @@ batalButton.addEventListener("click", function () {
     agree.disabled = true;
 
     // $("#id_laporan").val("");
-    $("#tanggal").val("");
+    //$("#tanggal").val("");
     $("#divisi_pelapor1").val("");
     $("#nama_pelapor").val("");
     $("#penerima_laporan").val("");
-    $("#jam_lapor").val("");
+    //$("#jam_lapor").val("");
     $("#jam_perbaikan").val("");
     $("#jam_selesai").val("");
     $("#tipe_gangguan").val("");
@@ -221,7 +221,7 @@ function checkAllFieldsFilled() {
     );
 }
 
-// Add event listeners to enable/disable saveButton based on input field values
+// Add event listeners to enable/disable prosesButton based on input field values
 [
     tanggal,
     divisi_pelapor1,
@@ -276,13 +276,17 @@ $(document).ready(function () {
             teknisi: teknisiValue,
             agree: agreeValue,
         };
-        if (id_laporanValue !== undefined) {
+        if (id_laporanValue) {
             requestData.IdLaporan = id_laporanValue;
         }
 
         $.ajax({
-            url: id_laporanValue ? "/updateData" : "/postData",
+            url: id_laporanValue
+                ? "/updateData" + id_laporanValue
+                : "/postData",
+            //url: "/updateData/" + id_laporanValue,
             method: id_laporanValue ? "PUT" : "POST",
+            //method: "PUT",
             data: requestData,
             headers: {
                 "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
@@ -293,8 +297,7 @@ $(document).ready(function () {
                 console.log(requestData);
                 console.log(response);
 
-                // var dataTable = $("#tabel_input_gangguan").DataTable();
-                //dataTable.row.add({}).draw();
+                dataTable.ajax.reload();
 
                 Swal.fire({
                     icon: "success",
@@ -309,46 +312,6 @@ $(document).ready(function () {
                 console.error(error);
             },
         });
-
-        // var formUpdateData = new FormData();
-        // formUpdateData.append("id_laporan", $("#id_laporan").val());
-        // formUpdateData.append("tanggal", tanggal.value);
-        // formUpdateData.append("divisi_pelapor1", divisi_pelapor1.value);
-        // formUpdateData.append("nama_pelapor", nama_pelapor.value);
-        // formUpdateData.append("penerima_laporan", penerima_laporan.value);
-        // formUpdateData.append("jam_lapor", jam_lapor.value);
-        // formUpdateData.append("jam_perbaikan", jam_perbaikan.value);
-        // formUpdateData.append("jam_selesai", jam_selesai.value);
-        // formUpdateData.append("tipe_gangguan", tipe_gangguan.value);
-        // formUpdateData.append("penyebab", penyebab.value);
-        // formUpdateData.append("penyelesaian", penyelesaian.value);
-        // formUpdateData.append("keterangan", keterangan.value);
-        // formUpdateData.append("teknisi", teknisi.value);
-        // formUpdateData.append("agree", true);
-
-        // $.ajax({
-        //     url: "/updateData", // Ganti dengan URL yang sesuai untuk endpoint update data
-        //     method: "PUT", // Ganti dengan metode HTTP yang sesuai
-        //     data: formUpdateData,
-        //     headers: {
-        //         "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
-        //     },
-        //     contentType: false, // Important to set to false for FormData
-        //     processData: false, // Important to set to false for FormData
-        //     success: function (response) {
-        //         console.log(response);
-
-        //         Swal.fire({
-        //             icon: "success",
-        //             title: "Data berhasil diupdate",
-        //             showConfirmButton: false,
-        //             timer: 1500,
-        //         });
-        //     },
-        //     error: function (error) {
-        //         console.error(error);
-        //     },
-        // });
     });
 
     var timeRenderer = function (data, type, full, meta) {
@@ -390,7 +353,8 @@ $(document).ready(function () {
             {
                 data: "tanggal",
                 render: function (data, type, full, meta) {
-                    var date = new Date(data).toISOString().split("T")[0];
+                    // Assuming data is in UTC format, adjust it to the local timezone
+                    var date = new Date(data + "Z").toLocaleDateString();
                     return date;
                 },
             },
@@ -414,7 +378,7 @@ $(document).ready(function () {
 
     $("#refreshButton").click(function () {
         dataTable.ajax.reload();
-        console.log(dataTable);
+        // console.log(dataTable);
     });
 });
 
@@ -565,6 +529,7 @@ $(document).ready(function () {
     // ...
 
     $("#koreksiButton").click(function (e) {
+        prosesButton.disabled = false;
         hapusButton.disabled = true;
         tanggal.disabled = false;
         divisi_pelapor1.disabled = false;

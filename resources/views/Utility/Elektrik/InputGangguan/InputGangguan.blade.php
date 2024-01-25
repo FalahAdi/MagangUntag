@@ -71,14 +71,16 @@
                                     </div>
                                 </div>
                                 <div class="col-2">
-                                    <form id="uploadForm1" action="/upload" method="post" enctype="multipart/form-data"
-                                        class="">
+                                    <form action="{{ route('uploadImage') }}" method="POST" enctype="multipart/form-data">
+                                        @csrf
                                         <label for="gambar1" class="btn btn-link">Pilih Gambar 1</label>
-                                        <input type="file" id="gambar1" name="fileInput" style="display: none;"
-                                            accept="image/*">
-                                        <div class="nama_pelapor">Ket. Gambar 1</div>
-                                        <input type="text" name="nama_pelapor" id="ket_gambar1" class="mb-1">
+                                        <input type="file" id="gambar1" name="fileInput" style="display: none;" accept="image/*">
+
+                                        <!-- Tambahkan tombol submit atau elemen formulir lainnya jika diperlukan -->
+
                                     </form>
+                                    <div class="nama_pelapor">Ket. Gambar 1</div>
+                                    <input type="text" name="nama_pelapor" id="ket_gambar1" class="mb-1">
 
                                     <div id="imagePreviewContainer1">
                                         <img id="hasil_gambar1" src="" alt="Preview 1"
