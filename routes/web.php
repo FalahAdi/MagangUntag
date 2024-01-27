@@ -73,7 +73,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('InputGangguanElektrik', App\Http\Controllers\Utility\Elektrik\InputGangguanElektrikController::class);
     Route::post('/postData', 'App\Http\Controllers\Utility\Elektrik\InputGangguanElektrikController@postData');
     Route::post('/postDataGambar', 'App\Http\Controllers\Utility\Elektrik\InputGangguanElektrikController@postDataGambar');
-    Route::put('/updateData/{id}', 'App\Http\Controllers\Utility\Elektrik\InputGangguanElektrikController@updateData');
+    Route::put('/updateData/{IdLaporan}', 'App\Http\Controllers\Utility\Elektrik\InputGangguanElektrikController@updateData');
     Route::post('/gangguanBulanan', 'App\Http\Controllers\Utility\Elektrik\InputGangguanElektrikBulananController@gangguanBulanan');
     Route::post('/upload-image', 'App\Http\Controllers\Utility\Elektrik\InputGangguanElektrikController@uploadImage')->name('uploadImage');
     //Route::post('/uploadAndReadFile', 'App\Http\Controllers\Utility\Elektrik\InputGangguanElektrikController@uploadAndReadFile');
@@ -88,10 +88,12 @@ Route::group(['middleware' => ['auth']], function () {
 
     //project
     Route::resource('InputProject', App\Http\Controllers\Utility\Project\InputProjectController::class);
-    //Route::post('/postData', 'App\Http\Controllers\Utility\Project\InputProjectController@postData');
+    Route::post('/postDataProject', 'App\Http\Controllers\Utility\Project\InputProjectController@postDataProject');
     Route::get('/getDataProject', 'App\Http\Controllers\Utility\Project\InputProjectController@getDataProject');
+    Route::delete('/deleteDataProject', 'App\Http\Controllers\Utility\Project\InputProjectController@deleteDataProject');
     Route::resource('TambahGambarProject', App\Http\Controllers\Utility\Project\TambahGambarProjectController::class);
     Route::resource('PrintProject', App\Http\Controllers\Utility\Project\PrintProjectController::class);
+
 
 });
 

@@ -26,6 +26,7 @@ class InputGangguanElektrikController extends Controller
 
     public function postData(Request $request)
     {
+        // dd($request->all());
         //
         try {
             $tanggal = $request->input('tanggal');
@@ -69,6 +70,7 @@ class InputGangguanElektrikController extends Controller
         } catch (\Throwable $th) {
             return response()->json(['error' => 'Terjadi kesalahan internal.'], 500);
         }
+        // return($request->all());
     }
 
 
@@ -244,9 +246,10 @@ class InputGangguanElektrikController extends Controller
                 $KetGambar9 = $request->input('ket_gambar9');
                 $Gambar10 = $request->input('gambar10');
                 $KetGambar10 = $request->input('ket_gambar10');
-                $user_input = $request->input('IdLaporan');
-                $userkoreksi = $request->input('IdLaporan');
+                $user_input = $request->input('userInput');
+                $userkoreksi = $request->input('userKoreksi');
 
+                dd($Gambar1);
                 $data = DB::connection('ConnUtility')->statement('exec SP_1273_UTY_INSERT_GAMBAR_GANGGUAN_ELEKTRIK ?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?', [
                     $IdLaporan,
                     $Gambar1,

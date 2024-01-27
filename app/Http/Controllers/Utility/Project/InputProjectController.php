@@ -17,7 +17,7 @@ class InputProjectController extends Controller
         return view('Utility.Project.InputProject.InputProject', compact('access'));
     }
 
-    // public function postData(Request $request)
+    // public function postDataProject(Request $request)
     // {
     //     //
     //     try {
@@ -28,8 +28,8 @@ class InputProjectController extends Controller
     //         $TglSelesai  = $request->input('TglSelesai') ;
     //         $Keterangan  = $request->input('Keterangan') ;
     //         $KeteranganKerja  = $request->input('KeteranganKerja') ;
-    //         $UserId  = $request->input('UserId') ;
-    //         $Id   = $request->input('Id') ;
+    //         // $UserId  = $request->input('UserId') ;
+    //         // $Id   = $request->input('Id') ;
     //         $bulan  =$request->input('bulan') ;
     //         $tahun  = $request->input('tahun') ;
     //         $MerkMesin =$request->input('MerkMesin') ;
@@ -56,12 +56,11 @@ class InputProjectController extends Controller
         {
 
             try {
-                $Kode =  "4";
-                $bulan = "7";
-                $tahun = "2022";
+                $bulan = $request->input('bulan');
+                $tahun = $request->input('tahun');
 
                 // Execute the stored procedure and fetch data
-                $data = DB::connection('ConnUtility')->select('exec SP_1273_UTY_LIST_PROJECT ?, ?, ?', [ $Kode, $bulan, $tahun]);
+                $data = DB::connection('ConnUtility')->select('exec SP_1273_UTY_LIST_PROJECT @Kode=?, @bulan=?, @tahun=?', [ 4, $bulan, $tahun]);
 
                 // Jika data ditemukan, kembalikan dalam format yang sesuai
 
@@ -73,6 +72,28 @@ class InputProjectController extends Controller
             }
 
         }
+        public function deleteDataProject(Request $request)
+        {
+
+            $Id = $request->input('id');
+
+            try {
+                // Your deletion logic here
+                // Example: Delete records from the database based on IDs
+                foreach ($Id as $id) {
+                    DB::connection('ConnUtility')->statement('exec SP_1273_UTY_MAINT_PROJECT @Id = ?', [$id]);
+                }
+
+                // Return a success response
+                return response()->json(['success' => true, 'message' => 'Data deleted successfully']);
+            } catch (\Exception $e) {
+                // Return an error response
+                return response()->json(['success' => false, 'message' => 'Error deleting data: ' . $e->getMessage()]);
+            }
+        }
+
+
+
     //Show the form for creating a new resource.
     public function create()
     {

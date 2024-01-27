@@ -71,14 +71,14 @@
                                     </div>
                                 </div>
                                 <div class="col-2">
-                                    <form action="{{ route('uploadImage') }}" method="POST" enctype="multipart/form-data">
-                                        @csrf
+                                    {{-- <form action="{{ route('uploadImage') }}" method="POST" enctype="multipart/form-data" id="formGambar1"> --}}
+                                        {{-- {{ csrf_field() }} --}}
                                         <label for="gambar1" class="btn btn-link">Pilih Gambar 1</label>
                                         <input type="file" id="gambar1" name="fileInput" style="display: none;" accept="image/*">
 
                                         <!-- Tambahkan tombol submit atau elemen formulir lainnya jika diperlukan -->
 
-                                    </form>
+                                    {{-- </form> --}}
                                     <div class="nama_pelapor">Ket. Gambar 1</div>
                                     <input type="text" name="nama_pelapor" id="ket_gambar1" class="mb-1">
 

@@ -5,7 +5,8 @@ namespace App\Http\Controllers\Utility\Elektrik;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\HakAksesController;
-use DB;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class PrintElektrikController extends Controller
 {

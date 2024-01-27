@@ -10,6 +10,7 @@
                             <div class="row-24 d-flex">
                                 <div class="col-5">
                                     <div class="col-8">
+                                        <input type="hidden" id="id">
                                         <div class="nama_pelapor">Nama Project</div>
                                         <input type="text" name="nama_pelapor" id="nama_project"
                                             class="form-control mb-2" placeholder="">
@@ -154,19 +155,21 @@
                         <div class="row-24 d-flex mt-1">
 
                             <label for="">Bulan</label>
-                            <input type="date" name="tanggal_dibutuhkan" pattern="[0-9]" id="bulan"
+                            <input type="number" name="tanggal_dibutuhkan" pattern="[0-9]" id="bulan"
                                 placeholder="contoh: 1,2,3" class="input mb-3 ml-1">
                             <label for=""class="ml-3">Tahun</label>
-                            <input type="date" pattern="[0-9]" name="tanggal_dibutuhkan" id="tahun"
+                            <input type="number" pattern="[0-9]" name="tanggal_dibutuhkan" id="tahun"
                                 class="input mb-3 ml-1 "placeholder="contoh: 2023">
 
-                            <button type="button" style="height: 30px" class="btn btn-primary ml-3">Refresh</button>
+                            <button type="button" style="height: 30px" class="btn btn-primary ml-3" id="refreshButton">Refresh</button>
                         </div>
                         <div id="div_tablePO" class="acs-form3">
                             <table class="table" id="tabel_input_project">
                                 <thead class="thead-dark">
                                     <tr>
-                                        <th scope="col" type="checkbox" id="checkbox_tabel"></th>
+                                        <th scope="col" type="checkbox" id="">
+                                            <input type="checkbox" name="agree" id="checkbox_project">
+                                        </th>
                                         <th scope="col">Nama Project</th>
                                         <th scope="col">Nama Mesin </th>
                                         <th scope="col">Tanggal Mulai</th>

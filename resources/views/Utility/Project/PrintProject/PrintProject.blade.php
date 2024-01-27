@@ -11,24 +11,20 @@
                         <div class="row-24 d-flex mt-4">
 
                             <label for="">Bulan</label>
-                            <input type="date" name="tanggal_dibutuhkan" id="bulan" class="input mb-3 ml-1">
-                            <label for=""class="ml-3">S/D</label>
-                            <input type="date" name="tanggal_dibutuhkan" id="sampaiDengan" class="input mb-3 ml-1 ">
-                            <label for="" class="ml-3">Divisi Pelapor</label>
-                            <select name="divisi_pelapor" id="divisi_pelapor" class="form-control mb-2 ml-1"
-                                style="width: 270px;">
-                                @foreach ($divisi as $divisi_pelapor)
-                                    <option value="{{ $divisi_pelapor->Id_divisi }}">
-                                        {{ $divisi_pelapor->Nama_divisi }}
-                                    </option>
-                                @endforeach
-                            </select>
-                            <button type="button" style="height: 30px" class="btn btn-primary ml-3">Refresh</button>
+                            <input type="number" name="tanggal_dibutuhkan" id="bulan" class="input mb-3 ml-1">
+                            <label for=""class="ml-3">Tahun</label>
+                            <input type="number" name="tanggal_dibutuhkan" id="tahun" class="input mb-3 ml-1 ">
+
+                            <button type="button" style="height: 30px" class="btn btn-primary ml-3" id="refreshButton">Refresh</button>
                         </div>
                         <div id="div_tablePO" class="acs-form3">
-                            <table class="table">
+                            <table class="table" id="tabel_print_project">
                                 <thead class="thead-dark">
                                     <tr>
+                                        <th scope="col" type="checkbox" id="">
+                                            <input type="checkbox" name="agree" id="checkbox_project">
+                                        </th>
+
                                         <th scope="col">Nama Project</th>
                                         <th scope="col">Nama Mesin </th>
                                         <th scope="col">Tanggal Mulai</th>
