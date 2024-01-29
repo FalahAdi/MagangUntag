@@ -259,15 +259,7 @@ $(document).ready(function () {
         var teknisiValue = teknisi.value;
         var agreeValue = agree.value;
         var id_laporanValue = $("#id_laporan").val();
-        // if (typeof FormData !== "undefined") {
-        //     var asd = new FormData();
-        //     var imageInput = $("#gambar1")[0].files[0];
-        //     asd.append("image", imageInput);
-        //     console.log(imageInput);
-        // } else {
-        //     console.log("hehe");
-        // }
-        // Create FormData object to handle both regular form data and file uploads
+
         var requestData = {
             tanggal: tanggalValue,
             divisi_pelapor1: divisi_pelapor1Value,
@@ -288,16 +280,14 @@ $(document).ready(function () {
         }
         // console.log(id_laporanValue);
         $.ajax({
-            url: id_laporanValue ? "/updateData" : "/postData",
-            //url: "/updateData/" + id_laporanValue,
+            url: id_laporanValue
+                ? "/updateData/" + id_laporanValue
+                : "/postData",
             method: id_laporanValue ? "PUT" : "POST",
-            //method: "PUT",
             data: requestData,
             headers: {
                 "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
             },
-            // contentType: false, // Important to set to false for FormData
-            // processData: false, // Important to set to false for FormData
             success: function (response) {
                 console.log(requestData);
                 console.log(response);

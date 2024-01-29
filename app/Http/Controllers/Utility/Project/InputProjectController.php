@@ -17,39 +17,51 @@ class InputProjectController extends Controller
         return view('Utility.Project.InputProject.InputProject', compact('access'));
     }
 
-    // public function postDataProject(Request $request)
-    // {
-    //     //
-    //     try {
-    //         // $Kode (1);
-    //         $NamaProject  = $request->input('NamaProject') ;
-    //         $NamaMesin  = $request->input('NamaMesin') ;
-    //         $TglMulai = $request->input('TglMulai') ;
-    //         $TglSelesai  = $request->input('TglSelesai') ;
-    //         $Keterangan  = $request->input('Keterangan') ;
-    //         $KeteranganKerja  = $request->input('KeteranganKerja') ;
-    //         // $UserId  = $request->input('UserId') ;
-    //         // $Id   = $request->input('Id') ;
-    //         $bulan  =$request->input('bulan') ;
-    //         $tahun  = $request->input('tahun') ;
-    //         $MerkMesin =$request->input('MerkMesin') ;
-    //         $LokasiMesin =$request->input('LokasiMesin') ;
-    //         $TahunBuat =$request->input('TahunBuat') ;
-    //         $Perbaikan =$request->input('Perbaikan') ;
+    public function postDataProject(Request $request)
+    {
+        // dd($request->all());
+        //
+        try {
+            $Kode = '1';
+            $NamaProject = $request->input('nama_project');;
+            $NamaMesin = $request->input('nama_mesin');
+            $TglMulai = $request->input('tanggal_mulai');
+            $TglSelesai = $request->input('tanggal_selesai');
+            $Keterangan = $request->input('Keterangan');
+            $KeteranganKerja = $request->input('keterangan_kerusakan');
+            $user_input = Auth::user()->NomorUser;
+            $MerkMesin = $request->input('merk_mesin');
+            $LokasiMesin = $request->input('lokasi_mesin');
+            $TahunBuat = $request->input('tahun_pembuatan');
+            $Perbaikan = $request->input('perbaikan');
 
 
-    //         $data = DB::connection('ConnUtility')->statement('exec SP_1273_UTY_LIST_PROJECT ?,?,?,?,?,?,?,?,?,?,?,?,?,?,?',[
-    //             $NamaProject,$NamaMesin,$TglMulai,$TglSelesai,$Keterangan,$KeteranganKerja,$UserId,$Id,$bulan,$tahun,$MerkMesin,
-    //             $LokasiMesin,$TahunBuat,$Perbaikan]);
 
-    //         if ($data) {
-    //             return response()->json(['success' => true]);
-    //         } else {
-    //             return response()->json(['error' => 'Gagal menyimpan data.'], 500);
-    //         }
-    //                 } catch (\Throwable $th) {
-    //                     return response()->json(['error' => 'Terjadi kesalahan internal.'], 500);}
-    // }
+            $data = DB::connection('ConnUtility')->statement('exec SP_1273_UTY_MAINT_PROJECT ?,?,?,?,?,?,?,?,?,?,?,?', [
+                $Kode,
+                $NamaProject,
+                $NamaMesin,
+                $TglMulai,
+                $TglSelesai,
+                $Keterangan,
+                $KeteranganKerja,
+                $user_input,
+                $MerkMesin,
+                $LokasiMesin,
+                $TahunBuat,
+                $Perbaikan,
+            ]);
+
+            if ($data) {
+                return response()->json(['success' => true]);
+            } else {
+                return response()->json(['error' => 'Gagal menyimpan data.'], 500);
+            }
+        } catch (\Throwable $th) {
+            return response()->json(['error' => 'Terjadi kesalahan internal.'], 500);
+        }
+        // return($request->all());
+    }
 
 
         public function getDataProject(Request $request)

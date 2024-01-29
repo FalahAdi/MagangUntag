@@ -20,6 +20,7 @@ let gambar1 = document.getElementById("gambar1");
 let ket_gambar1 = document.getElementById("ket_gambar1");
 let gambar2 = document.getElementById("gambar2");
 let ket_gambar2 = document.getElementById("ket_gambar2");
+let user_input = document.getElementById("user_input");
 
 // tanggal_mulai.disabled = true;
 // tanggal_selesai.disabled = true;
@@ -50,7 +51,7 @@ inputButton.addEventListener("click", function () {
     tahun_pembuatan.disabled = false;
     keterangan_kerusakan.disabled = false;
     perbaikan.disabled = false;
-    progress.disabled = false;
+    //progress.disabled = false;
     selesai.disabled = false;
     gambar1.disabled = false;
     gambar2.disabled = false;
@@ -70,7 +71,7 @@ batalButton.addEventListener("click", function () {
     tahun_pembuatan.disabled = true;
     keterangan_kerusakan.disabled = true;
     perbaikan.disabled = true;
-    progress.disabled = true;
+    //progress.disabled = true;
     selesai.disabled = true;
     gambar1.disabled = true;
     ket_gambar1.disabled = true;
@@ -90,43 +91,54 @@ if (tanggal_mulai && tanggal_selesai) {
 }
 
 $(document).ready(function () {
-    // $("#prosesButton").click(function (e) {
-    //     var Token = $('meta[name="csrf-Token"]').attr("content");
-    //     var requestData = {
-    //         tanggal: tanggal.value,
-    //         divisi_pelapor1: divisi_pelapor1.value,
-    //         nama_pelapor: nama_pelapor.value,
-    //         penerima_laporan: penerima_laporan.value,
-    //         jam_lapor: jam_lapor.value,
-    //         jam_perbaikan: jam_perbaikan.value,
-    //         jam_selesai: jam_selesai.value,
-    //         tipe_gangguan: tipe_gangguan.value,
-    //         penyebab: penyebab.value,
-    //         penyelesaian: penyelesaian.value,
-    //         keterangan: keterangan.value,
-    //         teknisi: teknisi.value,
-    //         agree: true,
-    //     };
-    //     console.log(requestData);
-    //     // $.ajax({
-    //     //     url: "/postData",
-    //     //     method: "POST",
-    //     //     data: requestData,
-    //     //     headers: {
-    //     //         "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
-    //     //     },
-    //     //     // dataType: "json",
-    //     //     success: function (response) {
-    //     //         console.log(response);
-    //     //         Swal.fire({
-    //     //             icon: "success",
-    //     //             title: "Data berhasil disimpan",
-    //     //             showConfirmButton: false,
-    //     //             timer: 1500,
-    //     //         });
-    //     //     },
-    //     // });
-    // });
+    $("#prosesButton").click(function (e) {
+        e.preventDefault();
+        //var Kode = Kode.value;
+        var NamaMesin = nama_mesin.value;
+        var NamaProject = nama_project.value;
+        var TglMulai = tanggal_mulai.value;
+        var TglSelesai = tanggal_selesai.value;
+        // var Keterangan = keterangan.value;
+        //var user_input = user_input.value;
+        var KeteranganKerja = keterangan_kerusakan.value;
+        var MerkMesin = merk_mesin.value;
+        var LokasiMesin = lokasi_mesin.value;
+        var TahunBuat = tahun_pembuatan.value;
+        var Perbaikan = perbaikan.value;
+        var requestData = {
+            //Kode: Kode.value,
+            NamaMesin: NamaMesin.value,
+            NamaProject: NamaProject.value,
+            TglMulai: TglMulai.value,
+            TglSelesai: TglSelesai.value,
+            //Keterangan: Keterangan.value,
+            //user_input: user_input.value,
+            KeteranganKerja: KeteranganKerja.value,
+            MerkMesin: MerkMesin.value,
+            LokasiMesin: LokasiMesin.value,
+            TahunBuat: TahunBuat.value,
+            Perbaikan: Perbaikan.value,
+        };
+        console.log(requestData);
+        $.ajax({
+            url: "/postDataProject",
+            method: "POST",
+            data: requestData,
+            headers: {
+                "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
+            },
+            // dataType: "json",
+            success: function (response) {
+                console.log(response);
+                Swal.fire({
+                    icon: "success",
+                    title: "Data berhasil disimpan",
+                    showConfirmButton: false,
+                    timer: 1500,
+                });
+            },
+        });
+    });
     var timeRenderer = function (data, type, full, meta) {
         var date = new Date(data);
         var hours = date.getHours().toString().padStart(2, "0");
@@ -177,8 +189,8 @@ $(document).ready(function () {
                     return date;
                 },
             },
-            { data: "Keterangan" },
             { data: "KeteranganKerja" },
+            { data: "Keterangan" },
             { data: "UserId" },
         ],
     });
@@ -202,26 +214,26 @@ $(document).ready(function () {
                 Id: selectedid_laporan,
                 NamaProject: selectedRow.find("td:eq(1)").text(),
                 NamaMesin: selectedRow.find("td:eq(2)").text(),
-                MerkMesin: selectedRow.find("td:eq(3)").text(),
-                LokasiMesin: selectedRow.find("td:eq(4)").text(),
-                TahunPembuatan: selectedRow.find("td:eq(5)").text(),
-                TglMulai: selectedRow.find("td:eq(6)").text(),
-                TglSelesai: selectedRow.find("td:eq(7)").text(),
-                KeteranganKerja: selectedRow.find("td:eq(8)").text(),
-                Perbaikan: selectedRow.find("td:eq(9)").text(),
-                Keterangan: selectedRow.find("td:eq(10)").text(),
+                // MerkMesin: selectedRow.find("td:eq(3)").text(),
+                // LokasiMesin: selectedRow.find("td:eq(4)").text(),
+                // TahunPembuatan: selectedRow.find("td:eq(5)").text(),
+                TglMulai: selectedRow.find("td:eq(3)").text(),
+                TglSelesai: selectedRow.find("td:eq(4)").text(),
+                KeteranganKerja: selectedRow.find("td:eq(5)").text(),
+                //Perbaikan: selectedRow.find("td:eq(9)").text(),
+                Keterangan: selectedRow.find("td:eq(6)").text(),
             };
             // Update the form fields with the selectedData
             $("#id").val(selectedData.Id);
             $("#nama_project").val(selectedData.NamaProject);
             $("#nama_mesin").val(selectedData.NamaMesin);
-            $("#merk_mesin").val(selectedData.TglMulai);
-            $("#lokasi_mesin").val(selectedData.TglSelesai);
+            $("#merk_mesin").val(selectedData.MerkMesin);
+            $("#lokasi_mesin").val(selectedData.LokasiMesin);
             $("#tahun_pembuatan").val(selectedData.TahunPembuatan);
             $("#tanggal_mulai").val(selectedData.TglMulai);
             $("#tanggal_selesai").val(selectedData.TglSelesai);
             $("#keterangan_kerusakan").val(selectedData.KeteranganKerja);
-            $("#perbaikan").val(selectedData.TglSelesai);
+            $("#perbaikan").val(selectedData.Perbaikan);
             $("#progress").val(selectedData.TglSelesai);
             console.log(
                 "Selected id_laporan: ",

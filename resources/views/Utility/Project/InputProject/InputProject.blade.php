@@ -36,8 +36,8 @@
                                         <input type="text" name="nama_pelapor" id="keterangan_kerusakan"
                                             class="form-control mb-2" placeholder="">
                                         <div class="nama_pelapor">Perbaikan</div>
-                                        <input type="text" name="nama_pelapor" id="perbaikan"
-                                            class="form-control mb-2" placeholder="">
+                                        <input type="text" name="nama_pelapor" id="perbaikan" class="form-control mb-2"
+                                            placeholder="">
 
 
 
@@ -49,16 +49,17 @@
                                 <div class="col-4">
                                     <div class="row-4">
                                         <div class="div">
-                                            <label for="">Keterangan</label>
+                                            <label>Keterangan</label>
+                                            <label>
+                                                <input type="radio" name="gender" value="Selesai" id="user_input">
+                                                Progress
+                                            </label>
+                                            <label>
+                                                <input type="radio" name="gender" value="Belum Selesai" id="selesai">
+                                                Selesai
+                                            </label>
                                         </div>
-                                        <label>
-                                            <input type="radio" name="gender" value="Selesai" id="progress">
-                                            Progress
-                                        </label>
-                                        <label>
-                                            <input type="radio" name="gender" value="Belum Selesai" id="selesai">
-                                            Selesai
-                                        </label>
+
 
                                         <form id="uploadForm1" action="/upload" method="post" enctype="multipart/form-data"
                                             class=" ">
@@ -72,14 +73,14 @@
                                                 style="display: none; max-width: 100%; height: auto;">
                                         </div>
                                         <div class="nama_pelapor">Ket. Gambar 1</div>
-                                        <input type="text" name="ket_gambar1" id="ket_gambar1"
-                                            class="form-control mb-2" placeholder="">
+                                        <input type="text" name="ket_gambar1" id="ket_gambar1" class="form-control mb-2"
+                                            placeholder="">
 
-                                        <form id="uploadForm2" action="/upload" method="post" enctype="multipart/form-data"
-                                            class="mt-3">
+                                        <form id="uploadForm2" action="/upload" method="post"
+                                            enctype="multipart/form-data" class="mt-3">
                                             <label for="fileInput2" class="btn btn-link">Pilih Gambar 2</label>
-                                            <input type="file" id="gambar2" name="fileInput"
-                                                style="display: none;" accept="image/*">
+                                            <input type="file" id="gambar2" name="fileInput" style="display: none;"
+                                                accept="image/*">
                                         </form>
 
                                         <div id="imagePreviewContainer2">
@@ -155,13 +156,14 @@
                         <div class="row-24 d-flex mt-1">
 
                             <label for="">Bulan</label>
-                            <input type="number" name="tanggal_dibutuhkan" pattern="[0-9]" id="bulan"
-                                placeholder="contoh: 1,2,3" class="input mb-3 ml-1">
+                            <input type="number" name="tanggal_dibutuhkan" pattern="[0-9]" min="0"
+                                id="bulan" placeholder="contoh: 1,2,3" class="input mb-3 ml-1">
                             <label for=""class="ml-3">Tahun</label>
-                            <input type="number" pattern="[0-9]" name="tanggal_dibutuhkan" id="tahun"
-                                class="input mb-3 ml-1 "placeholder="contoh: 2023">
+                            <input type="number" pattern="[0-9]" name="tanggal_dibutuhkan" min="0"
+                                id="tahun" class="input mb-3 ml-1 "placeholder="contoh: 2023">
 
-                            <button type="button" style="height: 30px" class="btn btn-primary ml-3" id="refreshButton">Refresh</button>
+                            <button type="button" style="height: 30px" class="btn btn-primary ml-3"
+                                id="refreshButton">Refresh</button>
                         </div>
                         <div id="div_tablePO" class="acs-form3">
                             <table class="table" id="tabel_input_project">

@@ -2,7 +2,7 @@
 @section('content')
     <div class="container-fluid">
         <div class="row justify-content-center">
-            <div class="col-md-10 RDZMobilePaddingLR0">
+            <div class="col-md-15 RDZMobilePaddingLR0">
                 <div class="card">
                     <div class="card-header">Print Project</div>
                     <div class="card-body RDZOverflow RDZMobilePaddingLR0">
@@ -15,7 +15,9 @@
                             <label for=""class="ml-3">Tahun</label>
                             <input type="number" name="tanggal_dibutuhkan" id="tahun" class="input mb-3 ml-1 ">
 
-                            <button type="button" style="height: 30px" class="btn btn-primary ml-3" id="refreshButton">Refresh</button>
+                            <button type="button" style="height: 30px" class="btn btn-primary ml-3"
+                                id="refreshButton">Refresh</button>
+
                         </div>
                         <div id="div_tablePO" class="acs-form3">
                             <table class="table" id="tabel_print_project">
@@ -40,6 +42,11 @@
                                 </tbody>
                             </table>
                         </div>
+                        <div class="mt-5"id="previewContainer"></div>
+                        <div id="downloadPdfContainer" style="display: none;">
+                            <a id="downloadPdfLink" href="#" download="preview_data.pdf">Download PDF</a>
+                        </div>
+
                     </div>
                 </div>
             </div>
