@@ -23,13 +23,14 @@ class InputProjectController extends Controller
         //
         try {
             $Kode = '1';
-            $NamaProject = $request->input('nama_project');;
-            $NamaMesin = $request->input('nama_mesin');
+            $NamaProject = $request->input('nama_mesin');;
+            $NamaMesin = $request->input('nama_project');
             $TglMulai = $request->input('tanggal_mulai');
             $TglSelesai = $request->input('tanggal_selesai');
-            $Keterangan = $request->input('Keterangan');
-            $KeteranganKerja = $request->input('keterangan_kerusakan');
+            $Keterangan = $request->input('keterangan');
             $user_input = Auth::user()->NomorUser;
+            $KeteranganKerja = $request->input('keterangan_kerusakan');
+            $Id = $request->input('id');
             $MerkMesin = $request->input('merk_mesin');
             $LokasiMesin = $request->input('lokasi_mesin');
             $TahunBuat = $request->input('tahun_pembuatan');
@@ -37,15 +38,16 @@ class InputProjectController extends Controller
 
 
 
-            $data = DB::connection('ConnUtility')->statement('exec SP_1273_UTY_MAINT_PROJECT ?,?,?,?,?,?,?,?,?,?,?,?', [
+            $data = DB::connection('ConnUtility')->statement('exec SP_1273_UTY_MAINT_PROJECT ?,?,?,?,?,?,?,?,?,?,?,?,?', [
                 $Kode,
                 $NamaProject,
                 $NamaMesin,
                 $TglMulai,
                 $TglSelesai,
                 $Keterangan,
-                $KeteranganKerja,
                 $user_input,
+                $KeteranganKerja,
+                $Id,
                 $MerkMesin,
                 $LokasiMesin,
                 $TahunBuat,
@@ -72,7 +74,7 @@ class InputProjectController extends Controller
                 $tahun = $request->input('tahun');
 
                 // Execute the stored procedure and fetch data
-                $data = DB::connection('ConnUtility')->select('exec SP_1273_UTY_LIST_PROJECT @Kode=?, @bulan=?, @tahun=?', [ 4, $bulan, $tahun]);
+                $data = DB::connection('ConnUtility')->select('exec SP_1273_UTY_LIST_PROJECT @Kode=?, @bulan=?, @tahun=?', [ '4', $bulan, $tahun]);
 
                 // Jika data ditemukan, kembalikan dalam format yang sesuai
 
@@ -105,7 +107,17 @@ class InputProjectController extends Controller
         }
 
 
+        public function getDataProjectId(Request $request)
+        {
+            $id = $request->input('id');
+            $data = DB::connection('ConnUtility')->table('PROJECT')->where('Id', $id)->first();
 
+            if (!$data) {
+                return response()->json(['message' => 'Data not found'], 404);
+            }
+
+            return response()->json($data, 200);
+        }
     //Show the form for creating a new resource.
     public function create()
     {

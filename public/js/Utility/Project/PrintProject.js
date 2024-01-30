@@ -60,47 +60,65 @@ $(document).ready(function () {
         console.log(dataTable);
     });
 
-    $(document).on("change", ".checkbox_project", function () {
-        var selectedData = [];
-        $(".checkbox_project:checked").each(function () {
-            var rowData = dataTable.row($(this).closest("tr")).data();
-            selectedData.push(rowData);
-        });
+    // Event listener for checkbox changes
+    $("tbody").on("click", ".checkbox_project", function () {
+        if ($(this).prop("checked")) {
+            var id = $(this).val();
 
-        // Tampilkan preview data dan tautan untuk mengunduh PDF
-        if (selectedData.length > 0) {
-            var previewHtml = "<h3>Preview Data</h3><ul>";
-            selectedData.forEach(function (data) {
-                previewHtml +=
-                    "<li>Nama Mesin :  " + data.NamaProject + "</li>";
-                "<li>Merk Mesin :  " + data.NamaProject + "</li>";
-                "<li>Lokasi Mesin :  " + data.NamaProject + "</li>";
-                "<li>Tahun Pembuatan :  " + data.NamaProject + "</li>";
-                // Tambahkan data lain yang ingin Anda tampilkan
+            $.ajax({
+                url: "/getDataProjectId",
+                type: "GET",
+                data: { id: id },
+                success: function (data) {
+                    // $("#previewData").empty();
+                    $("#previewData").append(
+                        '<div class="preview-item border p-4 mb-4 rounded">' +
+                            '<h1 class="mb-4 text-center">Serah Terima Permintaan Jasa Teknik</h1>' +
+                            '<h1 class="mb-4 text-center">PT. KERTARAJASA RAYA</h1>' +
+                            '<h3 class="mb-4 text-center">JL. Raya Tropodo No.1 Waru - SIDOARJO</h3>' +
+                            '<div class="row">' +
+                            '<div class="col-md-6">' +
+                            "<p><strong>ID:</strong> " +
+                            data.Id +
+                            "</p>" +
+                            "<p><strong>Nama Mesin:</strong> " +
+                            data.NamaMesin +
+                            "</p>" +
+                            "<p><strong>Nama Mesin:</strong> " +
+                            data.MerkMesin +
+                            "</p>" +
+                            "</div>" +
+                            '<div class="col-md-6">' +
+                            "<p><strong>Tanggal Mulai:</strong> " +
+                            data.TglMulai +
+                            "</p>" +
+                            "<p><strong>Tanggal Selesai:</strong> " +
+                            data.TglSelesai +
+                            "</p>" +
+                            "<p><strong>User ID:</strong> " +
+                            data.UserId +
+                            "</p>" +
+                            "</div>" +
+                            "</div>" +
+                            '<div class="row">' +
+                            '<div class="col-md-12">' +
+                            "<p><strong>Keterangan Kerja:</strong> " +
+                            data.KeteranganKerja +
+                            "</p>" +
+                            "<p><strong>Keterangan:</strong> " +
+                            data.Keterangan +
+                            "</p>" +
+                            "</div>" +
+                            "</div>" +
+                            "</div>"
+                    );
+                },
+                error: function (xhr, status, error) {
+                    console.error("Error fetching data:", error);
+                },
             });
-            previewHtml += "</ul>";
-
-            $("#previewContainer").html(previewHtml);
-
-            // Tambahkan tautan untuk mengunduh PDF
-            $("#downloadPdfLink").attr("href", "javascript:downloadPDF()");
-            $("#downloadPdfContainer").show();
         } else {
-            // Sembunyikan preview dan tautan PDF jika tidak ada data yang dipilih
-            $("#previewContainer").html("");
-            $("#downloadPdfContainer").hide();
+            $("#previewData").empty();
         }
     });
-
-    function downloadPDF() {
-        var pdf = new jsPDF();
-
-        $(".checkbox_project:checked").each(function () {
-            var rowData = dataTable.row($(this).closest("tr")).data();
-            pdf.text(20, yPosition, "Nama Project: " + rowData.NamaProject);
-            // Tambahkan data lain yang ingin Anda sertakan di PDF
-        });
-
-        pdf.save("preview_data.pdf");
-    }
 });

@@ -29,7 +29,7 @@
                                         <div class="jam_lapor">Tanggal Mulai</div>
                                         <input type="date" name="tanggal_dibutuhkan" id="tanggal_mulai"
                                             class="input mb-3">
-                                        <div class="jam_lapor">Tanggal Selasai</div>
+                                        <div class="jam_lapor">Tanggal Selesai</div>
                                         <input type="date" name="tanggal_dibutuhkan" id="tanggal_selesai"
                                             class="input mb-3">
                                         <div class="nama_pelapor">Keterangan Kerusakan</div>
@@ -51,11 +51,11 @@
                                         <div class="div">
                                             <label>Keterangan</label>
                                             <label>
-                                                <input type="radio" name="gender" value="Selesai" id="user_input">
+                                                <input type="radio" name="keterangan" value="Progress" id="keterangan">
                                                 Progress
                                             </label>
                                             <label>
-                                                <input type="radio" name="gender" value="Belum Selesai" id="selesai">
+                                                <input type="radio" name="keterangan" value="Selesai" id="keterangan">
                                                 Selesai
                                             </label>
                                         </div>
@@ -63,13 +63,13 @@
 
                                         <form id="uploadForm1" action="/upload" method="post" enctype="multipart/form-data"
                                             class=" ">
-                                            <label for="fileInput1" class="btn btn-link ">Pilih Gambar 1</label>
-                                            <input type="file" id="gambar1" name="fileInput" style="display: none;"
+                                            <label for="gambar1" class="btn btn-link ">Pilih Gambar 1</label>
+                                            <input type="file" id="gambar1" name="fileInput1" style="display: none;"
                                                 accept="image/*">
                                         </form>
 
                                         <div id="imagePreviewContainer1">
-                                            <img id="imagePreview1" src="" alt="Preview 1"
+                                            <img id="hasil_gambar1" src="" alt="Preview 1"
                                                 style="display: none; max-width: 100%; height: auto;">
                                         </div>
                                         <div class="nama_pelapor">Ket. Gambar 1</div>
@@ -78,13 +78,13 @@
 
                                         <form id="uploadForm2" action="/upload" method="post"
                                             enctype="multipart/form-data" class="mt-3">
-                                            <label for="fileInput2" class="btn btn-link">Pilih Gambar 2</label>
-                                            <input type="file" id="gambar2" name="fileInput" style="display: none;"
-                                                accept="image/*">
+                                            <label for="gambar2" class="btn btn-link">Pilih Gambar 2</label>
+                                            <input type="file" id="gambar2" name="fileInput2"
+                                                style="display: none;" accept="image/*">
                                         </form>
 
                                         <div id="imagePreviewContainer2">
-                                            <img id="imagePreview2" src="" alt="Preview 2"
+                                            <img id="hasil_gambar2" src="" alt="Preview 2"
                                                 style="display: none; max-width: 100%; height: auto;">
                                         </div>
                                         <div class="nama_pelapor">Ket. Gambar 2</div>
@@ -93,45 +93,7 @@
 
 
                                     </div>
-                                    <script>
-                                        // Event listener untuk Gambar 1
-                                        document.getElementById('gambar1').addEventListener('change', function() {
-                                            var fileInput = this;
-                                            var fileName = fileInput.value.split('\\').pop();
 
-                                            // Menampilkan nama file yang dipilih di label
-                                            document.querySelector('.btn-link').textContent = fileName;
-
-                                            // Membaca file gambar yang dipilih
-                                            var reader = new FileReader();
-                                            reader.onload = function(e) {
-                                                var imagePreview = document.getElementById('imagePreview1');
-                                                // Menetapkan sumber gambar saat file berhasil dibaca
-                                                imagePreview.src = e.target.result;
-                                                imagePreview.style.display = 'block'; // Menampilkan elemen gambar
-                                            };
-                                            reader.readAsDataURL(fileInput.files[0]); // Membaca file sebagai URL data
-                                        });
-
-                                        // Event listener untuk Gambar 2
-                                        document.getElementById('gambar2').addEventListener('change', function() {
-                                            var fileInput = this;
-                                            var fileName = fileInput.value.split('\\').pop();
-
-                                            // Menampilkan nama file yang dipilih di label
-                                            document.querySelector('.btn-link').textContent = fileName;
-
-                                            // Membaca file gambar yang dipilih
-                                            var reader = new FileReader();
-                                            reader.onload = function(e) {
-                                                var imagePreview = document.getElementById('imagePreview2');
-                                                // Menetapkan sumber gambar saat file berhasil dibaca
-                                                imagePreview.src = e.target.result;
-                                                imagePreview.style.display = 'block'; // Menampilkan elemen gambar
-                                            };
-                                            reader.readAsDataURL(fileInput.files[0]); // Membaca file sebagai URL data
-                                        });
-                                    </script>
                                 </div>
 
 

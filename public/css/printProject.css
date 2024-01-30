@@ -1,0 +1,41 @@
+.preview-item {
+    width: 210mm; /* A4 width in millimeters */
+    height: 297mm; /* A4 height in millimeters */
+    margin: 20mm auto; /* Adjust margin as needed */
+    padding: 20mm; /* Adjust padding as needed */
+    border: 1px solid #000; /* Border color */
+    background-color: #fff; /* Background color */
+}
+
+.preview-item h1,
+.preview-item h3,
+.preview-item p {
+    margin: 0;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.row {
+    margin-bottom: 15px;
+}
+
+.col-md-6 {
+    width: 50%;
+    float: left;
+}
+
+@media print {
+    body,
+    html {
+        margin: 0;
+        padding: 0;
+    }
+
+    .preview-item {
+        width: 100%;
+        box-sizing: border-box;
+        page-break-before: always;
+    }
+}

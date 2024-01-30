@@ -166,7 +166,7 @@ batalButton.addEventListener("click", function () {
 
 // Function to check if all fields are filled
 
-// Event listener untuk Gambar 1
+// Event listener untuk Gambar 2
 document.getElementById("gambar2").addEventListener("change", function () {
     var fileInput = this;
     var fileName = fileInput.value.split("\\").pop();
@@ -185,7 +185,7 @@ document.getElementById("gambar2").addEventListener("change", function () {
     reader.readAsDataURL(fileInput.files[0]); // Membaca file sebagai URL data
 });
 
-// Event listener untuk Gambar 2
+// Event listener untuk Gambar 1
 document.getElementById("gambar1").addEventListener("change", function () {
     var fileInput = this;
     var fileName = fileInput.value.split("\\").pop();

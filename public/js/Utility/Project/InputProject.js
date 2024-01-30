@@ -79,6 +79,43 @@ batalButton.addEventListener("click", function () {
     ket_gambar2.disabled = true;
 });
 
+document.getElementById("gambar2").addEventListener("change", function () {
+    var fileInput = this;
+    var fileName = fileInput.value.split("\\").pop();
+
+    // Menampilkan nama file yang dipilih di label
+    document.querySelector(".btn-link").textContent = fileName;
+
+    // Membaca file gambar yang dipilih
+    var reader = new FileReader();
+    reader.onload = function (e) {
+        var imagePreview = document.getElementById("hasil_gambar2");
+        // Menetapkan sumber gambar saat file berhasil dibaca
+        imagePreview.src = e.target.result;
+        imagePreview.style.display = "block"; // Menampilkan elemen gambar
+    };
+    reader.readAsDataURL(fileInput.files[0]); // Membaca file sebagai URL data
+});
+
+// Event listener untuk Gambar 2
+document.getElementById("gambar1").addEventListener("change", function () {
+    var fileInput = this;
+    var fileName = fileInput.value.split("\\").pop();
+
+    // Menampilkan nama file yang dipilih di label
+    document.querySelector(".btn-link").textContent = fileName;
+
+    // Membaca file gambar yang dipilih
+    var reader = new FileReader();
+    reader.onload = function (e) {
+        var imagePreview = document.getElementById("hasil_gambar1");
+        // Menetapkan sumber gambar saat file berhasil dibaca
+        imagePreview.src = e.target.result;
+        imagePreview.style.display = "block"; // Menampilkan elemen gambar
+    };
+    reader.readAsDataURL(fileInput.files[0]); // Membaca file sebagai URL data
+});
+
 if (tanggal_mulai && tanggal_selesai) {
     var tanggal_akhirOutput = new Date().toISOString().split("T")[0];
     tanggal_mulai.value = tanggal_akhirOutput;
@@ -94,32 +131,34 @@ $(document).ready(function () {
     $("#prosesButton").click(function (e) {
         e.preventDefault();
         //var Kode = Kode.value;
-        var NamaMesin = nama_mesin.value;
-        var NamaProject = nama_project.value;
-        var TglMulai = tanggal_mulai.value;
-        var TglSelesai = tanggal_selesai.value;
+        var nama_projectValue = nama_project.value;
+        var nama_mesinValue = nama_mesin.value;
+        var tanggal_mulaiValue = tanggal_mulai.value;
+        var tanggal_selesaiValue = tanggal_selesai.value;
         // var Keterangan = keterangan.value;
         //var user_input = user_input.value;
-        var KeteranganKerja = keterangan_kerusakan.value;
-        var MerkMesin = merk_mesin.value;
-        var LokasiMesin = lokasi_mesin.value;
-        var TahunBuat = tahun_pembuatan.value;
-        var Perbaikan = perbaikan.value;
+        var keterangan_kerusakanValue = keterangan_kerusakan.value;
+        var merk_mesinValue = merk_mesin.value;
+        var lokasi_mesinValue = lokasi_mesin.value;
+        var tahun_pembuatanValue = tahun_pembuatan.value;
+        var perbaikanValue = perbaikan.value;
+        var keteranganValue = $("input[name='keterangan']:checked").val();
         var requestData = {
             //Kode: Kode.value,
-            NamaMesin: NamaMesin.value,
-            NamaProject: NamaProject.value,
-            TglMulai: TglMulai.value,
-            TglSelesai: TglSelesai.value,
-            //Keterangan: Keterangan.value,
-            //user_input: user_input.value,
-            KeteranganKerja: KeteranganKerja.value,
-            MerkMesin: MerkMesin.value,
-            LokasiMesin: LokasiMesin.value,
-            TahunBuat: TahunBuat.value,
-            Perbaikan: Perbaikan.value,
+            nama_project: nama_projectValue,
+            nama_mesin: nama_mesinValue,
+            tanggal_mulai: tanggal_mulaiValue,
+            tanggal_selesai: tanggal_selesaiValue,
+            //Keterangan: Keterangan,
+            //user_input: user_input,
+            keterangan_kerusakan: keterangan_kerusakanValue,
+            merk_mesin: merk_mesinValue,
+            lokasi_mesin: lokasi_mesinValue,
+            tahun_pembuatan: tahun_pembuatanValue,
+            perbaikan: perbaikanValue,
+            keterangan: keteranganValue,
         };
-        console.log(requestData);
+        // console.log(requestData);
         $.ajax({
             url: "/postDataProject",
             method: "POST",
@@ -129,6 +168,7 @@ $(document).ready(function () {
             },
             // dataType: "json",
             success: function (response) {
+                console.log(requestData);
                 console.log(response);
                 Swal.fire({
                     icon: "success",
