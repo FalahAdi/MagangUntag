@@ -10,9 +10,11 @@
                         <label class="">Filter</label>
                         <div class="row-24 d-flex mt-4">
                             <label for="">Bulan</label>
-                            <input type="number" name="tanggal_dibutuhkan" id="bulan" class="input mb-3 ml-1">
+                            <input type="number" name="tanggal_dibutuhkan" id="bulan" min="0"
+                                class="input mb-3 ml-1">
                             <label for=""class="ml-3">Tahun</label>
-                            <input type="number" name="tanggal_dibutuhkan" id="tahun" class="input mb-3 ml-1 ">
+                            <input type="number" name="tanggal_dibutuhkan" id="tahun" min="0"
+                                class="input mb-3 ml-1 ">
                             <button type="button" style="height: 30px" class="btn btn-primary ml-3"
                                 id="refreshButton">Refresh</button>
                         </div>

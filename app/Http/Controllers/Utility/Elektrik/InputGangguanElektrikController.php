@@ -74,46 +74,6 @@ class InputGangguanElektrikController extends Controller
     }
 
 
-    // public function postDataGambar(Request $request)
-    // {
-    //     try {
-    //         $IdLaporan = $request->input('IdLaporan');
-    //         $KetGambar1 = $request->input('ket_gambar1');
-    //         $KetGambar2 = $request->input('ket_gambar2');
-    //         $user_input = Auth::user()->NomorUser;
-
-    //         // Process and store Gambar1
-    //         if ($request->hasFile('gambar1')) {
-    //             $Gambar1 = $request->file('gambar1');
-    //             $gambar1Path = $Gambar1->storeAs('gambar_folder', 'gambar1_' . $IdLaporan . '.' . $Gambar1->getClientOriginalExtension(), 'public');
-    //         } else {
-    //             $Gambar1 = null;
-    //             $gambar1Path = null;
-    //         }
-
-    //         // Process and store Gambar2
-    //         if ($request->hasFile('gambar2')) {
-    //             $Gambar2 = $request->file('gambar2');
-    //             $gambar2Path = $Gambar2->storeAs('gambar_folder', 'gambar2_' . $IdLaporan . '.' . $Gambar2->getClientOriginalExtension(), 'public');
-    //         } else {
-    //             $Gambar2 = null;
-    //             $gambar2Path = null;
-    //         }
-
-    //         // Insert data into the database
-    //         $data = DB::connection('ConnUtility')->statement('exec SP_1273_UTY_INSERT_GAMBAR_GANGGUAN_ELEKTRIK ?,?,?,?,?,?,?', [
-    //             $IdLaporan, $Gambar1, $KetGambar1, $gambar1Path, $Gambar2, $KetGambar2, $gambar2Path, $user_input
-    //         ]);
-
-    //         if ($data) {
-    //             return response()->json(['success' => true]);
-    //         } else {
-    //             return response()->json(['error' => 'Gagal menyimpan data.'], 500);
-    //         }
-    //     } catch (\Throwable $th) {
-    //         return response()->json(['error' => 'Terjadi kesalahan internal.'], 500);
-    //     }
-    // }
 
 
     public function getData(Request $request)
@@ -163,7 +123,7 @@ class InputGangguanElektrikController extends Controller
     public function updateData(Request $request)
     {
         try {
-            // Ambil data yang diperlukan dari request
+            $id_laporan = $request->input('Idlaporan');
             $jampelaksanaan = $request->input('jam_perbaikan');
             $jamselesai = $request->input('jam_selesai');
             $type_gangguan = $request->input('tipe_gangguan');
@@ -172,7 +132,6 @@ class InputGangguanElektrikController extends Controller
             $keterangan = $request->input('keterangan');
             $teknisi = $request->input('teknisi');
             $user_input = Auth::user()->NomorUser;
-            $id_laporan = $request->input('IdLaporan');
             $lanjut = $request->input('agree');
 
             // Update data in the database
@@ -189,10 +148,12 @@ class InputGangguanElektrikController extends Controller
                 $lanjut
             ]);
 
+            // dd($data);
+
             if ($data) {
                 return response()->json(['success' => true]);
             } else {
-                return response()->json(['error' => 'Gagal menyimpan data.'], 500);
+                return response()->json(['error' => 'Gagal update data.'], 500);
             }
         } catch (\Throwable $th) {
             return response()->json(['error' => 'Terjadi kesalahan internal.'], 500);

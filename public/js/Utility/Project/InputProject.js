@@ -248,63 +248,27 @@ $(document).ready(function () {
         if ($(this).prop("checked")) {
             hapusButton.disabled = false;
             koreksiButton.disabled = false;
-            var selectedRow = $(this).closest("tr");
-            var selectedid_laporan = $(this).val();
-            selectedData = {
-                Id: selectedid_laporan,
-                NamaProject: selectedRow.find("td:eq(1)").text(),
-                NamaMesin: selectedRow.find("td:eq(2)").text(),
-                // MerkMesin: selectedRow.find("td:eq(3)").text(),
-                // LokasiMesin: selectedRow.find("td:eq(4)").text(),
-                // TahunPembuatan: selectedRow.find("td:eq(5)").text(),
-                TglMulai: selectedRow.find("td:eq(3)").text(),
-                TglSelesai: selectedRow.find("td:eq(4)").text(),
-                KeteranganKerja: selectedRow.find("td:eq(5)").text(),
-                //Perbaikan: selectedRow.find("td:eq(9)").text(),
-                Keterangan: selectedRow.find("td:eq(6)").text(),
-            };
-            // Update the form fields with the selectedData
-            $("#id").val(selectedData.Id);
-            $("#nama_project").val(selectedData.NamaProject);
-            $("#nama_mesin").val(selectedData.NamaMesin);
-            $("#merk_mesin").val(selectedData.MerkMesin);
-            $("#lokasi_mesin").val(selectedData.LokasiMesin);
-            $("#tahun_pembuatan").val(selectedData.TahunPembuatan);
-            $("#tanggal_mulai").val(selectedData.TglMulai);
-            $("#tanggal_selesai").val(selectedData.TglSelesai);
-            $("#keterangan_kerusakan").val(selectedData.KeteranganKerja);
-            $("#perbaikan").val(selectedData.Perbaikan);
-            $("#progress").val(selectedData.TglSelesai);
-            console.log(
-                "Selected id_laporan: ",
-                selectedData.Id,
-                selectedData.NamaProject,
-                selectedData.NamaMesin,
-                selectedData.MerkMesin,
-                selectedData.LokasiMesin,
-                selectedData.TahunPembuatan,
-                selectedData.TglMulai,
-                selectedData.TglSelesai,
-                selectedData.KeteranganKerja,
-                selectedData.Perbaikan,
-                selectedData.Keterangan
-            );
-        } else {
-            // Clear the form fields when the checkbox is unchecked
-            $("#id_laporan").val("");
-            $("#tanggal").val("");
-            $("#divisi_pelapor1").val("");
-            $("#nama_pelapor").val("");
-            $("#penerima_laporan").val("");
-            $("#jam_lapor").val("");
-            $("#jam_perbaikan").val("");
-            $("#jam_selesai").val("");
-            $("#tipe_gangguan").val("");
-            $("#penyebab").val("");
-            $("#penyelesaian").val("");
-            $("#keterangan").val("");
-            $("#teknisi").val("");
-            console.log("Checkbox is unchecked. Form cleared.");
+            var id = $(this).val();
+
+            $.ajax({
+                url: "/getDataProjectId",
+                type: "GET",
+                data: { id: id },
+                success: function (data) {
+                    $("#nama_project").val(data.NamaProject);
+                    $("#nama_mesin").val(data.NamaMesin);
+                    $("#merk_mesin").val(data.MerkMesin);
+                    $("#lokasi_mesin").val(data.LokasiMesin);
+                    $("#tahun_pembuatan").val(data.TahunPembuatan);
+                    $("#tanggal_mulai").val(data.TglMulai);
+                    $("#tanggal_selesai").val(data.TglSelesai);
+                    $("#keterangan_kerusakan").val(data.KeteranganKerja);
+                    $("#perbaikan").val(data.Perbaikan);
+                },
+                error: function (xhr, status, error) {
+                    console.error("Error fetching data:", error);
+                },
+            });
         }
     });
 

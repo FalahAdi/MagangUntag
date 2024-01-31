@@ -40,7 +40,7 @@ $(document).ready(function () {
                 data: null,
                 render: function (data, type, full, meta) {
                     return (
-                        '<input type="checkbox" class="checkbox" value="' +
+                        '<input type="checkbox" class="checkbox_elektrik" value="' +
                         full.id +
                         '">'
                     );
@@ -79,5 +79,62 @@ $(document).ready(function () {
     $("#refreshButton").click(function () {
         dataTable.ajax.reload();
         console.log(dataTable);
+    });
+
+    $("tbody").on("click", ".checkbox_elektrik", function () {
+        if ($(this).prop("checked")) {
+            var id = $(this).val();
+
+            $.ajax({
+                url: "/getData",
+                type: "GET",
+                data: { id: id },
+                success: function (data) {
+                    // $("#previewData").empty();
+                    $("#previewData").append(
+                        "<style>" +
+                            "@media print {" +
+                            "  body * {" +
+                            "    visibility: hidden;" +
+                            "  }" +
+                            "  #previewData, #previewData * {" +
+                            "    visibility: visible;" +
+                            "  }" +
+                            "  #previewData {" +
+                            "    position: absolute;" +
+                            "    left: 0;" +
+                            "    top: 0;" +
+                            "  }" +
+                            "}" +
+                            "</style>" +
+                            '<div class="preview-item border p-10 mb-4 rounded">' +
+                            '<h1 class="mb-4 text-center">Serah Terima Permintaan Jasa Teknik</h1>' +
+                            '<h1 class="mb-4 text-center">PT. KERTARAJASA RAYA</h1>' +
+                            '<h3 class="mb-5 text-center">JL. Raya Tropodo No.1 Waru - SIDOARJO</h3>' +
+                            '<div class="row">' +
+                            '<div class="col-md-6 mt-3">' +
+                            '<p class="mb-2"><strong>Divisi Pelapor:</strong> ' +
+                            data.L_div_pelapor +
+                            "</p>" +
+                            '<p class="mb-2"><strong>Nama Pelapor:</strong> ' +
+                            data.Nama_pelapor +
+                            "</p>" +
+                            '<p class="mb-2"><strong>Lokasi Mesin:</strong> ' +
+                            data.LokasiMesin +
+                            "</p>" +
+                            "<p><strong>Tahun Pembuatan:</strong> " +
+                            data.TahunPembuatan +
+                            "</p>" +
+                            "</div>" +
+                            "</div>"
+                    );
+                },
+                error: function (xhr, status, error) {
+                    console.error("Error fetching data:", error);
+                },
+            });
+        } else {
+            $("#previewData").empty();
+        }
     });
 });

@@ -2,7 +2,7 @@
 @section('content')
     <div class="container-fluid">
         <div class="row justify-content-center">
-            <div class="col-md-20 RDZMobilePaddingLR0">
+            <div class="col-md-10 RDZMobilePaddingLR0">
                 <div class="card">
                     <div class="card-header">Gambar Project</div>
                     <div class="card-body RDZOverflow RDZMobilePaddingLR0">
@@ -11,10 +11,10 @@
                         <div class="row-24 d-flex mt-4">
 
                             <label for="">Bulan</label>
-                            <input type="number" name="tanggal_dibutuhkan" pattern="[0-9]" id="bulan"
+                            <input type="number" name="tanggal_dibutuhkan" pattern="[0-9]" min="0" id="bulan"
                                 placeholder="contoh: 1,2,3" class="input mb-3 ml-1">
                             <label for=""class="ml-3">Tahun</label>
-                            <input type="number" pattern="[0-9]" name="tanggal_dibutuhkan" id="tahun"
+                            <input type="number" pattern="[0-9]" name="tanggal_dibutuhkan" min="0" id="tahun"
                                 class="input mb-3 ml-1 "placeholder="contoh: 2023">
 
                             <button type="button" style="height: 30px" class="btn btn-primary ml-3"

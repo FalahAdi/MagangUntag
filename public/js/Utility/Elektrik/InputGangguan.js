@@ -245,20 +245,25 @@ $(document).ready(function () {
     console.log("id L", id_laporan.value);
     $("#prosesButton").click(function (e) {
         e.preventDefault();
-        var tanggalValue = tanggal.value;
-        var divisi_pelapor1Value = divisi_pelapor1.value;
-        var nama_pelaporValue = nama_pelapor.value;
-        var penerima_laporanValue = penerima_laporan.value;
-        var jam_laporValue = jam_lapor.value;
-        var jam_perbaikanValue = jam_perbaikan.value;
-        var jam_selesaiValue = jam_selesai.value;
-        var tipe_gangguanValue = tipe_gangguan.value;
-        var penyebabValue = penyebab.value;
-        var penyelesaianValue = penyelesaian.value;
-        var keteranganValue = keterangan.value;
-        var teknisiValue = teknisi.value;
-        var agreeValue = agree.value;
+
+        // Ambil nilai-nilai form
+        var tanggalValue = $("#tanggal").val();
+        var divisi_pelapor1Value = $("#divisi_pelapor1").val();
+        var nama_pelaporValue = $("#nama_pelapor").val();
+        var penerima_laporanValue = $("#penerima_laporan").val();
+        var jam_laporValue = $("#jam_lapor").val();
+        var jam_perbaikanValue = $("#jam_perbaikan").val();
+        var jam_selesaiValue = $("#jam_selesai").val();
+        var tipe_gangguanValue = $("#tipe_gangguan").val();
+        var penyebabValue = $("#penyebab").val();
+        var penyelesaianValue = $("#penyelesaian").val();
+        var keteranganValue = $("#keterangan").val();
+        var teknisiValue = $("#teknisi").val();
+        var agreeValue = $("#agree").prop("checked") ? 1 : 0;
         var id_laporanValue = $("#id_laporan").val();
+
+        // Ambil file gambar
+        var gambar1data = document.getElementById("gambarcoba");
 
         var requestData = {
             tanggal: tanggalValue,
@@ -275,36 +280,56 @@ $(document).ready(function () {
             teknisi: teknisiValue,
             agree: agreeValue,
         };
+
         if (id_laporanValue) {
-            requestData.IdLaporan = id_laporanValue;
+            requestData.Idlaporan = id_laporanValue;
         }
-        // console.log(id_laporanValue);
+        console.log("FormData:", requestData);
+        // console.log("Gambar:", formData.get("gambar1"));
+        // console.log("Gambar:", formData.get("gambar1"));
+
+        // Membuat permintaan AJAX
         $.ajax({
-            url: id_laporanValue
-                ? "/updateData/" + id_laporanValue
-                : "/postData",
-            method: id_laporanValue ? "PUT" : "POST",
-            data: requestData,
+            url: id_laporanValue ? "/updateData" : "/postData",
+            type: id_laporanValue ? "PUT" : "POST",
             headers: {
                 "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
             },
-            success: function (response) {
-                console.log(requestData);
-                console.log(response);
-
-                dataTable.ajax.reload();
-
-                Swal.fire({
-                    icon: "success",
-                    title: "Data berhasil disimpan",
-                    showConfirmButton: false,
-                    timer: 1500,
-                });
+            data: requestData,
+            // processData: false,
+            // contentType: false,
+            error: function (xhr, status, error) {
+                if (xhr.status === 419) {
+                    // Penanganan khusus untuk status 419 (sesi tidak valid)
+                    console.log("Sesi tidak valid. Silakan login kembali.");
+                    // Lakukan tindakan yang sesuai, seperti mengarahkan pengguna ke halaman login
+                } else {
+                    // Penanganan kesalahan lainnya
+                    console.log("Terjadi kesalahan saat menyimpan gambar.");
+                }
             },
-            error: function (error) {
-                console.log(requestData);
-
-                console.error(error);
+            success: function (response) {
+                console.log(response);
+                // Respons sukses
+                dataTable.ajax.reload();
+                if (id_laporanValue) {
+                    // Ini adalah operasi UPDATE (PUT)
+                    Swal.fire({
+                        icon: "success",
+                        title: "Data berhasil diperbarui!",
+                        showConfirmButton: false,
+                        timer: 1500,
+                    });
+                } else {
+                    // Ini adalah operasi INSERT (POST)
+                    Swal.fire({
+                        icon: "success",
+                        title: "Data berhasil ditambahkan!",
+                        showConfirmButton: false,
+                        timer: 1500,
+                    });
+                    // console.log("Gambar berhasil disimpan."),
+                }
             },
         });
     });

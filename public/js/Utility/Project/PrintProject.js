@@ -72,43 +72,111 @@ $(document).ready(function () {
                 success: function (data) {
                     // $("#previewData").empty();
                     $("#previewData").append(
-                        '<div class="preview-item border p-4 mb-4 rounded">' +
+                        "<style>" +
+                            "@media print {" +
+                            "  body * {" +
+                            "    visibility: hidden;" +
+                            "  }" +
+                            "  #previewData, #previewData * {" +
+                            "    visibility: visible;" +
+                            "  }" +
+                            "  #previewData {" +
+                            "    position: absolute;" +
+                            "    left: 0;" +
+                            "    top: 0;" +
+                            "  }" +
+                            "}" +
+                            "</style>" +
+                            '<div class="preview-item border p-10 mb-4 rounded">' +
                             '<h1 class="mb-4 text-center">Serah Terima Permintaan Jasa Teknik</h1>' +
                             '<h1 class="mb-4 text-center">PT. KERTARAJASA RAYA</h1>' +
-                            '<h3 class="mb-4 text-center">JL. Raya Tropodo No.1 Waru - SIDOARJO</h3>' +
+                            '<h3 class="mb-5 text-center">JL. Raya Tropodo No.1 Waru - SIDOARJO</h3>' +
                             '<div class="row">' +
-                            '<div class="col-md-6">' +
-                            "<p><strong>ID:</strong> " +
-                            data.Id +
-                            "</p>" +
-                            "<p><strong>Nama Mesin:</strong> " +
+                            '<div class="col-md-6 mt-3">' +
+                            '<p class="mb-2"><strong>Nama Mesin:</strong> ' +
                             data.NamaMesin +
                             "</p>" +
-                            "<p><strong>Nama Mesin:</strong> " +
+                            '<p class="mb-2"><strong>Merk Mesin:</strong> ' +
                             data.MerkMesin +
                             "</p>" +
-                            "</div>" +
-                            '<div class="col-md-6">' +
-                            "<p><strong>Tanggal Mulai:</strong> " +
-                            data.TglMulai +
+                            '<p class="mb-2"><strong>Lokasi Mesin:</strong> ' +
+                            data.LokasiMesin +
                             "</p>" +
-                            "<p><strong>Tanggal Selesai:</strong> " +
-                            data.TglSelesai +
-                            "</p>" +
-                            "<p><strong>User ID:</strong> " +
-                            data.UserId +
+                            "<p><strong>Tahun Pembuatan:</strong> " +
+                            data.TahunPembuatan +
                             "</p>" +
                             "</div>" +
                             "</div>" +
-                            '<div class="row">' +
-                            '<div class="col-md-12">' +
-                            "<p><strong>Keterangan Kerja:</strong> " +
+                            '<table class="table">' +
+                            "<thead>" +
+                            '<tr class="text-center">' +
+                            '<th class="col-md-4">' +
+                            "<p ><strong>Keterangan Kerusakan</strong></p> " +
+                            "</th>" +
+                            '<th class="col-md-4">' +
+                            "<p ><strong>Perbaikan</strong></p> " +
+                            "</th>" +
+                            '<th class="col-md-4">' +
+                            "<p ><strong>Keterangan </strong></p> " +
+                            "</th>" +
+                            "<tr >" +
+                            "</tr>" +
+                            "</thead>" +
+                            "<tbody>" +
+                            '<tr class="text-left">' +
+                            '<td class="col-md-4">' +
+                            "<p>" +
                             data.KeteranganKerja +
                             "</p>" +
-                            "<p><strong>Keterangan:</strong> " +
+                            "</td>" +
+                            '<td class="col-md-4">' +
+                            "<p>" +
+                            data.Perbaikan +
+                            "</p>" +
+                            "</td>" +
+                            '<td class="col-md-4">' +
+                            "<p>" +
                             data.Keterangan +
                             "</p>" +
+                            "</td>" +
+                            "</tr>" +
+                            "</tbody>" +
+                            '<tfoot colspan="3">' +
+                            '<tr class="text-center">' +
+                            '<th   colspan="2">' +
+                            "<p ><strong> Gambar1 </strong></p> " +
+                            "</th>" +
+                            "<th >" +
+                            "<p ><strong> Gambar2 </strong></p> " +
+                            "</th>" +
+                            "</tr>" +
+                            "</tfoot>" +
+                            "</table>" +
+                            '<div class="row text-center" >' +
+                            '<div class="col-md-4 mb-5">' +
+                            "<p><strong>Pelaksana,</strong> " +
+                            "</p>" +
                             "</div>" +
+                            '<div class="col-md-4">' +
+                            "<p><strong>Penanggung jawab,</strong> " +
+                            "</p>" +
+                            "</div>" +
+                            '<div class="col-md-4">' +
+                            "<p><strong>Serah Terima,</strong> " +
+                            "</p>" +
+                            "</div>" +
+                            "</div>" +
+                            '<div class="row text-center mt-5" >' +
+                            '<div class="col-md-4 ">' +
+                            data.UserId +
+                            "</div>" +
+                            '<div class="col-md-4">' +
+                            "<p>(Khelfin W) " +
+                            "</p>" +
+                            "</div>" +
+                            '<div class="col-md-4">' +
+                            "<p> " +
+                            "</p>" +
                             "</div>" +
                             "</div>"
                     );
