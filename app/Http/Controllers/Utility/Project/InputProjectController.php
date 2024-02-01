@@ -119,6 +119,52 @@ class InputProjectController extends Controller
             return response()->json($data, 200);
         }
     //Show the form for creating a new resource.
+
+    public function updateData(Request $request)
+    {
+        try {
+            $Kode = '2';
+            $NamaProject = $request->input('nama_mesin');;
+            $NamaMesin = $request->input('nama_project');
+            $TglMulai = $request->input('tanggal_mulai');
+            $TglSelesai = $request->input('tanggal_selesai');
+            $Keterangan = $request->input('keterangan');
+            $user_input = Auth::user()->NomorUser;
+            $KeteranganKerja = $request->input('keterangan_kerusakan');
+            $Id = $request->input('id');
+            $MerkMesin = $request->input('merk_mesin');
+            $LokasiMesin = $request->input('lokasi_mesin');
+            $TahunBuat = $request->input('tahun_pembuatan');
+            $Perbaikan = $request->input('perbaikan');
+
+
+
+            $data = DB::connection('ConnUtility')->statement('exec SP_1273_UTY_MAINT_PROJECT ?,?,?,?,?,?,?,?,?,?,?,?,?', [
+                $Kode,
+                $NamaProject,
+                $NamaMesin,
+                $TglMulai,
+                $TglSelesai,
+                $Keterangan,
+                $user_input,
+                $KeteranganKerja,
+                $Id,
+                $MerkMesin,
+                $LokasiMesin,
+                $TahunBuat,
+                $Perbaikan,
+            ]);
+
+            if ($data) {
+                return response()->json(['success' => true]);
+            } else {
+                return response()->json(['error' => 'Gagal menyimpan data.'], 500);
+            }
+        } catch (\Throwable $th) {
+            return response()->json(['error' => 'Terjadi kesalahan internal.'], 500);
+        }
+    }
+
     public function create()
     {
         //

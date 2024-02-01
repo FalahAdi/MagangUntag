@@ -21,32 +21,7 @@ class InputGangguanElektrikBulananController extends Controller
 
     public function gangguanBulanan(Request $request)
     {
-        //
-        try {
-            $bln = $request->input('tanggal') ;
-            $nama_pengecek = $request->input ('divisi_pelapor1');
-            $pabrik = $request->input('nama_pelapor'); ;
-            $masalah = $request->input ('penerima_laporan');
-            $gambar1 = $request->input ('jam_lapor') ;
-            $status =$request->input ('jam_perbaikan') ;
-            $solusi = $request->input ('jam_selesai') ;
-            $gambar2 = $request->input ('tipe_gangguan') ;
-            $kode = $request->input ('penyebab') ;
-            $no = $request->input ('penyelesaian') ;
 
-
-            $data = DB::connection('ConnUtility')->statement('exec SP_4372_Insert_Gangguan_Electric_Bulanan ?,?,?,?,?,?,?,?,?,?,?,?,?,?',[
-                $tanggal,$l_div_pelapor,$nama_pelapor,$penerima_laporan,$jamlapor,$jampelaksanaan,$jamselesai,$Type_gangguan,$penyebab,$penyelesaian,$keterangan,
-                $teknisi,$lanjut,$user_input]);
-
-            if ($data) {
-                return response()->json(['success' => true]);
-            } else {
-                return response()->json(['error' => 'Gagal menyimpan data.'], 500);
-            }
-                    } catch (\Throwable $th) {
-                        return response()->json(['error' => 'Terjadi kesalahan internal.'], 500);
-                    }
     }
 
     //Show the form for creating a new resource.

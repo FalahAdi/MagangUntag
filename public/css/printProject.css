@@ -1,10 +1,18 @@
+body,
+html {
+    margin: 0;
+    padding: 0;
+}
+
 .preview-item {
     width: 210mm; /* A4 width in millimeters */
     height: 297mm; /* A4 height in millimeters */
-    margin: 20mm auto; /* Adjust margin as needed */
-    padding: 20mm; /* Adjust padding as needed */
+    margin: 0 auto; /* Center the content on the page */
+    padding: 10mm; /* Adjust padding as needed */
     border: 1px solid #000; /* Border color */
     background-color: #fff; /* Background color */
+    box-sizing: border-box; /* Include padding and border in element's total width and height */
+    page-break-before: always; /* Force a page break before each .preview-item */
 }
 
 .preview-item h1,
@@ -17,8 +25,10 @@
     text-align: center;
 }
 
-.row {
-    margin-bottom: 15px;
+.row::after {
+    content: "";
+    clear: both;
+    display: table;
 }
 
 .col-md-6 {
@@ -27,15 +37,7 @@
 }
 
 @media print {
-    body,
-    html {
-        margin: 0;
-        padding: 0;
-    }
-
     .preview-item {
-        width: 100%;
-        box-sizing: border-box;
-        page-break-before: always;
+        page-break-before: auto; /* Reset to default value */
     }
 }

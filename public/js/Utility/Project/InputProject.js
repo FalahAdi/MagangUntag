@@ -21,62 +21,106 @@ let ket_gambar1 = document.getElementById("ket_gambar1");
 let gambar2 = document.getElementById("gambar2");
 let ket_gambar2 = document.getElementById("ket_gambar2");
 let user_input = document.getElementById("user_input");
+let keterangan1 = document.getElementById("keterangan1");
+let keterangan2 = document.getElementById("keterangan2");
 
-// tanggal_mulai.disabled = true;
-// tanggal_selesai.disabled = true;
-// nama_project.disabled = true;
-// nama_mesin.disabled = true;
-// merk_mesin.disabled = true;
-// lokasi_mesin.disabled = true;
-// tahun_pembuatan.disabled = true;
-// keterangan_kerusakan.disabled = true;
-// perbaikan.disabled = true;
-// progress.disabled = true;
-// selesai.disabled = true;
-// gambar1.disabled = true;
-// ket_gambar1.disabled = true;
-// gambar2.disabled = true;
-// ket_gambar2.disabled = true;
+tanggal_mulai.disabled = true;
+tanggal_selesai.disabled = true;
+nama_project.disabled = true;
+nama_mesin.disabled = true;
+merk_mesin.disabled = true;
+lokasi_mesin.disabled = true;
+tahun_pembuatan.disabled = true;
+keterangan_kerusakan.disabled = true;
+perbaikan.disabled = true;
+gambar1.disabled = true;
+ket_gambar1.disabled = true;
+ket_gambar2.disabled = true;
+gambar2.disabled = true;
+keterangan1.disabled = true;
+keterangan2.disabled = true;
+prosesButton.disabled = true;
 
-inputButton.addEventListener("click", function () {
-    console.log("Input Button Clicked");
-    koreksiButton.disabled = false;
-    hapusButton.disabled = false;
-    tanggal_mulai.disabled = false;
-    tanggal_selesai.disabled = false;
-    nama_project.disabled = false;
-    nama_mesin.disabled = false;
-    merk_mesin.disabled = false;
-    lokasi_mesin.disabled = false;
-    tahun_pembuatan.disabled = false;
-    keterangan_kerusakan.disabled = false;
-    perbaikan.disabled = false;
-    //progress.disabled = false;
-    selesai.disabled = false;
-    gambar1.disabled = false;
-    gambar2.disabled = false;
-    ket_gambar2.disabled = false;
-    ket_gambar1.disabled = false;
+$(document).ready(function () {
+    $("#koreksiButton").click(function (e) {
+        console.log("koreksi Button Clicked");
+        // inputButton.disabled = true;
+        // hapusButton.disabled = true;
+        tanggal_mulai.disabled = false;
+        tanggal_selesai.disabled = false;
+        nama_project.disabled = false;
+        nama_mesin.disabled = false;
+        merk_mesin.disabled = false;
+        lokasi_mesin.disabled = false;
+        tahun_pembuatan.disabled = false;
+        keterangan_kerusakan.disabled = false;
+        perbaikan.disabled = false;
+        gambar1.disabled = false;
+        gambar2.disabled = false;
+        ket_gambar2.disabled = false;
+        ket_gambar1.disabled = false;
+        keterangan1.disabled = false;
+        keterangan2.disabled = false;
+
+        var checkedCheckboxes = $(".checkbox_project:checked");
+
+        if (checkedCheckboxes.length === 0) {
+            // inputButton.disabled = true;
+            // hapusButton.disabled = true;
+            tanggal_mulai.disabled = true;
+            tanggal_selesai.disabled = true;
+            nama_project.disabled = true;
+            nama_mesin.disabled = true;
+            merk_mesin.disabled = true;
+            lokasi_mesin.disabled = true;
+            tahun_pembuatan.disabled = true;
+            keterangan_kerusakan.disabled = true;
+            perbaikan.disabled = true;
+            gambar1.disabled = true;
+            gambar2.disabled = true;
+            ket_gambar2.disabled = true;
+            ket_gambar1.disabled = true;
+            keterangan1.disabled = true;
+            keterangan2.disabled = true;
+            Swal.fire(
+                "Pilih data yang akan dikoreksi terlebih dahulu",
+                "",
+                "warning"
+            );
+            return; // Stop the function execution
+        }
+    });
 });
 
-batalButton.addEventListener("click", function () {
-    koreksiButton.disabled = true;
-    hapusButton.disabled = true;
-    tanggal_mulai.disabled = true;
-    tanggal_selesai.disabled = true;
-    nama_project.disabled = true;
-    nama_mesin.disabled = true;
-    merk_mesin.disabled = true;
-    lokasi_mesin.disabled = true;
-    tahun_pembuatan.disabled = true;
-    keterangan_kerusakan.disabled = true;
-    perbaikan.disabled = true;
-    //progress.disabled = true;
-    selesai.disabled = true;
-    gambar1.disabled = true;
-    ket_gambar1.disabled = true;
-    gambar2.disabled = true;
-    ket_gambar2.disabled = true;
+function checkAllFieldsFilled() {
+    return (
+        tanggal_mulai.value.trim() !== "" &&
+        tanggal_selesai.value.trim() !== "" &&
+        nama_project.value.trim() !== "" &&
+        nama_mesin.value.trim() !== "" &&
+        merk_mesin.value.trim() !== "" &&
+        lokasi_mesin.value.trim() !== "" &&
+        tahun_pembuatan.value.trim() !== "" &&
+        keterangan_kerusakan.value.trim() !== "" &&
+        perbaikan.value.trim() !== ""
+    );
+}
+
+// Add event listeners to enable/disable prosesButton based on input field values
+[
+    tanggal_mulai,
+    tanggal_selesai,
+    nama_project,
+    nama_mesin,
+    merk_mesin,
+    lokasi_mesin,
+    tahun_pembuatan,
+    keterangan_kerusakan,
+    perbaikan,
+].forEach(function (inputField) {
+    inputField.addEventListener("input", function () {
+        prosesButton.disabled = !checkAllFieldsFilled();
+    });
 });
 
 document.getElementById("gambar2").addEventListener("change", function () {
@@ -237,6 +281,71 @@ $(document).ready(function () {
     $("#refreshButton").click(function () {
         dataTable.ajax.reload();
         console.log(dataTable);
+    });
+
+    batalButton.addEventListener("click", function () {
+        koreksiButton.disabled = false;
+        inputButton.disabled = false;
+        hapusButton.disabled = false;
+        tanggal_mulai.disabled = true;
+        tanggal_selesai.disabled = true;
+        nama_project.disabled = true;
+        nama_mesin.disabled = true;
+        merk_mesin.disabled = true;
+        lokasi_mesin.disabled = true;
+        tahun_pembuatan.disabled = true;
+        keterangan_kerusakan.disabled = true;
+        perbaikan.disabled = true;
+        gambar1.disabled = true;
+        ket_gambar1.disabled = true;
+        gambar2.disabled = true;
+        ket_gambar2.disabled = true;
+        keterangan1.disabled = true;
+        keterangan2.disabled = true;
+        dataTable.clear().draw();
+        //$("#tanggal_mulai").val("");
+        //$("#tanggal_selesai").val("");
+        $("#nama_project").val("");
+        $("#nama_mesin").val("");
+        $("#merk_mesin").val("");
+        $("#lokasi_mesin").val("");
+        $("#tahun_pembuatan").val("");
+        $("#keterangan_kerusakan").val("");
+        $("#perbaikan").val("");
+        $("#keterangan1").val("");
+        $("#keterangan2").val("");
+    });
+
+    inputButton.addEventListener("click", function () {
+        console.log("Input Button Clicked");
+        koreksiButton.disabled = true;
+        hapusButton.disabled = true;
+        tanggal_mulai.disabled = false;
+        tanggal_selesai.disabled = false;
+        nama_project.disabled = false;
+        nama_mesin.disabled = false;
+        merk_mesin.disabled = false;
+        lokasi_mesin.disabled = false;
+        tahun_pembuatan.disabled = false;
+        keterangan_kerusakan.disabled = false;
+        perbaikan.disabled = false;
+        gambar1.disabled = false;
+        gambar2.disabled = false;
+        ket_gambar2.disabled = false;
+        ket_gambar1.disabled = false;
+        keterangan1.disabled = false;
+        keterangan2.disabled = false;
+        dataTable.clear().draw();
+
+        // $("#tanggal_mulai").val("");
+        // $("#tanggal_selesai").val("");
+        $("#nama_project").val("");
+        $("#nama_mesin").val("");
+        $("#merk_mesin").val("");
+        $("#lokasi_mesin").val("");
+        $("#tahun_pembuatan").val("");
+        $("#keterangan_kerusakan").val("");
+        $("#perbaikan").val("");
     });
 });
 

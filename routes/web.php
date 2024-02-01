@@ -94,6 +94,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('TambahGambarProject', App\Http\Controllers\Utility\Project\TambahGambarProjectController::class);
     Route::resource('PrintProject', App\Http\Controllers\Utility\Project\PrintProjectController::class);
     Route::get('/getDataProjectId', 'App\Http\Controllers\Utility\Project\InputProjectController@getDataProjectId');
+    Route::put('/putDataProject', 'App\Http\Controllers\Utility\Project\InputProjectController@updateDataProject');
 
 });
 

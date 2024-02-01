@@ -51,11 +51,11 @@
                                         <div class="div">
                                             <label>Keterangan</label>
                                             <label>
-                                                <input type="radio" name="keterangan" value="Progress" id="keterangan">
+                                                <input type="radio" name="keterangan" value="Progress" id="keterangan1">
                                                 Progress
                                             </label>
                                             <label>
-                                                <input type="radio" name="keterangan" value="Selesai" id="keterangan">
+                                                <input type="radio" name="keterangan" value="Selesai" id="keterangan2">
                                                 Selesai
                                             </label>
                                         </div>
