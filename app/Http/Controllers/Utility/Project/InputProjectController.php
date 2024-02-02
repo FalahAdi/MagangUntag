@@ -23,14 +23,14 @@ class InputProjectController extends Controller
         //
         try {
             $Kode = '1';
-            $NamaProject = $request->input('nama_mesin');;
-            $NamaMesin = $request->input('nama_project');
+            $NamaMesin = $request->input('nama_mesin');
+            $NamaProject = $request->input('nama_project');;
             $TglMulai = $request->input('tanggal_mulai');
             $TglSelesai = $request->input('tanggal_selesai');
             $Keterangan = $request->input('keterangan');
+            $Id = $request->input('id');
             $user_input = Auth::user()->NomorUser;
             $KeteranganKerja = $request->input('keterangan_kerusakan');
-            $Id = $request->input('id');
             $MerkMesin = $request->input('merk_mesin');
             $LokasiMesin = $request->input('lokasi_mesin');
             $TahunBuat = $request->input('tahun_pembuatan');
@@ -40,8 +40,8 @@ class InputProjectController extends Controller
 
             $data = DB::connection('ConnUtility')->statement('exec SP_1273_UTY_MAINT_PROJECT ?,?,?,?,?,?,?,?,?,?,?,?,?', [
                 $Kode,
-                $NamaProject,
                 $NamaMesin,
+                $NamaProject,
                 $TglMulai,
                 $TglSelesai,
                 $Keterangan,
@@ -72,9 +72,11 @@ class InputProjectController extends Controller
             try {
                 $bulan = $request->input('bulan');
                 $tahun = $request->input('tahun');
+                $user_input = Auth::user()->NomorUser;
+
 
                 // Execute the stored procedure and fetch data
-                $data = DB::connection('ConnUtility')->select('exec SP_1273_UTY_LIST_PROJECT @Kode=?, @bulan=?, @tahun=?', [ '4', $bulan, $tahun]);
+                $data = DB::connection('ConnUtility')->select('exec SP_1273_UTY_LIST_PROJECT @Kode=?, @bulan=?, @tahun=?, @Id=?' ,[ '4', $bulan, $tahun,'4378']);
 
                 // Jika data ditemukan, kembalikan dalam format yang sesuai
 
@@ -120,18 +122,18 @@ class InputProjectController extends Controller
         }
     //Show the form for creating a new resource.
 
-    public function updateData(Request $request)
+    public function updateDataProject(Request $request)
     {
         try {
             $Kode = '2';
-            $NamaProject = $request->input('nama_mesin');;
+            $Id = $request->input('idLaporan');
+            $NamaProject = $request->input('nama_mesin');
             $NamaMesin = $request->input('nama_project');
             $TglMulai = $request->input('tanggal_mulai');
             $TglSelesai = $request->input('tanggal_selesai');
             $Keterangan = $request->input('keterangan');
             $user_input = Auth::user()->NomorUser;
             $KeteranganKerja = $request->input('keterangan_kerusakan');
-            $Id = $request->input('id');
             $MerkMesin = $request->input('merk_mesin');
             $LokasiMesin = $request->input('lokasi_mesin');
             $TahunBuat = $request->input('tahun_pembuatan');

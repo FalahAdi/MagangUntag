@@ -39,7 +39,6 @@ ket_gambar2.disabled = true;
 gambar2.disabled = true;
 keterangan1.disabled = true;
 keterangan2.disabled = true;
-prosesButton.disabled = true;
 
 $(document).ready(function () {
     $("#koreksiButton").click(function (e) {
@@ -92,36 +91,36 @@ $(document).ready(function () {
     });
 });
 
-function checkAllFieldsFilled() {
-    return (
-        tanggal_mulai.value.trim() !== "" &&
-        tanggal_selesai.value.trim() !== "" &&
-        nama_project.value.trim() !== "" &&
-        nama_mesin.value.trim() !== "" &&
-        merk_mesin.value.trim() !== "" &&
-        lokasi_mesin.value.trim() !== "" &&
-        tahun_pembuatan.value.trim() !== "" &&
-        keterangan_kerusakan.value.trim() !== "" &&
-        perbaikan.value.trim() !== ""
-    );
-}
+// function checkAllFieldsFilled() {
+//     return (
+//         tanggal_mulai.value.trim() !== "" &&
+//         tanggal_selesai.value.trim() !== "" &&
+//         nama_project.value.trim() !== "" &&
+//         nama_mesin.value.trim() !== "" &&
+//         merk_mesin.value.trim() !== "" &&
+//         lokasi_mesin.value.trim() !== "" &&
+//         tahun_pembuatan.value.trim() !== "" &&
+//         keterangan_kerusakan.value.trim() !== "" &&
+//         perbaikan.value.trim() !== ""
+//     );
+// }
 
-// Add event listeners to enable/disable prosesButton based on input field values
-[
-    tanggal_mulai,
-    tanggal_selesai,
-    nama_project,
-    nama_mesin,
-    merk_mesin,
-    lokasi_mesin,
-    tahun_pembuatan,
-    keterangan_kerusakan,
-    perbaikan,
-].forEach(function (inputField) {
-    inputField.addEventListener("input", function () {
-        prosesButton.disabled = !checkAllFieldsFilled();
-    });
-});
+// // Add event listeners to enable/disable prosesButton based on input field values
+// [
+//     tanggal_mulai,
+//     tanggal_selesai,
+//     nama_project,
+//     nama_mesin,
+//     merk_mesin,
+//     lokasi_mesin,
+//     tahun_pembuatan,
+//     keterangan_kerusakan,
+//     perbaikan,
+// ].forEach(function (inputField) {
+//     inputField.addEventListener("input", function () {
+//         prosesButton.disabled = !checkAllFieldsFilled();
+//     });
+// });
 
 document.getElementById("gambar2").addEventListener("change", function () {
     var fileInput = this;
@@ -161,9 +160,9 @@ document.getElementById("gambar1").addEventListener("change", function () {
 });
 
 if (tanggal_mulai && tanggal_selesai) {
-    var tanggal_akhirOutput = new Date().toISOString().split("T")[0];
-    tanggal_mulai.value = tanggal_akhirOutput;
-    tanggal_selesai.value = tanggal_akhirOutput;
+    // var tanggal_akhirOutput = new Date().toISOString().split("T")[0];
+    // tanggal_mulai.value = tanggal_akhirOutput;
+    // tanggal_selesai.value = tanggal_akhirOutput;
 
     var currentDateTime = new Date();
     var hours = currentDateTime.getHours().toString().padStart(2, "0");
@@ -175,17 +174,18 @@ $(document).ready(function () {
     $("#prosesButton").click(function (e) {
         e.preventDefault();
         //var Kode = Kode.value;
-        var nama_projectValue = nama_project.value;
-        var nama_mesinValue = nama_mesin.value;
-        var tanggal_mulaiValue = tanggal_mulai.value;
-        var tanggal_selesaiValue = tanggal_selesai.value;
-        // var Keterangan = keterangan.value;
+        var nama_projectValue = $("#nama_project").val();
+        var nama_mesinValue = $("#nama_mesin").val();
+        var tanggal_mulaiValue = $("#tanggal_mulai").val();
+        var tanggal_selesaiValue = $("#tanggal_selesai").val();
+        // var Keterangan = Keterangan.value;
         //var user_input = user_input.value;
-        var keterangan_kerusakanValue = keterangan_kerusakan.value;
-        var merk_mesinValue = merk_mesin.value;
-        var lokasi_mesinValue = lokasi_mesin.value;
-        var tahun_pembuatanValue = tahun_pembuatan.value;
-        var perbaikanValue = perbaikan.value;
+        var keterangan_kerusakanValue = $("#keterangan_kerusakan").val();
+        var merk_mesinValue = $("#merk_mesin").val();
+        var lokasi_mesinValue = $("#lokasi_mesin").val();
+        var tahun_pembuatanValue = $("#tahun_pembuatan").val();
+        var perbaikanValue = $("#perbaikan").val();
+        var idLaporanValue = $("#id").val();
         var keteranganValue = $("input[name='keterangan']:checked").val();
         var requestData = {
             //Kode: Kode.value,
@@ -193,7 +193,7 @@ $(document).ready(function () {
             nama_mesin: nama_mesinValue,
             tanggal_mulai: tanggal_mulaiValue,
             tanggal_selesai: tanggal_selesaiValue,
-            //Keterangan: Keterangan,
+            // Keterangan: Keterangan,
             //user_input: user_input,
             keterangan_kerusakan: keterangan_kerusakanValue,
             merk_mesin: merk_mesinValue,
@@ -201,25 +201,52 @@ $(document).ready(function () {
             tahun_pembuatan: tahun_pembuatanValue,
             perbaikan: perbaikanValue,
             keterangan: keteranganValue,
+            idLaporan: idLaporanValue,
         };
-        // console.log(requestData);
+        if (idLaporanValue) {
+            requestData.Id = idLaporanValue;
+        }
+        console.log(requestData);
         $.ajax({
-            url: "/postDataProject",
-            method: "POST",
-            data: requestData,
+            url: idLaporanValue ? "/updateDataProject" : "/postDataProject",
+            type: idLaporanValue ? "PUT" : "POST",
             headers: {
                 "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
             },
-            // dataType: "json",
+            data: requestData,
+            error: function (xhr, status, error) {
+                if (xhr.status === 419) {
+                    // Penanganan khusus untuk status 419 (sesi tidak valid)
+                    console.log("Sesi tidak valid. Silakan login kembali.");
+                    // Lakukan tindakan yang sesuai, seperti mengarahkan pengguna ke halaman login
+                } else {
+                    // Penanganan kesalahan lainnya
+                    console.log("Terjadi kesalahan saat menyimpan data.");
+                }
+            },
             success: function (response) {
-                console.log(requestData);
                 console.log(response);
-                Swal.fire({
-                    icon: "success",
-                    title: "Data berhasil disimpan",
-                    showConfirmButton: false,
-                    timer: 1500,
-                });
+                // Respons sukses
+                dataTable.ajax.reload();
+                if (idLaporanValue) {
+                    // Ini adalah operasi UPDATE (PUT)
+                    Swal.fire({
+                        icon: "success",
+                        title: "Data berhasil diperbarui!",
+                        showConfirmButton: false,
+                        timer: 1500,
+                    });
+                } else {
+                    // Ini adalah operasi INSERT (POST)
+                    Swal.fire({
+                        icon: "success",
+                        title: "Data berhasil ditambahkan!",
+                        showConfirmButton: false,
+                        timer: 1500,
+                    });
+                    // console.log("Gambar berhasil disimpan."),
+                }
+                $("#id").val("");
             },
         });
     });
@@ -244,6 +271,9 @@ $(document).ready(function () {
                 d.tahun = $("#tahun").val();
             },
         },
+        moment: {
+            timezone: "Asia/Jakarta", // Sesuaikan dengan zona waktu yang sesuai
+        },
         columns: [
             {
                 data: "Id",
@@ -261,16 +291,17 @@ $(document).ready(function () {
                 data: "TglMulai",
                 render: function (data, type, full, meta) {
                     // Assuming data is in UTC format, adjust it to the local timezone
-                    var date = new Date(data + "Z").toLocaleDateString();
-                    return date;
+
+                    var localDate = moment.utc(data).local();
+                    return localDate.format("DD-MM-YYYY");
                 },
             },
             {
                 data: "TglSelesai",
                 render: function (data, type, full, meta) {
                     // Assuming data is in UTC format, adjust it to the local timezone
-                    var date = new Date(data + "Z").toLocaleDateString();
-                    return date;
+                    var localDate = moment.utc(data).local();
+                    return localDate.format("DD-MM-YYYY");
                 },
             },
             { data: "KeteranganKerja" },
@@ -314,6 +345,7 @@ $(document).ready(function () {
         $("#perbaikan").val("");
         $("#keterangan1").val("");
         $("#keterangan2").val("");
+        $("#id").val("");
     });
 
     inputButton.addEventListener("click", function () {
@@ -346,6 +378,7 @@ $(document).ready(function () {
         $("#tahun_pembuatan").val("");
         $("#keterangan_kerusakan").val("");
         $("#perbaikan").val("");
+        $("#id").val("");
     });
 });
 
@@ -358,21 +391,47 @@ $(document).ready(function () {
             hapusButton.disabled = false;
             koreksiButton.disabled = false;
             var id = $(this).val();
+            $("#id").val(id);
 
             $.ajax({
                 url: "/getDataProjectId",
                 type: "GET",
                 data: { id: id },
                 success: function (data) {
+                    var TglMulai = new Date(data.TglMulai);
+                    var offset = TglMulai.getTimezoneOffset();
+                    TglMulai.setMinutes(TglMulai.getMinutes() - offset);
+
+                    var TglSelesai = new Date(data.TglSelesai);
+                    var offset = TglSelesai.getTimezoneOffset();
+                    TglSelesai.setMinutes(TglSelesai.getMinutes() - offset);
                     $("#nama_project").val(data.NamaProject);
                     $("#nama_mesin").val(data.NamaMesin);
                     $("#merk_mesin").val(data.MerkMesin);
                     $("#lokasi_mesin").val(data.LokasiMesin);
                     $("#tahun_pembuatan").val(data.TahunPembuatan);
-                    $("#tanggal_mulai").val(data.TglMulai);
-                    $("#tanggal_selesai").val(data.TglSelesai);
+                    $("#tanggal_mulai").val(
+                        TglMulai.toISOString().split("T")[0]
+                    );
+                    $("#tanggal_selesai").val(
+                        TglSelesai.toISOString().split("T")[0]
+                    );
                     $("#keterangan_kerusakan").val(data.KeteranganKerja);
                     $("#perbaikan").val(data.Perbaikan);
+
+                    console.log(
+                        "Selected id_laporan: ",
+                        id,
+                        data.NamaProject,
+                        data.NamaMesin,
+                        data.MerkMesin,
+                        data.LokasiMesin,
+                        data.TahunPembuatan,
+                        data.TglMulai,
+                        data.TglSelesai,
+                        data.KeteranganKerja,
+                        data.Perbaikan
+                    );
                 },
                 error: function (xhr, status, error) {
                     console.error("Error fetching data:", error);
