@@ -26,12 +26,11 @@ class InputGangguanElektrikController extends Controller
 
     public function postData(Request $request)
     {
-        // dd($request->all());
-        //
         try {
+            // dd($request->all());
             $tanggal = $request->input('tanggal');
             $l_div_pelapor = $request->input('divisi_pelapor1');
-            $nama_pelapor = $request->input('nama_pelapor');;
+            $nama_pelapor = $request->input('nama_pelapor');
             $penerima_laporan = $request->input('penerima_laporan');
             $jamlapor = $request->input('jam_lapor');
             $jampelaksanaan = $request->input('jam_perbaikan');
@@ -42,10 +41,28 @@ class InputGangguanElektrikController extends Controller
             $keterangan = $request->input('keterangan');
             $teknisi = $request->input('teknisi');
             $lanjut = $request->input('agree');
+            $ketGambar1 = $request->input('ketgambar1');
+            $ketGambar2 = $request->input('ketgambar2');
             $user_input = Auth::user()->NomorUser;
 
+            $image = $request->file('gambar1data');
+            $imageBinary = null;
+            if ($image) {
+                $binaryReader = fopen($image, 'rb');
+                $imageBinary = fread($binaryReader, $image->getSize());
+                fclose($binaryReader);
+            }
 
-            $data = DB::connection('ConnUtility')->statement('exec SP_INSERT_GANGGUAN_ELEKTRIK ?,?,?,?,?,?,?,?,?,?,?,?,?,?', [
+            // gambar 2
+            $image2 = $request->file('gambar2data');
+            $imageBinary2 = null;
+            if ($image2) {
+                $binaryReader2 = fopen($image2, 'rb');
+                $imageBinary2 = fread($binaryReader2, $image2->getSize());
+                fclose($binaryReader2);
+            }
+
+            DB::connection('ConnUtility')->statement('exec SP_INSERT_GANGGUAN_ELEKTRIK ?,?,?,?,?,?,?,?,?,?,?,?,?,?', [
                 $tanggal,
                 $l_div_pelapor,
                 $nama_pelapor,
@@ -62,41 +79,32 @@ class InputGangguanElektrikController extends Controller
                 $user_input
             ]);
 
-            if ($data) {
-                return response()->json(['success' => true]);
-            } else {
-                return response()->json(['error' => 'Gagal menyimpan data.'], 500);
-            }
+            $insertedId = DB::connection('ConnUtility')->getPdo()->lastInsertId();
+
+            $save = DB::connection('ConnUtility')->table('GAMBAR_ELEKTRIK')->insert([
+                'IdLaporan' => $insertedId,
+                'Gambar1' => $imageBinary ? DB::raw('0x' . bin2hex($imageBinary)) : null,
+                'KeteranganGambar1' => $imageBinary ? $ketGambar1 : null,
+                'Gambar2' => $imageBinary2 ? DB::raw('0x' . bin2hex($imageBinary2)) : null,
+                'KeteranganGambar2' => $imageBinary2 ? $ketGambar2 : null,
+                'UserInput' => $user_input,
+                'UserKoreksi' => null,
+            ]);
+
+            return response()->json(['success' => true, 'data' => $save]);
         } catch (\Throwable $th) {
-            return response()->json(['error' => 'Terjadi kesalahan internal.'], 500);
+            report($th);
+            return $th;
         }
-        // return($request->all());
     }
-
-
-
 
     public function getData(Request $request)
     {
-        // dd($request->all(), 'hehe');
-        // $tanggal1 = $request->input('tanggal1');
-        // $tanggal2 = $request->input('tanggal2');
-        // $l_div_pelapor = $request->input ('divisi');
-
-        // // Execute the stored procedure and fetch data
-        // $data = DB::connection('ConnUtility')->select('exec SP_DT_LIST_GANGGUAN_ELEKTRIK_BLN_THN2 @date1 = \''.$tanggal1.'\', @date2 = \''.$tanggal2.'\',  @divisi = '.$l_div_pelapor);
-        // // dd($data);
-        // // Return data as a JSON response
-        // return datatables($data)->make(true);
-        // // return response()->json($data);
 
         $tanggal1 = $request->input('tanggal1');
         $tanggal2 = $request->input('tanggal2');
         $l_div_pelapor = $request->input('divisi');
-
-        // Execute the stored procedure and fetch data
         $data = DB::connection('ConnUtility')->select('exec SP_DT_LIST_GANGGUAN_ELEKTRIK_BLN_THN2 @date1 = ?, @date2 = ?,  @divisi = ?', [$tanggal1, $tanggal2, $l_div_pelapor]);
-        // Return data as a JSON response
         return datatables($data)->make(true);
     }
     public function deleteData(Request $request)
@@ -105,16 +113,13 @@ class InputGangguanElektrikController extends Controller
         $Id_Laporan = $request->input('id');
 
         try {
-            // Your deletion logic here
-            // Example: Delete records from the database based on IDs
             foreach ($Id_Laporan as $id) {
                 DB::connection('ConnUtility')->statement('exec SP_HAPUS_GANGGUAN_ELEKTRIK @id_laporan = ?', [$id]);
+                DB::connection('ConnUtility')->table('GAMBAR_ELEKTRIK')->where('IdLaporan', $id)->delete();
             }
 
-            // Return a success response
             return response()->json(['success' => true, 'message' => 'Data deleted successfully']);
         } catch (\Exception $e) {
-            // Return an error response
             return response()->json(['success' => false, 'message' => 'Error deleting data: ' . $e->getMessage()]);
         }
     }
@@ -134,7 +139,6 @@ class InputGangguanElektrikController extends Controller
             $user_input = Auth::user()->NomorUser;
             $lanjut = $request->input('agree');
 
-            // Update data in the database
             $data = DB::connection('ConnUtility')->statement('exec SP_KOREKSI_GANGGUAN_ELEKTRIK ?,?,?,?,?,?,?,?,?,?', [
                 $jampelaksanaan,
                 $jamselesai,
@@ -148,7 +152,6 @@ class InputGangguanElektrikController extends Controller
                 $lanjut
             ]);
 
-            // dd($data);
 
             if ($data) {
                 return response()->json(['success' => true]);
@@ -159,106 +162,6 @@ class InputGangguanElektrikController extends Controller
             return response()->json(['error' => 'Terjadi kesalahan internal.'], 500);
         }
     }
-
-    public function uploadImage(Request $request)
-    {
-        // Validasi bahwa file yang diunggah adalah gambar
-        $request->validate([
-            'fileInput' => 'required|image|mimes:jpeg,png,jpg,gif|max:10048', // Sesuaikan dengan kebutuhan Anda
-        ]);
-
-        // Ambil file dari request
-        $file = $request->file('fileInput');
-
-        // Buka file dalam mode biner
-        $fileHandle = fopen($file->getPathname(), 'rb');
-
-        if ($fileHandle) {
-            // Baca isi file sebagai data biner
-            $binaryData = fread($fileHandle, filesize($file->getPathname()));
-
-            // Tutup file handle setelah selesai membaca
-            fclose($fileHandle);
-
-            // Konversi data biner menjadi representasi heksadesimal
-            $hexData = bin2hex($binaryData);
-
-            // Simpan representasi heksadesimal ke dalam database atau lakukan tindakan lainnya
-            // ...
-            try {
-                $IdLaporan = $request->input('IdLaporan');
-                $Gambar1 = $request->input('gambar1');
-                $KetGambar1 = $request->input('ket_gambar1');
-                $Gambar2 = $request->input('gambar2');
-                $KetGambar2 = $request->input('ket_gambar2');
-                $Gambar3 = $request->input('gambar3');
-                $KetGambar3 = $request->input('ket_gambar3');
-                $Gambar4 = $request->input('gambar4');
-                $KetGambar4 = $request->input('ket_gambar4');
-                $Gambar5 = $request->input('gambar5');
-                $KetGambar5 = $request->input('ket_gambar5');
-                $Gambar6 = $request->input('gambar6');
-                $KetGambar6 = $request->input('ket_gambar6');
-                $Gambar7 = $request->input('gambar7');
-                $KetGambar7 = $request->input('ket_gambar7');
-                $Gambar8 = $request->input('gambar8');
-                $KetGambar8 = $request->input('ket_gambar8');
-                $Gambar9 = $request->input('gambar9');
-                $KetGambar9 = $request->input('ket_gambar9');
-                $Gambar10 = $request->input('gambar10');
-                $KetGambar10 = $request->input('ket_gambar10');
-                $user_input = $request->input('userInput');
-                $userkoreksi = $request->input('userKoreksi');
-
-                dd($Gambar1);
-                $data = DB::connection('ConnUtility')->statement('exec SP_1273_UTY_INSERT_GAMBAR_GANGGUAN_ELEKTRIK ?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?', [
-                    $IdLaporan,
-                    $Gambar1,
-                    $KetGambar1,
-                    $Gambar1,
-                    $Gambar2,
-                    $KetGambar2,
-                    $Gambar3,
-                    $KetGambar3,
-                    $Gambar4,
-                    $KetGambar4,
-                    $Gambar5,
-                    $KetGambar5,
-                    $Gambar6,
-                    $KetGambar6,
-                    $Gambar7,
-                    $KetGambar7,
-                    $Gambar8,
-                    $KetGambar8,
-                    $Gambar9,
-                    $KetGambar9,
-                    $Gambar10,
-                    $KetGambar10,
-                    $user_input,
-                    $userkoreksi
-                ]);
-                if ($data) {
-                    return response()->json(['success' => true]);
-                } else {
-                    return response()->json(['error' => 'Gagal menyimpan data.'], 500);
-                }
-            } catch (\Throwable $th) {
-                return response()->json(['error' => 'Terjadi kesalahan internal.'], 500);
-            }
-
-
-
-            // Tampilkan pesan sukses atau redirect ke halaman yang diinginkan
-            return back()->with('success', 'Gambar berhasil diunggah.');
-        } else {
-            // Jika gagal membuka file
-            return back()->with('error', 'Gagal membaca file gambar.');
-        }
-    }
-
-
-
-
     //Show the form for creating a new resource.
     public function create()
     {

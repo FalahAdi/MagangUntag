@@ -101,7 +101,9 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('TambahGambarProject', App\Http\Controllers\Utility\Project\TambahGambarProjectController::class);
     Route::resource('PrintProject', App\Http\Controllers\Utility\Project\PrintProjectController::class);
     Route::get('/getDataProjectId', 'App\Http\Controllers\Utility\Project\InputProjectController@getDataProjectId');
+    Route::get('/getDataUserId', 'App\Http\Controllers\Utility\Project\InputProjectController@getDataUserId');
     Route::put('/updateDataProject', 'App\Http\Controllers\Utility\Project\InputProjectController@updateDataProject');
+    Route::delete('/deleteDataProject', 'App\Http\Controllers\Utility\Project\InputProjectController@deleteDataProject');
 
 });
 

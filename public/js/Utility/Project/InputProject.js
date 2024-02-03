@@ -385,12 +385,19 @@ $(document).ready(function () {
 $(document).ready(function () {
     // Inisialisasi DataTable
     var dataTable = $("#tabel_input_project").DataTable();
+    var selectedData;
 
     $("tbody").on("click", ".checkbox_project", function () {
         if ($(this).prop("checked")) {
+            var selectedRow = $(this).closest("tr");
+            var id = $(this).val();
+            selectedData = {
+                UserId: selectedRow.find("td:eq(7)").text(),
+                id_laporan: id,
+            };
+
             hapusButton.disabled = false;
             koreksiButton.disabled = false;
-            var id = $(this).val();
             $("#id").val(id);
 
             $.ajax({
@@ -430,7 +437,8 @@ $(document).ready(function () {
                         data.TglMulai,
                         data.TglSelesai,
                         data.KeteranganKerja,
-                        data.Perbaikan
+                        data.Perbaikan,
+                        data.UserId
                     );
                 },
                 error: function (xhr, status, error) {
@@ -446,35 +454,79 @@ $(document).ready(function () {
     $("#hapusButton").click(function (e) {
         var Token = $('meta[name="csrf-Token"]').attr("content");
         // Dapatkan checkbox tercentang di dalam baris yang dipilih
-        var checkboxValues = $(".checkbox_project:checked")
-            .map(function () {
-                return this.value;
-            })
-            .get();
-        if (checkboxValues.length > 0) {
-            Swal.fire({
-                title: "Maaf Anda Tidak Berhak Menghapus Data Ini!",
-                icon: "warning",
-                confirmButtonText: "Ok",
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    var requestData = {
-                        id: checkboxValues,
-                    };
-                }
+
+        if (selectedData) {
+            $.ajax({
+                url: "/getDataUserId", // Gantilah dengan endpoint yang sesuai
+                method: "GET",
+                success: function (response) {
+                    // console.log(response.NomorUser);
+                    // console.log(selectedData.UserId);
+                    // console.log(selectedData.id_laporan);
+                    var nomorUserFromAPI = response.NomorUser;
+                    //var nomorUserFromAPI = "4378";
+
+                    // Ambil UserId dari selectedData
+                    var userIdFromSelectedData = selectedData.UserId;
+
+                    // Periksa apakah NomorUser dari API response sama dengan UserId dari selectedData
+                    if (nomorUserFromAPI === userIdFromSelectedData) {
+                        console.log("nomorUser dan userID sama");
+                        Swal.fire({
+                            title: "Anda yakin untuk menghapus data?",
+                            showDenyButton: true,
+                            showCancelButton: true,
+                            confirmButtonText: "Ya",
+                            denyButtonText: "Tidak",
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                var requestData = {
+                                    id: selectedData.id_laporan,
+                                };
+                                $.ajax({
+                                    url: "/deleteDataProject",
+                                    method: "DELETE",
+                                    data: requestData,
+                                    headers: {
+                                        "X-CSRF-TOKEN": $(
+                                            'meta[name="csrf-token"]'
+                                        ).attr("content"),
+                                    },
+                                    success: function (response) {
+                                        dataTable.ajax.reload();
+                                        Swal.fire(
+                                            "Data berhasil dihapus!",
+                                            "",
+                                            "success"
+                                        );
+                                    },
+                                    error: function (error) {
+                                        console.error(error);
+                                    },
+                                });
+                            } else if (result.isDenied) {
+                                Swal.fire("Data tidak dihapus", "", "info");
+                            }
+                        });
+                    } else {
+                        console.log("nomerUser dan idUser tidak sama");
+                        Swal.fire(
+                            "Anda tidak memiliki izin untuk menghapus data ini",
+                            "",
+                            "warning"
+                        );
+                    }
+                },
+                error: function (error) {
+                    console.error(error);
+                },
             });
         } else {
             Swal.fire(
-                "Maaf Anda Tidak Berhak Menghapus Data Ini!",
+                "Pilih data yang akan dihapus terlebih dahulu",
                 "",
                 "warning"
             );
         }
-
-        var requestData = {
-            id: checkboxValues,
-        };
-
-        // Tangani keberhasilan, perbarui UI atau muat ulang DataTable jika diperlukan
     });
 });

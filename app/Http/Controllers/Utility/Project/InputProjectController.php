@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Controllers\HakAksesController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+
 class InputProjectController extends Controller
 {
     // Display a listing of the resource.
@@ -66,60 +67,75 @@ class InputProjectController extends Controller
     }
 
 
-        public function getDataProject(Request $request)
-        {
+    public function getDataProject(Request $request)
+    {
 
-            try {
-                $bulan = $request->input('bulan');
-                $tahun = $request->input('tahun');
-                $user_input = Auth::user()->NomorUser;
+        try {
+            $bulan = $request->input('bulan');
+            $tahun = $request->input('tahun');
+            $user_input = Auth::user()->NomorUser;
 
 
-                // Execute the stored procedure and fetch data
-                $data = DB::connection('ConnUtility')->select('exec SP_1273_UTY_LIST_PROJECT @Kode=?, @bulan=?, @tahun=?, @Id=?' ,[ '4', $bulan, $tahun,'4378']);
+            // Execute the stored procedure and fetch data
+            $data = DB::connection('ConnUtility')->select('exec SP_1273_UTY_LIST_PROJECT @Kode=?, @bulan=?, @tahun=?, @Id=?', ['4', $bulan, $tahun, '4378']);
 
-                // Jika data ditemukan, kembalikan dalam format yang sesuai
+            // Jika data ditemukan, kembalikan dalam format yang sesuai
 
-                    return datatables($data)->make(true);
-
-            } catch (\Exception $e) {
-                // Tangani kesalahan jika terjadi
-                return response()->json(['error' => 'Internal Server Error.'], 500);
-            }
-
+            return datatables($data)->make(true);
+        } catch (\Exception $e) {
+            // Tangani kesalahan jika terjadi
+            return response()->json(['error' => 'Internal Server Error.'], 500);
         }
-        public function deleteDataProject(Request $request)
-        {
+    }
+    public function deleteDataProject(Request $request)
+    {
+        try {
+            // Retrieve the ID to be deleted from the request
+            $idToDelete = $request->input('id');
 
-            $Id = $request->input('id');
-
-            try {
-                // Your deletion logic here
-                // Example: Delete records from the database based on IDs
-                foreach ($Id as $id) {
-                    DB::connection('ConnUtility')->statement('exec SP_1273_UTY_MAINT_PROJECT @Id = ?', [$id]);
-                }
+            // Check if the provided Kode is '3'
+            $Kode = '3';
+            if ($Kode == '3') {
+                // Perform deletion logic for PROJECT table
+                DB::connection('ConnUtility')->table('PROJECT')->where('Id', $idToDelete)->delete();
 
                 // Return a success response
                 return response()->json(['success' => true, 'message' => 'Data deleted successfully']);
-            } catch (\Exception $e) {
-                // Return an error response
-                return response()->json(['success' => false, 'message' => 'Error deleting data: ' . $e->getMessage()]);
+            } else {
+                // Return an error response if Kode is not '3'
+                return response()->json(['success' => false, 'message' => 'Invalid Kode.']);
             }
+        } catch (\Exception $e) {
+            // Return an error response
+            return response()->json(['success' => false, 'message' => 'Error deleting data: ' . $e->getMessage()]);
+        }
+    }
+
+
+
+    public function getDataProjectId(Request $request)
+    {
+        $id = $request->input('id');
+        $data = DB::connection('ConnUtility')->table('PROJECT')->where('Id', $id)->first();
+
+        if (!$data) {
+            return response()->json(['message' => 'Data not found'], 404);
         }
 
+        return response()->json($data, 200);
+    }
 
-        public function getDataProjectId(Request $request)
-        {
-            $id = $request->input('id');
-            $data = DB::connection('ConnUtility')->table('PROJECT')->where('Id', $id)->first();
+    public function getDataUserId(Request $request)
+    {
+        try {
+            $user_input = Auth::user()->NomorUser;
 
-            if (!$data) {
-                return response()->json(['message' => 'Data not found'], 404);
-            }
-
-            return response()->json($data, 200);
+            return response()->json(['success' => true, 'NomorUser' => $user_input]);
+        } catch (\Throwable $th) {
+            report($th);
+            return response()->json(['success' => false, 'message' => $th->getMessage()]);
         }
+    }
     //Show the form for creating a new resource.
 
     public function updateDataProject(Request $request)
