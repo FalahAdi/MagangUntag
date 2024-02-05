@@ -36,10 +36,29 @@ class InputProjectController extends Controller
             $LokasiMesin = $request->input('lokasi_mesin');
             $TahunBuat = $request->input('tahun_pembuatan');
             $Perbaikan = $request->input('perbaikan');
+            $ketGambar1 = $request->input('ketgambar1');
+            $ketGambar2 = $request->input('ketgambar2');
 
 
 
-            $data = DB::connection('ConnUtility')->statement('exec SP_1273_UTY_MAINT_PROJECT ?,?,?,?,?,?,?,?,?,?,?,?,?', [
+            $image = $request->file('gambar1data');
+            $imageBinary = null;
+            if ($image) {
+                $binaryReader = fopen($image, 'rb');
+                $imageBinary = fread($binaryReader, $image->getSize());
+                fclose($binaryReader);
+            }
+
+            // gambar 2
+            $image2 = $request->file('gambar2data');
+            $imageBinary2 = null;
+            if ($image2) {
+                $binaryReader2 = fopen($image2, 'rb');
+                $imageBinary2 = fread($binaryReader2, $image2->getSize());
+                fclose($binaryReader2);
+            }
+
+            DB::connection('ConnUtility')->statement('exec SP_1273_UTY_MAINT_PROJECT ?,?,?,?,?,?,?,?,?,?,?,?,?', [
                 $Kode,
                 $NamaMesin,
                 $NamaProject,
@@ -54,6 +73,22 @@ class InputProjectController extends Controller
                 $TahunBuat,
                 $Perbaikan,
             ]);
+
+
+            $insertedId = DB::connection('ConnUtility')->getPdo()->lastInsertId();
+
+            $save = DB::connection('ConnUtility')->table('GAMBAR_PROJECT')->insert([
+                'Id' => $insertedId,
+                'Gambar1' => $imageBinary ? DB::raw('0x' . bin2hex($imageBinary)) : null,
+                'KeteranganGambar1' => $imageBinary ? $ketGambar1 : null,
+                'Gambar2' => $imageBinary2 ? DB::raw('0x' . bin2hex($imageBinary2)) : null,
+                'KeteranganGambar2' => $imageBinary2 ? $ketGambar2 : null,
+                'UserInput' => $user_input,
+                'UserKoreksi' => null,
+            ]);
+
+            return response()->json(['success' => true, 'data' => $save]);
+
 
             if ($data) {
                 return response()->json(['success' => true]);
@@ -157,6 +192,9 @@ class InputProjectController extends Controller
 
 
 
+
+
+
             $data = DB::connection('ConnUtility')->statement('exec SP_1273_UTY_MAINT_PROJECT ?,?,?,?,?,?,?,?,?,?,?,?,?', [
                 $Kode,
                 $NamaProject,
@@ -172,6 +210,8 @@ class InputProjectController extends Controller
                 $TahunBuat,
                 $Perbaikan,
             ]);
+
+
 
             if ($data) {
                 return response()->json(['success' => true]);

@@ -72,34 +72,35 @@
                                 </div>
                                 <div class="col-2">
                                     {{-- <form action="{{ route('uploadImage') }}" method="POST" enctype="multipart/form-data" id="formGambar1"> --}}
-                                        {{-- {{ csrf_field() }} --}}
-                                        <label for="gambar1" class="btn btn-link">Pilih Gambar 1</label>
-                                        <input type="file" id="gambar1" name="fileInput" style="display: none;" accept="image/*">
+                                    {{-- {{ csrf_field() }} --}}
+                                    <label for="gambar1" class="btn btn-link">Pilih Gambar 1</label>
+                                    <input type="file" id="gambar1" name="fileInput" style="display: none;"
+                                        accept="image/*">
 
-                                        <!-- Tambahkan tombol submit atau elemen formulir lainnya jika diperlukan -->
+                                    <!-- Tambahkan tombol submit atau elemen formulir lainnya jika diperlukan -->
 
                                     {{-- </form> --}}
-                                    <div class="nama_pelapor">Ket. Gambar 1</div>
-                                    <input type="text" name="nama_pelapor" id="ket_gambar1" class="mb-1">
 
                                     <div id="imagePreviewContainer1">
                                         <img id="hasil_gambar1" src="" alt="Preview 1"
                                             style="display: none; max-width: 100%; height: auto;">
                                     </div>
+                                    <div class="nama_pelapor">Ket. Gambar 1</div>
+                                    <input type="text" name="nama_pelapor" id="ket_gambar1" class="mb-1">
 
                                     <form id="uploadForm2" action="/upload" method="post" enctype="multipart/form-data"
                                         class="mt-3">
                                         <label for="gambar2" class="btn btn-link">Pilih Gambar 2</label>
                                         <input type="file" id="gambar2" name="fileInput" style="display: none;"
                                             accept="image/*">
-                                        <div class="nama_pelapor">Ket. Gambar 2</div>
-                                        <input type="text" name="nama_pelapor" id="ket_gambar2" class="mb-1">
                                     </form>
 
                                     <div id="imagePreviewContainer2">
                                         <img id="hasil_gambar2" src="" alt="Preview 2"
                                             style="display: none; max-width: 100%; height: auto;">
                                     </div>
+                                    <div class="nama_pelapor">Ket. Gambar 2</div>
+                                    <input type="text" name="nama_pelapor" id="ket_gambar2" class="mb-1">
                                 </div>
 
                                 <div class="col-1 d-grid gap-4 d-md-block">

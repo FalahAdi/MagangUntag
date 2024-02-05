@@ -249,6 +249,13 @@ function checkAllFieldsFilled() {
     });
 });
 
+if (tanggal) {
+    var currentDateTime = new Date();
+    var hours = currentDateTime.getHours().toString().padStart(2, "0");
+    var minutes = currentDateTime.getMinutes().toString().padStart(2, "0");
+    var timeString = hours + ":" + minutes;
+}
+
 $(document).ready(function () {
     $("#prosesButton").click(function (e) {
         e.preventDefault();
@@ -351,6 +358,9 @@ $(document).ready(function () {
                 // d.divisi = null;
             },
         },
+        moment: {
+            timezone: "Asia/Jakarta", // Sesuaikan dengan zona waktu yang sesuai
+        },
         columns: [
             {
                 data: "Id_Laporan",
@@ -368,8 +378,9 @@ $(document).ready(function () {
                 data: "tanggal",
                 render: function (data, type, full, meta) {
                     // Assuming data is in UTC format, adjust it to the local timezone
-                    var date = new Date(data + "Z").toLocaleDateString();
-                    return date;
+
+                    var localDate = moment.utc(data).local();
+                    return localDate.format("DD-MM-YYYY");
                 },
             },
             { data: "L_div_pelapor" },
@@ -425,9 +436,16 @@ $(document).ready(function () {
                 Teknisi: selectedRow.find("td:eq(12)").text(),
             };
 
+            //var formattedTanggal = currentDateTime.toISOString().split("T")[0];
+
+            var formattedTanggal = moment(
+                selectedData.tanggal,
+                "DD/MM/YYYY"
+            ).format("YYYY-MM-DD");
+
             // Update the form fields with the selectedData
             $("#id_laporan").val(selectedData.Id_Laporan);
-            $("#tanggal").val(selectedData.tanggal);
+            $("#tanggal").val(formattedTanggal);
             $("#divisi_pelapor1").val(selectedData.L_div_pelapor);
             $("#nama_pelapor").val(selectedData.Nama_pelapor);
             $("#penerima_laporan").val(selectedData.Penerima_laporan);

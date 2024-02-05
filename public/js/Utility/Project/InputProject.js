@@ -160,9 +160,10 @@ document.getElementById("gambar1").addEventListener("change", function () {
 });
 
 if (tanggal_mulai && tanggal_selesai) {
-    // var tanggal_akhirOutput = new Date().toISOString().split("T")[0];
-    // tanggal_mulai.value = tanggal_akhirOutput;
-    // tanggal_selesai.value = tanggal_akhirOutput;
+    var tanggal_akhirOutput = new Date().toISOString().split("T")[0];
+
+    tanggal_mulai.value = tanggal_akhirOutput;
+    tanggal_selesai.value = tanggal_akhirOutput;
 
     var currentDateTime = new Date();
     var hours = currentDateTime.getHours().toString().padStart(2, "0");
@@ -187,33 +188,44 @@ $(document).ready(function () {
         var perbaikanValue = $("#perbaikan").val();
         var idLaporanValue = $("#id").val();
         var keteranganValue = $("input[name='keterangan']:checked").val();
-        var requestData = {
-            //Kode: Kode.value,
-            nama_project: nama_projectValue,
-            nama_mesin: nama_mesinValue,
-            tanggal_mulai: tanggal_mulaiValue,
-            tanggal_selesai: tanggal_selesaiValue,
-            // Keterangan: Keterangan,
-            //user_input: user_input,
-            keterangan_kerusakan: keterangan_kerusakanValue,
-            merk_mesin: merk_mesinValue,
-            lokasi_mesin: lokasi_mesinValue,
-            tahun_pembuatan: tahun_pembuatanValue,
-            perbaikan: perbaikanValue,
-            keterangan: keteranganValue,
-            idLaporan: idLaporanValue,
-        };
+        var gambar1data = document.getElementById("gambar1").files[0];
+        var gambar2data = document.getElementById("gambar2").files[0];
+        var ketgambar1Value = $("#ket_gambar1").val();
+        var ketgambar2Value = $("#ket_gambar2").val();
+
+        var formData = new FormData();
+
+        formData.append("nama_project", nama_projectValue);
+        formData.append("nama_mesin", nama_mesinValue);
+        formData.append("tanggal_mulai", tanggal_mulaiValue);
+        formData.append("tanggal_selesai", tanggal_selesaiValue);
+        formData.append("keterangan_kerusakan", keterangan_kerusakanValue);
+        formData.append("merk_mesin", merk_mesinValue);
+        formData.append("lokasi_mesin", lokasi_mesinValue);
+        formData.append("tahun_pembuatan", tahun_pembuatanValue);
+        formData.append("perbaikan", perbaikanValue);
+        formData.append("keterangan", keteranganValue);
+        formData.append("gambar1data", gambar1data);
+        formData.append("ketgambar1", ketgambar1Value);
+        formData.append("gambar2data", gambar2data);
+        formData.append("ketgambar2", ketgambar2Value);
+
         if (idLaporanValue) {
             requestData.Id = idLaporanValue;
         }
-        console.log(requestData);
+        console.log("FormData:", formData);
+
         $.ajax({
             url: idLaporanValue ? "/updateDataProject" : "/postDataProject",
             type: idLaporanValue ? "PUT" : "POST",
             headers: {
                 "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
             },
-            data: requestData,
+            data: formData,
+            processData: false,
+            contentType: false,
+
+            //data: requestData,
             error: function (xhr, status, error) {
                 if (xhr.status === 419) {
                     // Penanganan khusus untuk status 419 (sesi tidak valid)
