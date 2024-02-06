@@ -39,6 +39,38 @@ ket_gambar2.disabled = true;
 gambar2.disabled = true;
 keterangan1.disabled = true;
 keterangan2.disabled = true;
+prosesButton.disabled = true;
+
+function checkAllFieldsFilled() {
+    return (
+        tanggal_mulai.value.trim() !== "" &&
+        tanggal_selesai.value.trim() !== "" &&
+        nama_project.value.trim() !== "" &&
+        nama_mesin.value.trim() !== "" &&
+        merk_mesin.value.trim() !== "" &&
+        lokasi_mesin.value.trim() !== "" &&
+        tahun_pembuatan.value.trim() !== "" &&
+        keterangan_kerusakan.value.trim() !== "" &&
+        perbaikan.value.trim() !== ""
+    );
+}
+
+// Add event listeners to enable/disable prosesButton based on input field values
+[
+    tanggal_mulai,
+    tanggal_selesai,
+    nama_project,
+    nama_mesin,
+    merk_mesin,
+    lokasi_mesin,
+    tahun_pembuatan,
+    keterangan_kerusakan,
+    perbaikan,
+].forEach(function (inputField) {
+    inputField.addEventListener("input", function () {
+        prosesButton.disabled = !checkAllFieldsFilled();
+    });
+});
 
 $(document).ready(function () {
     $("#koreksiButton").click(function (e) {
@@ -90,37 +122,6 @@ $(document).ready(function () {
         }
     });
 });
-
-// function checkAllFieldsFilled() {
-//     return (
-//         tanggal_mulai.value.trim() !== "" &&
-//         tanggal_selesai.value.trim() !== "" &&
-//         nama_project.value.trim() !== "" &&
-//         nama_mesin.value.trim() !== "" &&
-//         merk_mesin.value.trim() !== "" &&
-//         lokasi_mesin.value.trim() !== "" &&
-//         tahun_pembuatan.value.trim() !== "" &&
-//         keterangan_kerusakan.value.trim() !== "" &&
-//         perbaikan.value.trim() !== ""
-//     );
-// }
-
-// // Add event listeners to enable/disable prosesButton based on input field values
-// [
-//     tanggal_mulai,
-//     tanggal_selesai,
-//     nama_project,
-//     nama_mesin,
-//     merk_mesin,
-//     lokasi_mesin,
-//     tahun_pembuatan,
-//     keterangan_kerusakan,
-//     perbaikan,
-// ].forEach(function (inputField) {
-//     inputField.addEventListener("input", function () {
-//         prosesButton.disabled = !checkAllFieldsFilled();
-//     });
-// });
 
 document.getElementById("gambar2").addEventListener("change", function () {
     var fileInput = this;
@@ -240,25 +241,23 @@ $(document).ready(function () {
                 console.log(response);
                 // Respons sukses
                 dataTable.ajax.reload();
+
+                $("#id").val("");
                 if (idLaporanValue) {
-                    // Ini adalah operasi UPDATE (PUT)
+                    // PUT request
                     Swal.fire({
                         icon: "success",
-                        title: "Data berhasil diperbarui!",
-                        showConfirmButton: false,
-                        timer: 1500,
+                        title: "Success!",
+                        text: "Data updated successfully.",
                     });
                 } else {
-                    // Ini adalah operasi INSERT (POST)
+                    // POST request
                     Swal.fire({
                         icon: "success",
-                        title: "Data berhasil ditambahkan!",
-                        showConfirmButton: false,
-                        timer: 1500,
+                        title: "Success!",
+                        text: "Data added successfully.",
                     });
-                    // console.log("Gambar berhasil disimpan."),
                 }
-                $("#id").val("");
             },
         });
     });

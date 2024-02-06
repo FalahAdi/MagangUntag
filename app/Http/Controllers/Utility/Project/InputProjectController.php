@@ -90,7 +90,7 @@ class InputProjectController extends Controller
             return response()->json(['success' => true, 'data' => $save]);
 
 
-            if ($data) {
+            if ($save) {
                 return response()->json(['success' => true]);
             } else {
                 return response()->json(['error' => 'Gagal menyimpan data.'], 500);
